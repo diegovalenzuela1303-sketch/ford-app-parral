@@ -23,6 +23,36 @@ async function guardarProspecto(nombre, telefono, vehiculo) {
     console.log("Prospecto guardado:", data)
   }
 }
+async function enviarFormulario() {
+
+  if(!nombre || !telefono){
+    alert("Por favor llena nombre y teléfono")
+    return
+  }
+
+  const { error } = await supabase
+    .from("prospectos")
+    .insert([
+      {
+        nombre:nombre,
+        telefono:telefono,
+        vehiculo:vehiculo,
+        comentario:comentario,
+        origen:"formulario"
+      }
+    ])
+
+  if(error){
+    alert("Error guardando prospecto")
+  } else {
+    alert("Solicitud enviada. Te contactaremos pronto.")
+    setNombre("")
+    setTelefono("")
+    setVehiculo("")
+    setComentario("")
+  }
+
+}
 const vehiclesBase = [
  { id:1, name:"Ford Territory", price:"$599,000", type:"SUV"},
  { id:2, name:"Ford Ranger", price:"$763,500", type:"Pickup"},
@@ -35,7 +65,10 @@ const vehiclesBase = [
 export default function Home(){
  const [vehicles,setVehicles] = useState(vehiclesBase);
  const [admin,setAdmin] = useState(false);
-
+const [nombre,setNombre] = useState("")
+const [telefono,setTelefono] = useState("")
+const [vehiculo,setVehiculo] = useState("")
+const [comentario,setComentario] = useState("")
  function updatePrice(id,value){
    setVehicles(v=>v.map(i=>i.id===id ? {...i,price:value}:i))
  }
@@ -48,7 +81,45 @@ export default function Home(){
      <button onClick={()=>setAdmin(!admin)}>
        {admin ? "Salir Admin":"Modo Admin"}
      </button>
+<h2>Solicitar información</h2>
 
+<input
+  placeholder="Nombre"
+  value={nombre}
+  onChange={e=>setNombre(e.target.value)}
+/>
+
+<br/><br/>
+
+<input
+  placeholder="Teléfono"
+  value={telefono}
+  onChange={e=>setTelefono(e.target.value)}
+/>
+
+<br/><br/>
+
+<input
+  placeholder="Vehículo de interés"
+  value={vehiculo}
+  onChange={e=>setVehiculo(e.target.value)}
+/>
+
+<br/><br/>
+
+<textarea
+  placeholder="Comentario"
+  value={comentario}
+  onChange={e=>setComentario(e.target.value)}
+/>
+
+<br/><br/>
+
+<button onClick={enviarFormulario}>
+  Enviar solicitud
+</button>
+
+<br/><br/>
      <h2>Catálogo Ford</h2>
 
      {vehicles.map(v=>(
