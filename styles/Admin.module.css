@@ -1,1 +1,118 @@
+.loginPage {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: #f5f7fb;
+}
 
+.loginBox {
+  width: 100%;
+  max-width: 420px;
+  background: white;
+  padding: 30px;
+  border-radius: 18px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+  display: grid;
+  gap: 14px;
+}
+
+.loginBox h1 {
+  margin: 0;
+  text-align: center;
+}
+
+.loginBox p {
+  margin: 0;
+  text-align: center;
+  color: #4b5563;
+}
+
+.loginBox input {
+  padding: 13px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+}
+
+.loginBox button {
+  border: none;
+  background: #003478;
+  color: white;
+  padding: 14px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.admin {
+  padding: 20px;
+  background: #f5f7fb;
+  min-height: 100vh;
+}
+
+.topbar {
+  max-width: 1400px;
+  margin: 0 auto 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.topbar h1 {
+  margin: 0;
+}
+
+.topbar input {
+  min-width: 280px;
+  max-width: 420px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+}
+
+.tableWrap {
+  max-width: 1400px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+  overflow: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1100px;
+}
+
+.table th,
+.table td {
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+  vertical-align: top;
+}
+
+.table th {
+  background: #003478;
+  color: white;
+  position: sticky;
+  top: 0;
+}
+
+.table button {
+  border: none;
+  background: #b91c1c;
+  color: white;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.vacio {
+  padding: 20px;
+  text-align: center;
+}
