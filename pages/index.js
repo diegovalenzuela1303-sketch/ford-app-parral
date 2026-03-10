@@ -7,7 +7,7 @@ const NEGOCIO = {
   slogan: "Asesor profesional en vehículos Ford",
   heroTitulo: "Catálogo Ford profesional para clientes de Parral y la región",
   heroTexto:
-    "Explora pickups, SUVs, vans y versiones especiales Ford. Cada unidad cuenta con un enfoque comercial directo para ayudarte a cerrar más prospectos desde WhatsApp.",
+    "Explora pickups, SUVs, vans y versiones especiales Ford. Cada unidad cuenta con enfoque comercial, versiones y ficha técnica para ayudarte a generar más confianza y más cierres desde WhatsApp.",
 };
 
 const CATALOGO = [
@@ -30,6 +30,14 @@ const CATALOGO = [
       "Excelente equilibrio entre tamaño y funcionalidad",
       "Muy atractiva para clientes jóvenes y familias",
     ],
+    fichaTecnica: [
+      { etiqueta: "Motorización", valor: "Configurable según versión" },
+      { etiqueta: "Transmisión", valor: "Automática" },
+      { etiqueta: "Tracción", valor: "Según versión" },
+      { etiqueta: "Cabina", valor: "Doble cabina" },
+      { etiqueta: "Uso ideal", valor: "Ciudad, trabajo ligero y familia" },
+      { etiqueta: "Nota", valor: "Confirmar equipamiento exacto según versión" },
+    ],
   },
   {
     id: "maverick-hibrida-2026",
@@ -49,6 +57,14 @@ const CATALOGO = [
       "Tecnología híbrida",
       "Buena opción para trayectos diarios",
       "Imagen moderna y diferenciada",
+    ],
+    fichaTecnica: [
+      { etiqueta: "Motorización", valor: "Sistema híbrido según versión" },
+      { etiqueta: "Transmisión", valor: "Automática" },
+      { etiqueta: "Tracción", valor: "Según versión" },
+      { etiqueta: "Cabina", valor: "Doble cabina" },
+      { etiqueta: "Uso ideal", valor: "Ahorro de combustible y uso diario" },
+      { etiqueta: "Nota", valor: "Verificar ficha exacta por versión disponible" },
     ],
   },
   {
@@ -70,6 +86,14 @@ const CATALOGO = [
       "Diseño agresivo y moderno",
       "Muy buscada por clientes de uso mixto",
     ],
+    fichaTecnica: [
+      { etiqueta: "Motorización", valor: "Diésel o gasolina según versión" },
+      { etiqueta: "Transmisión", valor: "Automática" },
+      { etiqueta: "Tracción", valor: "4x2 o 4x4 según versión" },
+      { etiqueta: "Cabina", valor: "Doble cabina" },
+      { etiqueta: "Uso ideal", valor: "Trabajo, carretera y terracería" },
+      { etiqueta: "Nota", valor: "Confirmar desempeño y equipo según versión" },
+    ],
   },
   {
     id: "ranger-2026",
@@ -89,6 +113,14 @@ const CATALOGO = [
       "Diseño actualizado",
       "Muy buena para carretera y trabajo",
       "Excelente percepción de valor",
+    ],
+    fichaTecnica: [
+      { etiqueta: "Motorización", valor: "Según versión disponible" },
+      { etiqueta: "Transmisión", valor: "Automática" },
+      { etiqueta: "Tracción", valor: "4x2 o 4x4" },
+      { etiqueta: "Cabina", valor: "Doble cabina" },
+      { etiqueta: "Uso ideal", valor: "Trabajo y uso personal" },
+      { etiqueta: "Nota", valor: "Especificaciones finales según inventario" },
     ],
   },
   {
@@ -110,6 +142,14 @@ const CATALOGO = [
       "Alta atracción visual para redes sociales",
       "Ideal para clientes aspiracionales",
     ],
+    fichaTecnica: [
+      { etiqueta: "Motorización", valor: "Alto desempeño" },
+      { etiqueta: "Transmisión", valor: "Automática" },
+      { etiqueta: "Tracción", valor: "4x4" },
+      { etiqueta: "Suspensión", valor: "Enfoque off-road performance" },
+      { etiqueta: "Uso ideal", valor: "Aventura, imagen y desempeño" },
+      { etiqueta: "Nota", valor: "Validar equipamiento exacto de entrega" },
+    ],
   },
   {
     id: "ranger-raptor-2026",
@@ -129,6 +169,14 @@ const CATALOGO = [
       "Muy alta presencia comercial",
       "Ideal para contenido de marketing",
       "Unidad aspiracional y llamativa",
+    ],
+    fichaTecnica: [
+      { etiqueta: "Motorización", valor: "Performance según versión" },
+      { etiqueta: "Transmisión", valor: "Automática" },
+      { etiqueta: "Tracción", valor: "4x4" },
+      { etiqueta: "Suspensión", valor: "Off-road de alto desempeño" },
+      { etiqueta: "Uso ideal", valor: "Conducción deportiva y aventura" },
+      { etiqueta: "Nota", valor: "Confirmar ficha exacta del modelo disponible" },
     ],
   },
   {
@@ -150,6 +198,14 @@ const CATALOGO = [
       "Gran opción para clientes exigentes",
       "Muy fuerte en trabajo y presencia",
     ],
+    fichaTecnica: [
+      { etiqueta: "Motorización", valor: "Gasolina / HEV según versión" },
+      { etiqueta: "Transmisión", valor: "Automática" },
+      { etiqueta: "Tracción", valor: "4x2 o 4x4" },
+      { etiqueta: "Cabina", valor: "Doble cabina" },
+      { etiqueta: "Uso ideal", valor: "Trabajo, familia y carretera" },
+      { etiqueta: "Nota", valor: "Revisar configuración exacta por versión" },
+    ],
   },
   {
     id: "lobo-2025",
@@ -169,6 +225,14 @@ const CATALOGO = [
       "Cabina con enfoque premium",
       "Presencia fuerte y elegante",
       "Muy atractiva para clientes ejecutivos",
+    ],
+    fichaTecnica: [
+      { etiqueta: "Motorización", valor: "Según versión" },
+      { etiqueta: "Transmisión", valor: "Automática" },
+      { etiqueta: "Tracción", valor: "4x4 según versión" },
+      { etiqueta: "Interior", valor: "Enfoque premium" },
+      { etiqueta: "Uso ideal", valor: "Ejecutivo, familia y presencia" },
+      { etiqueta: "Nota", valor: "Equipamiento sujeto a versión seleccionada" },
     ],
   },
   {
@@ -190,6 +254,14 @@ const CATALOGO = [
       "Imagen exclusiva",
       "Gran atractivo visual y comercial",
     ],
+    fichaTecnica: [
+      { etiqueta: "Motorización", valor: "Según configuración premium" },
+      { etiqueta: "Transmisión", valor: "Automática" },
+      { etiqueta: "Tracción", valor: "4x4" },
+      { etiqueta: "Interior", valor: "Acabados premium distintivos" },
+      { etiqueta: "Uso ideal", valor: "Cliente premium y ejecutivo" },
+      { etiqueta: "Nota", valor: "Confirmar detalles exactos al cotizar" },
+    ],
   },
   {
     id: "lobo-platinum-plus-hev-2025",
@@ -209,6 +281,14 @@ const CATALOGO = [
       "Enfoque tecnológico",
       "Imagen premium y moderna",
       "Unidad diferenciada dentro del catálogo",
+    ],
+    fichaTecnica: [
+      { etiqueta: "Motorización", valor: "Híbrida según versión" },
+      { etiqueta: "Transmisión", valor: "Automática" },
+      { etiqueta: "Tracción", valor: "Según configuración" },
+      { etiqueta: "Interior", valor: "Alta gama" },
+      { etiqueta: "Uso ideal", valor: "Cliente premium y tecnología" },
+      { etiqueta: "Nota", valor: "Revisar datos exactos en la versión disponible" },
     ],
   },
   {
@@ -230,6 +310,14 @@ const CATALOGO = [
       "Unidad premium-performance",
       "Excelente para contenido aspiracional",
     ],
+    fichaTecnica: [
+      { etiqueta: "Motorización", valor: "High performance" },
+      { etiqueta: "Transmisión", valor: "Automática" },
+      { etiqueta: "Tracción", valor: "4x4" },
+      { etiqueta: "Suspensión", valor: "Performance/off-road" },
+      { etiqueta: "Uso ideal", valor: "Alto impacto y desempeño" },
+      { etiqueta: "Nota", valor: "Especificaciones finales según unidad" },
+    ],
   },
   {
     id: "lobo-raptor-2026",
@@ -249,6 +337,14 @@ const CATALOGO = [
       "Exclusividad",
       "Diseño muy agresivo",
       "Muy fuerte para atraer prospectos premium",
+    ],
+    fichaTecnica: [
+      { etiqueta: "Motorización", valor: "Performance" },
+      { etiqueta: "Transmisión", valor: "Automática" },
+      { etiqueta: "Tracción", valor: "4x4" },
+      { etiqueta: "Suspensión", valor: "Preparación de alto desempeño" },
+      { etiqueta: "Uso ideal", valor: "Cliente aspiracional premium" },
+      { etiqueta: "Nota", valor: "Validar detalles técnicos del inventario" },
     ],
   },
   {
@@ -270,6 +366,14 @@ const CATALOGO = [
       "Alta percepción de fortaleza",
       "Muy buena para negocio y flotillas",
     ],
+    fichaTecnica: [
+      { etiqueta: "Motorización", valor: "Gasolina o diésel según versión" },
+      { etiqueta: "Transmisión", valor: "Automática" },
+      { etiqueta: "Tracción", valor: "4x4 según versión" },
+      { etiqueta: "Capacidad", valor: "Trabajo pesado" },
+      { etiqueta: "Uso ideal", valor: "Carga, arrastre y negocio" },
+      { etiqueta: "Nota", valor: "Confirmar capacidad exacta por versión" },
+    ],
   },
   {
     id: "f250-2026",
@@ -289,6 +393,14 @@ const CATALOGO = [
       "Gran capacidad de trabajo",
       "Muy buena para actividades productivas",
       "Imagen fuerte y confiable",
+    ],
+    fichaTecnica: [
+      { etiqueta: "Motorización", valor: "Según versión de trabajo" },
+      { etiqueta: "Transmisión", valor: "Automática" },
+      { etiqueta: "Tracción", valor: "4x4" },
+      { etiqueta: "Capacidad", valor: "Trabajo pesado" },
+      { etiqueta: "Uso ideal", valor: "Negocio y operación intensiva" },
+      { etiqueta: "Nota", valor: "Revisar ficha puntual en la cotización" },
     ],
   },
   {
@@ -310,6 +422,14 @@ const CATALOGO = [
       "Gran percepción de fuerza",
       "Muy útil para clientes de carga y arrastre",
     ],
+    fichaTecnica: [
+      { etiqueta: "Motorización", valor: "Según configuración" },
+      { etiqueta: "Transmisión", valor: "Automática" },
+      { etiqueta: "Tracción", valor: "4x4" },
+      { etiqueta: "Capacidad", valor: "Trabajo de máxima exigencia" },
+      { etiqueta: "Uso ideal", valor: "Carga y arrastre pesado" },
+      { etiqueta: "Nota", valor: "Confirmar capacidades específicas al cotizar" },
+    ],
   },
   {
     id: "super-duty-chasis-2025",
@@ -329,6 +449,14 @@ const CATALOGO = [
       "Excelente para carrozar",
       "Muy útil para negocios",
       "Unidad enfocada en productividad",
+    ],
+    fichaTecnica: [
+      { etiqueta: "Configuración", valor: "Chasis para adaptación" },
+      { etiqueta: "Transmisión", valor: "Automática según versión" },
+      { etiqueta: "Tracción", valor: "Según configuración" },
+      { etiqueta: "Aplicación", valor: "Carrozado y uso comercial" },
+      { etiqueta: "Uso ideal", valor: "Negocios y adaptaciones" },
+      { etiqueta: "Nota", valor: "Validar medidas y capacidades exactas" },
     ],
   },
   {
@@ -350,6 +478,14 @@ const CATALOGO = [
       "Muy buena para negocio",
       "Enfoque totalmente productivo",
     ],
+    fichaTecnica: [
+      { etiqueta: "Configuración", valor: "Chasis adaptable" },
+      { etiqueta: "Transmisión", valor: "Según configuración" },
+      { etiqueta: "Tracción", valor: "Según versión" },
+      { etiqueta: "Aplicación", valor: "Negocio y trabajo especializado" },
+      { etiqueta: "Uso ideal", valor: "Proyecto comercial" },
+      { etiqueta: "Nota", valor: "Revisar ficha final antes de ofertar" },
+    ],
   },
   {
     id: "transit-custom-2026",
@@ -369,6 +505,14 @@ const CATALOGO = [
       "Muy buena para operaciones urbanas",
       "Gran funcionalidad para negocio",
       "Imagen comercial profesional",
+    ],
+    fichaTecnica: [
+      { etiqueta: "Tipo", valor: "Van comercial" },
+      { etiqueta: "Transmisión", valor: "Automática / según versión" },
+      { etiqueta: "Capacidad", valor: "Uso comercial urbano" },
+      { etiqueta: "Configuración", valor: "Espacio versátil" },
+      { etiqueta: "Uso ideal", valor: "Servicio, reparto y negocio" },
+      { etiqueta: "Nota", valor: "Confirmar dimensiones y equipo" },
     ],
   },
   {
@@ -390,6 +534,14 @@ const CATALOGO = [
       "Buena capacidad de carga",
       "Ideal para negocio y flotillas",
     ],
+    fichaTecnica: [
+      { etiqueta: "Tipo", valor: "Van de carga" },
+      { etiqueta: "Transmisión", valor: "Automática / según configuración" },
+      { etiqueta: "Capacidad", valor: "Carga comercial" },
+      { etiqueta: "Configuración", valor: "Amplio espacio interior" },
+      { etiqueta: "Uso ideal", valor: "Reparto y logística" },
+      { etiqueta: "Nota", valor: "Validar volumen y capacidad exacta" },
+    ],
   },
   {
     id: "transit-van-2026",
@@ -409,6 +561,14 @@ const CATALOGO = [
       "Enfoque en trabajo diario",
       "Gran presencia para negocio",
       "Muy útil para empresas y emprendedores",
+    ],
+    fichaTecnica: [
+      { etiqueta: "Tipo", valor: "Van de carga" },
+      { etiqueta: "Transmisión", valor: "Según inventario" },
+      { etiqueta: "Capacidad", valor: "Uso intensivo de negocio" },
+      { etiqueta: "Configuración", valor: "Carga comercial" },
+      { etiqueta: "Uso ideal", valor: "Operación y reparto" },
+      { etiqueta: "Nota", valor: "Consultar medidas y peso útil" },
     ],
   },
   {
@@ -430,6 +590,14 @@ const CATALOGO = [
       "Solución comercial flexible",
       "Unidad práctica para empresas",
     ],
+    fichaTecnica: [
+      { etiqueta: "Tipo", valor: "Chasis comercial" },
+      { etiqueta: "Transmisión", valor: "Según configuración" },
+      { etiqueta: "Aplicación", valor: "Adaptaciones especiales" },
+      { etiqueta: "Configuración", valor: "Base para carrozado" },
+      { etiqueta: "Uso ideal", valor: "Negocio y servicio especializado" },
+      { etiqueta: "Nota", valor: "Verificar longitudes y capacidades" },
+    ],
   },
   {
     id: "transit-chasis-2026",
@@ -449,6 +617,14 @@ const CATALOGO = [
       "Versátil para carrozado",
       "Gran opción para empresas",
       "Enfoque productivo y práctico",
+    ],
+    fichaTecnica: [
+      { etiqueta: "Tipo", valor: "Chasis comercial" },
+      { etiqueta: "Transmisión", valor: "Según versión" },
+      { etiqueta: "Aplicación", valor: "Servicio y adaptaciones" },
+      { etiqueta: "Configuración", valor: "Base flexible" },
+      { etiqueta: "Uso ideal", valor: "Operación comercial" },
+      { etiqueta: "Nota", valor: "Revisar configuración final con cliente" },
     ],
   },
   {
@@ -470,6 +646,14 @@ const CATALOGO = [
       "Muy útil para negocio",
       "Imagen seria y funcional",
     ],
+    fichaTecnica: [
+      { etiqueta: "Tipo", valor: "Van de pasajeros" },
+      { etiqueta: "Transmisión", valor: "Según configuración" },
+      { etiqueta: "Capacidad", valor: "Configuración para pasajeros" },
+      { etiqueta: "Confort", valor: "Enfoque en traslado cómodo" },
+      { etiqueta: "Uso ideal", valor: "Turismo, personal y transporte" },
+      { etiqueta: "Nota", valor: "Confirmar número de plazas disponible" },
+    ],
   },
   {
     id: "transit-pasajeros-2026",
@@ -489,6 +673,14 @@ const CATALOGO = [
       "Gran funcionalidad para empresas",
       "Buena percepción de comodidad",
       "Muy práctica para transporte organizado",
+    ],
+    fichaTecnica: [
+      { etiqueta: "Tipo", valor: "Van de pasajeros" },
+      { etiqueta: "Transmisión", valor: "Según versión" },
+      { etiqueta: "Capacidad", valor: "Traslado de grupos" },
+      { etiqueta: "Confort", valor: "Orientada a transporte organizado" },
+      { etiqueta: "Uso ideal", valor: "Turismo y personal" },
+      { etiqueta: "Nota", valor: "Consultar plazas y equipamiento" },
     ],
   },
   {
@@ -510,6 +702,14 @@ const CATALOGO = [
       "Muy buena para familia",
       "Gran potencial comercial en redes",
     ],
+    fichaTecnica: [
+      { etiqueta: "Motorización", valor: "Híbrida según versión" },
+      { etiqueta: "Transmisión", valor: "Automática" },
+      { etiqueta: "Tracción", valor: "Según versión" },
+      { etiqueta: "Capacidad", valor: "SUV familiar" },
+      { etiqueta: "Uso ideal", valor: "Ciudad y familia" },
+      { etiqueta: "Nota", valor: "Verificar equipamiento puntual" },
+    ],
   },
   {
     id: "edge-hibrida-2026",
@@ -529,6 +729,14 @@ const CATALOGO = [
       "Diseño elegante",
       "Muy buena para clientes familiares y ejecutivos",
       "Imagen de alto valor",
+    ],
+    fichaTecnica: [
+      { etiqueta: "Motorización", valor: "Híbrida / según versión" },
+      { etiqueta: "Transmisión", valor: "Automática" },
+      { etiqueta: "Tracción", valor: "Según versión" },
+      { etiqueta: "Capacidad", valor: "SUV mediana premium" },
+      { etiqueta: "Uso ideal", valor: "Familia y ejecutivo" },
+      { etiqueta: "Nota", valor: "Confirmar datos con la versión disponible" },
     ],
   },
   {
@@ -550,6 +758,14 @@ const CATALOGO = [
       "Presencia sólida",
       "Excelente opción de SUV grande",
     ],
+    fichaTecnica: [
+      { etiqueta: "Motorización", valor: "Según versión" },
+      { etiqueta: "Transmisión", valor: "Automática" },
+      { etiqueta: "Tracción", valor: "AWD / según versión" },
+      { etiqueta: "Capacidad", valor: "SUV amplia" },
+      { etiqueta: "Uso ideal", valor: "Familia y carretera" },
+      { etiqueta: "Nota", valor: "Revisar plazas y equipo final" },
+    ],
   },
   {
     id: "explorer-st-2025",
@@ -569,6 +785,14 @@ const CATALOGO = [
       "SUV con enfoque deportivo",
       "Muy atractiva visualmente",
       "Ideal para clientes que quieren diferenciarse",
+    ],
+    fichaTecnica: [
+      { etiqueta: "Motorización", valor: "Performance SUV" },
+      { etiqueta: "Transmisión", valor: "Automática" },
+      { etiqueta: "Tracción", valor: "AWD / según versión" },
+      { etiqueta: "Capacidad", valor: "SUV deportiva" },
+      { etiqueta: "Uso ideal", valor: "Familia con enfoque sport" },
+      { etiqueta: "Nota", valor: "Validar ficha exacta de la unidad" },
     ],
   },
   {
@@ -590,6 +814,14 @@ const CATALOGO = [
       "Diseño moderno",
       "Muy llamativo en contenido digital",
     ],
+    fichaTecnica: [
+      { etiqueta: "Motorización", valor: "Eléctrica" },
+      { etiqueta: "Tracción", valor: "RWD / AWD según versión" },
+      { etiqueta: "Transmisión", valor: "Eléctrica de una velocidad" },
+      { etiqueta: "Capacidad", valor: "Crossover eléctrico" },
+      { etiqueta: "Uso ideal", valor: "Tecnología e innovación" },
+      { etiqueta: "Nota", valor: "Confirmar autonomía según versión" },
+    ],
   },
   {
     id: "mustang-mache-2026",
@@ -609,6 +841,14 @@ const CATALOGO = [
       "Enfoque tecnológico",
       "Muy buena imagen comercial",
       "Unidad aspiracional y moderna",
+    ],
+    fichaTecnica: [
+      { etiqueta: "Motorización", valor: "Eléctrica" },
+      { etiqueta: "Tracción", valor: "Según versión" },
+      { etiqueta: "Transmisión", valor: "Sistema eléctrico" },
+      { etiqueta: "Capacidad", valor: "Crossover premium" },
+      { etiqueta: "Uso ideal", valor: "Cliente innovador" },
+      { etiqueta: "Nota", valor: "Consultar autonomía y carga" },
     ],
   },
   {
@@ -630,6 +870,14 @@ const CATALOGO = [
       "Muy aspiracional",
       "Excelente para atraer atención",
     ],
+    fichaTecnica: [
+      { etiqueta: "Motorización", valor: "Performance off-road" },
+      { etiqueta: "Transmisión", valor: "Automática" },
+      { etiqueta: "Tracción", valor: "4x4" },
+      { etiqueta: "Suspensión", valor: "Alto desempeño todoterreno" },
+      { etiqueta: "Uso ideal", valor: "Aventura y experiencia extrema" },
+      { etiqueta: "Nota", valor: "Confirmar equipamiento exacto" },
+    ],
   },
   {
     id: "bronco-raptor-2026",
@@ -649,6 +897,14 @@ const CATALOGO = [
       "Muy alta atracción visual",
       "Gran personalidad",
       "Excelente para marketing aspiracional",
+    ],
+    fichaTecnica: [
+      { etiqueta: "Motorización", valor: "Performance off-road" },
+      { etiqueta: "Transmisión", valor: "Automática" },
+      { etiqueta: "Tracción", valor: "4x4" },
+      { etiqueta: "Suspensión", valor: "Preparación Raptor" },
+      { etiqueta: "Uso ideal", valor: "Aventura premium" },
+      { etiqueta: "Nota", valor: "Revisar datos exactos al apartar" },
     ],
   },
 ];
@@ -703,6 +959,7 @@ function ImagenVehiculo({ src, alt }) {
 export default function Home() {
   const [categoria, setCategoria] = useState("Todos");
   const [busqueda, setBusqueda] = useState("");
+  const [fichaAbierta, setFichaAbierta] = useState({});
 
   const categorias = useMemo(() => {
     return ["Todos", ...Array.from(new Set(CATALOGO.map((item) => item.categoria)))];
@@ -720,6 +977,7 @@ export default function Home() {
         ${item.dialogo}
         ${item.versiones.join(" ")}
         ${item.caracteristicas.join(" ")}
+        ${item.fichaTecnica.map((f) => `${f.etiqueta} ${f.valor}`).join(" ")}
       `.toLowerCase();
 
       const coincideBusqueda = texto.includes(busqueda.toLowerCase());
@@ -734,6 +992,13 @@ export default function Home() {
   );
 
   const linkLlamada = formatearLlamada(NEGOCIO.telefono);
+
+  const toggleFicha = (id) => {
+    setFichaAbierta((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
 
   return (
     <>
@@ -833,9 +1098,9 @@ export default function Home() {
                 <span className="eyebrow">Inventario comercial</span>
                 <h2>Catálogo completo de unidades Ford</h2>
                 <p>
-                  Busca por nombre, versión o tipo de unidad. Cada tarjeta ya trae
-                  un diálogo comercial para ayudarte a resaltar mejor la unidad
-                  ante el cliente.
+                  Busca por nombre, versión o tipo de unidad. Cada tarjeta incluye
+                  diálogo comercial, versiones y ficha técnica para dar más seguridad
+                  al cliente.
                 </p>
               </div>
             </div>
@@ -843,7 +1108,7 @@ export default function Home() {
             <div className="toolsBar">
               <input
                 type="text"
-                placeholder="Buscar unidad, versión o categoría..."
+                placeholder="Buscar unidad, versión, categoría o ficha técnica..."
                 value={busqueda}
                 onChange={(e) => setBusqueda(e.target.value)}
                 className="searchInput"
@@ -872,6 +1137,8 @@ export default function Home() {
                   NEGOCIO.telefono,
                   vehiculo.whatsappTexto
                 );
+
+                const abierta = !!fichaAbierta[vehiculo.id];
 
                 return (
                   <article key={vehiculo.id} className="cardVehiculo">
@@ -905,6 +1172,28 @@ export default function Home() {
                           <li key={index}>{item}</li>
                         ))}
                       </ul>
+
+                      <div className="fichaTecnicaBox">
+                        <button
+                          className="fichaToggle"
+                          onClick={() => toggleFicha(vehiculo.id)}
+                          type="button"
+                        >
+                          <span>Ficha técnica</span>
+                          <span>{abierta ? "−" : "+"}</span>
+                        </button>
+
+                        {abierta && (
+                          <div className="fichaGrid">
+                            {vehiculo.fichaTecnica.map((dato, index) => (
+                              <div key={index} className="fichaItem">
+                                <span className="fichaLabel">{dato.etiqueta}</span>
+                                <strong className="fichaValor">{dato.valor}</strong>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
 
                       <div className="acciones">
                         <a
@@ -944,10 +1233,10 @@ export default function Home() {
               </p>
             </div>
             <div className="ventajaCard">
-              <h3>Más enfoque comercial</h3>
+              <h3>Ficha técnica visible</h3>
               <p>
-                Todo está pensado para llevar al prospecto a WhatsApp o llamada lo
-                más rápido posible.
+                El cliente puede revisar información clave sin salir de la página,
+                lo que ayuda a generar más confianza.
               </p>
             </div>
           </div>
@@ -1068,6 +1357,10 @@ export default function Home() {
 
         :global(a) {
           text-decoration: none;
+        }
+
+        :global(button) {
+          font-family: inherit;
         }
 
         .app {
@@ -1499,6 +1792,55 @@ export default function Home() {
           line-height: 1.9;
         }
 
+        .fichaTecnicaBox {
+          margin-bottom: 20px;
+        }
+
+        .fichaToggle {
+          width: 100%;
+          min-height: 52px;
+          border: 1px solid rgba(127, 192, 255, 0.16);
+          background: rgba(255, 255, 255, 0.04);
+          color: #fff;
+          border-radius: 16px;
+          padding: 0 16px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          cursor: pointer;
+          font-size: 15px;
+          font-weight: 700;
+        }
+
+        .fichaGrid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 12px;
+          margin-top: 14px;
+        }
+
+        .fichaItem {
+          padding: 14px;
+          border-radius: 16px;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .fichaLabel {
+          display: block;
+          color: #95b7db;
+          font-size: 12px;
+          text-transform: uppercase;
+          letter-spacing: 0.8px;
+          margin-bottom: 6px;
+        }
+
+        .fichaValor {
+          color: #ffffff;
+          font-size: 15px;
+          line-height: 1.5;
+        }
+
         .acciones {
           display: flex;
           gap: 12px;
@@ -1676,7 +2018,8 @@ export default function Home() {
           .gridVehiculos,
           .ventajasGrid,
           .contactoBox,
-          .statsInline {
+          .statsInline,
+          .fichaGrid {
             grid-template-columns: 1fr;
           }
 
