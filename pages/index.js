@@ -1,198 +1,739 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
-const VEHICULOS_BASE = [
-  {
-    id: "f150",
-    nombre: "Ford F-150",
-    categoria: "Pickup",
-    precio: "$1,189,900",
-    descripcion:
-      "Potencia, presencia y tecnología para trabajo, familia y carretera.",
-    imagen: "/f-150.jpg",
-    badge: "Más buscada",
-    caracteristicas: [
-      "Motor potente y gran desempeño",
-      "Interior amplio y tecnológico",
-      "Ideal para trabajo y uso diario",
-    ],
-    whatsappTexto:
-      "Hola Diego, me interesa cotizar la Ford F-150. ¿Me das información?",
-  },
-  {
-    id: "f250",
-    nombre: "Ford F-250 Super Duty",
-    categoria: "Trabajo pesado",
-    precio: "$1,399,900",
-    descripcion:
-      "Capacidad real para carga, arrastre y trabajo duro en Parral y la región.",
-    imagen: "/f-250.jpg",
-    badge: "Trabajo pesado",
-    caracteristicas: [
-      "Gran capacidad de carga",
-      "Excelente para negocio y trabajo rudo",
-      "Fuerza y durabilidad Ford",
-    ],
-    whatsappTexto:
-      "Hola Diego, me interesa la Ford F-250 Super Duty. ¿Me compartes información y disponibilidad?",
-  },
-  {
-    id: "f350",
-    nombre: "Ford F-350 Super Duty",
-    categoria: "Uso rudo",
-    precio: "$1,579,900",
-    descripcion:
-      "La solución para quienes necesitan máxima fuerza, resistencia y capacidad.",
-    imagen: "/f-350.jpg",
-    badge: "Máxima capacidad",
-    caracteristicas: [
-      "Mayor capacidad para remolque",
-      "Pensada para trabajo intenso",
-      "Seguridad y robustez superior",
-    ],
-    whatsappTexto:
-      "Hola Diego, quiero información de la Ford F-350 Super Duty. ¿Me ayudas con una cotización?",
-  },
-  {
-    id: "lobo",
-    nombre: "Ford Lobo",
-    categoria: "Pickup premium",
-    precio: "$1,329,900",
-    descripcion:
-      "Lujo, potencia y presencia para quien busca una pickup con nivel premium.",
-    imagen: "/lobo.jpg",
-    badge: "Premium",
-    caracteristicas: [
-      "Diseño imponente",
-      "Confort y tecnología avanzada",
-      "Gran opción para ejecutivos y familia",
-    ],
-    whatsappTexto:
-      "Hola Diego, me interesa la Ford Lobo. ¿Me puedes enviar versiones y precio?",
-  },
-  {
-    id: "edge",
-    nombre: "Ford Edge",
-    categoria: "SUV",
-    precio: "$999,900",
-    descripcion:
-      "SUV elegante, espaciosa y tecnológica para quien busca confort y presencia.",
-    imagen: "/edge.jpg",
-    badge: "SUV premium",
-    caracteristicas: [
-      "Diseño moderno y atractivo",
-      "Interior cómodo y amplio",
-      "Ideal para familia y ciudad",
-    ],
-    whatsappTexto:
-      "Hola Diego, me interesa la Ford Edge. ¿Me compartes precio y más información?",
-  },
-  {
-    id: "transit",
-    nombre: "Ford Transit",
-    categoria: "Van comercial",
-    precio: "$1,149,900",
-    descripcion:
-      "La van ideal para carga, personal o negocio con gran capacidad y versatilidad.",
-    imagen: "/transit.jpg",
-    badge: "Negocio",
-    caracteristicas: [
-      "Excelente para negocio o flotilla",
-      "Gran espacio y versatilidad",
-      "Capacidad para trabajo diario",
-    ],
-    whatsappTexto:
-      "Hola Diego, me interesa la Ford Transit. ¿Me puedes compartir opciones y precio?",
-  },
-];
-
-const DATOS_NEGOCIO_BASE = {
+const NEGOCIO = {
   asesorNombre: "Diego Valenzuela",
   telefono: "6272850550",
   ciudad: "Hidalgo del Parral, Chihuahua",
   slogan: "Asesor profesional en vehículos Ford",
-  heroTitulo: "Encuentra tu próxima Ford con atención profesional y directa",
+  heroTitulo: "Catálogo Ford profesional para clientes de Parral y la región",
   heroTexto:
-    "Te ayudo a elegir la unidad ideal para trabajo, familia o negocio. Atención rápida por WhatsApp, cotización personalizada y seguimiento profesional en Parral y alrededores.",
-  beneficios: [
-    "Atención personalizada",
-    "Seguimiento rápido",
-    "Apoyo en cotización",
-    "Unidades para trabajo y familia",
-  ],
+    "Explora pickups, SUVs, vans y versiones especiales Ford. Cada unidad cuenta con un enfoque comercial directo para ayudarte a cerrar más prospectos desde WhatsApp.",
 };
 
-function cargarDatos() {
-  if (typeof window === "undefined") {
-    return {
-      vehiculos: VEHICULOS_BASE,
-      negocio: DATOS_NEGOCIO_BASE,
-    };
-  }
-
-  try {
-    const vehiculosGuardados = localStorage.getItem("fordAppVehiculos");
-    const negocioGuardado = localStorage.getItem("fordAppNegocio");
-
-    return {
-      vehiculos: vehiculosGuardados
-        ? JSON.parse(vehiculosGuardados)
-        : VEHICULOS_BASE,
-      negocio: negocioGuardado
-        ? JSON.parse(negocioGuardado)
-        : DATOS_NEGOCIO_BASE,
-    };
-  } catch (error) {
-    return {
-      vehiculos: VEHICULOS_BASE,
-      negocio: DATOS_NEGOCIO_BASE,
-    };
-  }
-}
+const CATALOGO = [
+  {
+    id: "maverick-2025",
+    nombre: "Ford Maverick 2025",
+    categoria: "Pickup",
+    precio: "$737,100",
+    badge: "Entrada inteligente",
+    imagen: "/maverick.jpg",
+    descripcion:
+      "Pickup versátil, accesible y muy atractiva para clientes que quieren presencia, comodidad y practicidad.",
+    dialogo:
+      "Si buscas una pickup práctica, moderna y rendidora para uso diario, la Maverick puede ser tu mejor opción.",
+    versiones: ["XLT", "Lariat"],
+    whatsappTexto:
+      "Hola Diego, me interesa la Ford Maverick 2025. ¿Me compartes versiones, precio y disponibilidad?",
+    caracteristicas: [
+      "Ideal para ciudad y carretera",
+      "Excelente equilibrio entre tamaño y funcionalidad",
+      "Muy atractiva para clientes jóvenes y familias",
+    ],
+  },
+  {
+    id: "maverick-hibrida-2026",
+    nombre: "Ford Maverick Híbrida 2026",
+    categoria: "Pickup",
+    precio: "$770,700",
+    badge: "Híbrida",
+    imagen: "/maverick-hibrida.jpg",
+    descripcion:
+      "Una pickup híbrida para quien quiere economía de consumo sin perder imagen y versatilidad.",
+    dialogo:
+      "Esta Maverick Híbrida es ideal para quien quiere una pickup moderna, con tecnología y enfoque en ahorro.",
+    versiones: ["XLT", "Lariat"],
+    whatsappTexto:
+      "Hola Diego, me interesa la Ford Maverick Híbrida 2026. ¿Me das información y precio?",
+    caracteristicas: [
+      "Tecnología híbrida",
+      "Buena opción para trayectos diarios",
+      "Imagen moderna y diferenciada",
+    ],
+  },
+  {
+    id: "ranger-2025",
+    nombre: "Ford Ranger 2025",
+    categoria: "Pickup",
+    precio: "$750,900",
+    badge: "Trabajo y aventura",
+    imagen: "/ranger.jpg",
+    descripcion:
+      "Pickup robusta para quien necesita capacidad real, tecnología y presencia en todo tipo de terreno.",
+    dialogo:
+      "La Ranger es perfecta para quien quiere una pickup fuerte, moderna y lista para trabajo o aventura.",
+    versiones: ["XLT", "Limited", "Wildtrak"],
+    whatsappTexto:
+      "Hola Diego, me interesa la Ford Ranger 2025. ¿Qué versiones manejas y cuál me recomiendas?",
+    caracteristicas: [
+      "Gran equilibrio entre trabajo y confort",
+      "Diseño agresivo y moderno",
+      "Muy buscada por clientes de uso mixto",
+    ],
+  },
+  {
+    id: "ranger-2026",
+    nombre: "Ford Ranger 2026",
+    categoria: "Pickup",
+    precio: "$763,500",
+    badge: "Nueva generación",
+    imagen: "/ranger-2026.jpg",
+    descripcion:
+      "La evolución de la Ranger para clientes que quieren una pickup actual, confiable y con gran presencia.",
+    dialogo:
+      "Si estás buscando una pickup actualizada, con presencia y gran capacidad, la Ranger 2026 merece que la veas.",
+    versiones: ["XLT", "Limited", "Wildtrak"],
+    whatsappTexto:
+      "Hola Diego, me interesa la Ford Ranger 2026. ¿Me compartes precio y versiones disponibles?",
+    caracteristicas: [
+      "Diseño actualizado",
+      "Muy buena para carretera y trabajo",
+      "Excelente percepción de valor",
+    ],
+  },
+  {
+    id: "ranger-raptor-2025",
+    nombre: "Ford Ranger Raptor 2025",
+    categoria: "Performance",
+    precio: "$1,299,900",
+    badge: "Performance",
+    imagen: "/ranger-raptor.jpg",
+    descripcion:
+      "Una pickup extrema, agresiva y aspiracional para clientes que buscan algo fuera de lo normal.",
+    dialogo:
+      "La Ranger Raptor no es para cualquiera: es para quien quiere presencia, poder y una pickup que impone desde que llega.",
+    versiones: ["Raptor"],
+    whatsappTexto:
+      "Hola Diego, me interesa la Ranger Raptor 2025. ¿Me compartes información completa?",
+    caracteristicas: [
+      "Imagen deportiva e imponente",
+      "Alta atracción visual para redes sociales",
+      "Ideal para clientes aspiracionales",
+    ],
+  },
+  {
+    id: "ranger-raptor-2026",
+    nombre: "Ford Ranger Raptor 2026",
+    categoria: "Performance",
+    precio: "$1,313,500",
+    badge: "Performance",
+    imagen: "/ranger-raptor-2026.jpg",
+    descripcion:
+      "La pickup de alto impacto para clientes que buscan adrenalina, diseño y exclusividad.",
+    dialogo:
+      "Si quieres algo que realmente robe miradas y tenga personalidad propia, la Ranger Raptor 2026 es esa unidad.",
+    versiones: ["Raptor"],
+    whatsappTexto:
+      "Hola Diego, me interesa la Ranger Raptor 2026. ¿Qué me puedes compartir de esta unidad?",
+    caracteristicas: [
+      "Muy alta presencia comercial",
+      "Ideal para contenido de marketing",
+      "Unidad aspiracional y llamativa",
+    ],
+  },
+  {
+    id: "f150-2025",
+    nombre: "Ford F-150 2025",
+    categoria: "Pickup",
+    precio: "$1,008,100",
+    badge: "Pickup icónica",
+    imagen: "/f-150.jpg",
+    descripcion:
+      "La pickup más reconocida para clientes que buscan fuerza, presencia y respaldo de marca.",
+    dialogo:
+      "La F-150 es para quien quiere una pickup seria, poderosa y con una imagen que inspira confianza desde el primer momento.",
+    versiones: ["XLT", "Lariat", "Platinum"],
+    whatsappTexto:
+      "Hola Diego, me interesa la Ford F-150 2025. ¿Qué versiones manejas y cuál conviene más?",
+    caracteristicas: [
+      "Prestigio de marca",
+      "Gran opción para clientes exigentes",
+      "Muy fuerte en trabajo y presencia",
+    ],
+  },
+  {
+    id: "lobo-2025",
+    nombre: "Ford Lobo 2025",
+    categoria: "Pickup premium",
+    precio: "$1,417,100",
+    badge: "Premium",
+    imagen: "/lobo.jpg",
+    descripcion:
+      "Pickup premium para quien quiere lujo, potencia y una imagen de alto nivel.",
+    dialogo:
+      "La Lobo está hecha para quien quiere una pickup premium, elegante y con presencia ejecutiva.",
+    versiones: ["Lariat", "Platinum"],
+    whatsappTexto:
+      "Hola Diego, me interesa la Ford Lobo 2025. ¿Me compartes precio y versiones disponibles?",
+    caracteristicas: [
+      "Cabina con enfoque premium",
+      "Presencia fuerte y elegante",
+      "Muy atractiva para clientes ejecutivos",
+    ],
+  },
+  {
+    id: "lobo-king-ranch-2025",
+    nombre: "Ford Lobo King Ranch 2025",
+    categoria: "Pickup premium",
+    precio: "$1,499,000",
+    badge: "King Ranch",
+    imagen: "/lobo-king-ranch.jpg",
+    descripcion:
+      "Versión de mayor personalidad para clientes que valoran lujo, detalle y exclusividad.",
+    dialogo:
+      "La Lobo King Ranch es ideal para quien no quiere una pickup común, sino una unidad con estilo, lujo y carácter.",
+    versiones: ["King Ranch"],
+    whatsappTexto:
+      "Hola Diego, me interesa la Lobo King Ranch 2025. ¿Me puedes compartir información completa?",
+    caracteristicas: [
+      "Acabados distintivos",
+      "Imagen exclusiva",
+      "Gran atractivo visual y comercial",
+    ],
+  },
+  {
+    id: "lobo-platinum-plus-hev-2025",
+    nombre: "Ford Lobo Platinum Plus HEV 2025",
+    categoria: "Pickup premium",
+    precio: "Cotizar",
+    badge: "HEV",
+    imagen: "/lobo-platinum-plus-hev.jpg",
+    descripcion:
+      "Una pickup premium con enfoque híbrido y una imagen de alta sofisticación.",
+    dialogo:
+      "Si buscas una pickup premium diferente, tecnológica y con una propuesta más avanzada, esta Lobo HEV destaca muchísimo.",
+    versiones: ["Platinum Plus HEV"],
+    whatsappTexto:
+      "Hola Diego, me interesa la Lobo Platinum Plus HEV 2025. ¿Me das información y disponibilidad?",
+    caracteristicas: [
+      "Enfoque tecnológico",
+      "Imagen premium y moderna",
+      "Unidad diferenciada dentro del catálogo",
+    ],
+  },
+  {
+    id: "lobo-raptor-2025",
+    nombre: "Ford Lobo Raptor 2025",
+    categoria: "Performance",
+    precio: "$2,424,100",
+    badge: "Raptor",
+    imagen: "/lobo-raptor.jpg",
+    descripcion:
+      "La pickup de alto desempeño para quien quiere máxima presencia, deportividad y exclusividad.",
+    dialogo:
+      "La Lobo Raptor es para clientes que quieren lo más impactante del segmento, con imagen brutal y gran exclusividad.",
+    versiones: ["Raptor"],
+    whatsappTexto:
+      "Hola Diego, me interesa la Lobo Raptor 2025. ¿Me compartes información completa y precio?",
+    caracteristicas: [
+      "Impacto visual muy alto",
+      "Unidad premium-performance",
+      "Excelente para contenido aspiracional",
+    ],
+  },
+  {
+    id: "lobo-raptor-2026",
+    nombre: "Ford Lobo Raptor 2026",
+    categoria: "Performance",
+    precio: "$2,450,000",
+    badge: "Raptor",
+    imagen: "/lobo-raptor-2026.jpg",
+    descripcion:
+      "Una pickup aspiracional de máximo impacto para clientes que quieren algo verdaderamente especial.",
+    dialogo:
+      "Si tu cliente quiere una pickup que impresione en serio, la Lobo Raptor 2026 se vende sola cuando la ven bien presentada.",
+    versiones: ["Raptor"],
+    whatsappTexto:
+      "Hola Diego, me interesa la Lobo Raptor 2026. ¿Qué me puedes compartir de esta unidad?",
+    caracteristicas: [
+      "Exclusividad",
+      "Diseño muy agresivo",
+      "Muy fuerte para atraer prospectos premium",
+    ],
+  },
+  {
+    id: "f250-2025",
+    nombre: "Ford Super Duty F-250 2025",
+    categoria: "Trabajo pesado",
+    precio: "$1,522,100",
+    badge: "Super Duty",
+    imagen: "/f-250.jpg",
+    descripcion:
+      "La pickup ideal para clientes que necesitan trabajo serio, arrastre y durabilidad real.",
+    dialogo:
+      "La F-250 es para quien necesita una unidad de trabajo de verdad, con fuerza, respaldo y presencia profesional.",
+    versiones: ["XLT", "Lariat"],
+    whatsappTexto:
+      "Hola Diego, me interesa la Ford Super Duty F-250 2025. ¿Me compartes información y versiones?",
+    caracteristicas: [
+      "Excelente para trabajo intenso",
+      "Alta percepción de fortaleza",
+      "Muy buena para negocio y flotillas",
+    ],
+  },
+  {
+    id: "f250-2026",
+    nombre: "Ford Super Duty F-250 2026",
+    categoria: "Trabajo pesado",
+    precio: "$1,560,800",
+    badge: "Super Duty",
+    imagen: "/f-250-2026.jpg",
+    descripcion:
+      "Pensada para clientes que requieren capacidad, robustez y una unidad de trabajo con presencia.",
+    dialogo:
+      "Si el cliente necesita una pickup fuerte para trabajar de verdad, la F-250 2026 es una opción muy seria.",
+    versiones: ["XLT", "Lariat"],
+    whatsappTexto:
+      "Hola Diego, me interesa la Ford Super Duty F-250 2026. ¿Me puedes compartir información?",
+    caracteristicas: [
+      "Gran capacidad de trabajo",
+      "Muy buena para actividades productivas",
+      "Imagen fuerte y confiable",
+    ],
+  },
+  {
+    id: "f350-2025",
+    nombre: "Ford F-350 Super Duty",
+    categoria: "Trabajo pesado",
+    precio: "Cotizar",
+    badge: "Máxima capacidad",
+    imagen: "/f-350.jpg",
+    descripcion:
+      "La solución para clientes que necesitan una herramienta de trabajo todavía más capaz y resistente.",
+    dialogo:
+      "La F-350 es para quien no puede quedarse corto: más capacidad, más presencia y más respaldo para trabajo pesado.",
+    versiones: ["Super Duty"],
+    whatsappTexto:
+      "Hola Diego, me interesa la Ford F-350 Super Duty. ¿Me ayudas con información completa?",
+    caracteristicas: [
+      "Pensada para trabajo exigente",
+      "Gran percepción de fuerza",
+      "Muy útil para clientes de carga y arrastre",
+    ],
+  },
+  {
+    id: "super-duty-chasis-2025",
+    nombre: "Ford Super Duty Chasis 2025",
+    categoria: "Chasis",
+    precio: "$1,067,100",
+    badge: "Chasis",
+    imagen: "/super-duty-chasis.jpg",
+    descripcion:
+      "Base ideal para conversiones y soluciones de trabajo especializadas.",
+    dialogo:
+      "Si tu cliente necesita una unidad para adaptar a su negocio, el Super Duty Chasis es una gran herramienta comercial.",
+    versiones: ["Chasis"],
+    whatsappTexto:
+      "Hola Diego, me interesa el Ford Super Duty Chasis 2025. ¿Me compartes opciones y precio?",
+    caracteristicas: [
+      "Excelente para carrozar",
+      "Muy útil para negocios",
+      "Unidad enfocada en productividad",
+    ],
+  },
+  {
+    id: "super-duty-chasis-2026",
+    nombre: "Ford Super Duty Chasis 2026",
+    categoria: "Chasis",
+    precio: "$1,081,600",
+    badge: "Chasis",
+    imagen: "/super-duty-chasis-2026.jpg",
+    descripcion:
+      "Una solución práctica para clientes que requieren una plataforma de trabajo adaptable.",
+    dialogo:
+      "Para proyectos de carga o unidades especiales, este chasis puede ser justo lo que el cliente necesita.",
+    versiones: ["Chasis"],
+    whatsappTexto:
+      "Hola Diego, me interesa el Ford Super Duty Chasis 2026. ¿Me compartes información?",
+    caracteristicas: [
+      "Base versátil",
+      "Muy buena para negocio",
+      "Enfoque totalmente productivo",
+    ],
+  },
+  {
+    id: "transit-custom-2026",
+    nombre: "Ford Transit Custom 2026",
+    categoria: "Van comercial",
+    precio: "$865,600",
+    badge: "Versátil",
+    imagen: "/transit-custom.jpg",
+    descripcion:
+      "Van compacta y funcional para clientes de negocio que buscan movilidad práctica y profesional.",
+    dialogo:
+      "La Transit Custom es ideal para negocio, reparto o servicio, con una imagen moderna y muy profesional.",
+    versiones: ["Custom"],
+    whatsappTexto:
+      "Hola Diego, me interesa la Ford Transit Custom 2026. ¿Me compartes información y precio?",
+    caracteristicas: [
+      "Muy buena para operaciones urbanas",
+      "Gran funcionalidad para negocio",
+      "Imagen comercial profesional",
+    ],
+  },
+  {
+    id: "transit-van-2025",
+    nombre: "Ford Transit Van 2025",
+    categoria: "Van comercial",
+    precio: "$1,017,300",
+    badge: "Carga",
+    imagen: "/transit-van.jpg",
+    descripcion:
+      "Unidad de carga para clientes que necesitan espacio, capacidad y productividad.",
+    dialogo:
+      "Si el cliente necesita mover mercancía con seriedad, la Transit Van es una opción muy fuerte para negocio.",
+    versiones: ["Van"],
+    whatsappTexto:
+      "Hola Diego, me interesa la Ford Transit Van 2025. ¿Me compartes información completa?",
+    caracteristicas: [
+      "Excelente para reparto",
+      "Buena capacidad de carga",
+      "Ideal para negocio y flotillas",
+    ],
+  },
+  {
+    id: "transit-van-2026",
+    nombre: "Ford Transit Van 2026",
+    categoria: "Van comercial",
+    precio: "$1,035,600",
+    badge: "Carga",
+    imagen: "/transit-van-2026.jpg",
+    descripcion:
+      "Van enfocada en productividad, operación diaria y presencia profesional de negocio.",
+    dialogo:
+      "La Transit Van 2026 es perfecta para quien busca una unidad seria para trabajo diario y crecimiento de negocio.",
+    versiones: ["Van"],
+    whatsappTexto:
+      "Hola Diego, me interesa la Ford Transit Van 2026. ¿Qué opciones manejas?",
+    caracteristicas: [
+      "Enfoque en trabajo diario",
+      "Gran presencia para negocio",
+      "Muy útil para empresas y emprendedores",
+    ],
+  },
+  {
+    id: "transit-chasis-2025",
+    nombre: "Ford Transit Chasis 2025",
+    categoria: "Chasis",
+    precio: "$822,100",
+    badge: "Adaptable",
+    imagen: "/transit-chasis.jpg",
+    descripcion:
+      "Base ideal para adaptaciones comerciales o de servicio especial.",
+    dialogo:
+      "La Transit Chasis es excelente para clientes que necesitan adaptar su unidad exactamente a su operación.",
+    versiones: ["Chasis"],
+    whatsappTexto:
+      "Hola Diego, me interesa la Ford Transit Chasis 2025. ¿Me puedes compartir información?",
+    caracteristicas: [
+      "Muy buena para adaptaciones",
+      "Solución comercial flexible",
+      "Unidad práctica para empresas",
+    ],
+  },
+  {
+    id: "transit-chasis-2026",
+    nombre: "Ford Transit Chasis 2026",
+    categoria: "Chasis",
+    precio: "$838,600",
+    badge: "Adaptable",
+    imagen: "/transit-chasis-2026.jpg",
+    descripcion:
+      "Plataforma profesional para soluciones de negocio, carga o servicio.",
+    dialogo:
+      "Si el cliente necesita una unidad base para negocio, la Transit Chasis 2026 puede ser la respuesta ideal.",
+    versiones: ["Chasis"],
+    whatsappTexto:
+      "Hola Diego, me interesa la Ford Transit Chasis 2026. ¿Me compartes opciones?",
+    caracteristicas: [
+      "Versátil para carrozado",
+      "Gran opción para empresas",
+      "Enfoque productivo y práctico",
+    ],
+  },
+  {
+    id: "transit-pasajeros-2025",
+    nombre: "Ford Transit Pasajeros 2025",
+    categoria: "Van pasajeros",
+    precio: "$1,052,100",
+    badge: "Pasajeros",
+    imagen: "/transit-pasajeros.jpg",
+    descripcion:
+      "Excelente opción para transporte de personal, turismo o traslado ejecutivo.",
+    dialogo:
+      "La Transit Pasajeros es una gran unidad para quien necesita mover personas con comodidad y presencia profesional.",
+    versiones: ["Pasajeros"],
+    whatsappTexto:
+      "Hola Diego, me interesa la Ford Transit Pasajeros 2025. ¿Me compartes información?",
+    caracteristicas: [
+      "Ideal para transporte de personas",
+      "Muy útil para negocio",
+      "Imagen seria y funcional",
+    ],
+  },
+  {
+    id: "transit-pasajeros-2026",
+    nombre: "Ford Transit Pasajeros 2026",
+    categoria: "Van pasajeros",
+    precio: "$1,075,600",
+    badge: "Pasajeros",
+    imagen: "/transit-pasajeros-2026.jpg",
+    descripcion:
+      "Pensada para clientes que requieren traslado cómodo, capacidad y una solución profesional.",
+    dialogo:
+      "Para transporte de personal, turismo o grupos, la Transit Pasajeros 2026 es una unidad muy completa.",
+    versiones: ["Pasajeros"],
+    whatsappTexto:
+      "Hola Diego, me interesa la Ford Transit Pasajeros 2026. ¿Qué me puedes compartir?",
+    caracteristicas: [
+      "Gran funcionalidad para empresas",
+      "Buena percepción de comodidad",
+      "Muy práctica para transporte organizado",
+    ],
+  },
+  {
+    id: "territory-hibrida-2026",
+    nombre: "Ford Territory Híbrida 2026",
+    categoria: "SUV",
+    precio: "Cotizar",
+    badge: "SUV híbrida",
+    imagen: "/territory.jpg",
+    descripcion:
+      "SUV moderna y atractiva para clientes que buscan diseño, espacio y tecnología con enfoque actual.",
+    dialogo:
+      "La Territory Híbrida es ideal para clientes que quieren una SUV moderna, elegante y con una propuesta más avanzada.",
+    versiones: ["Trend", "Titanium"],
+    whatsappTexto:
+      "Hola Diego, me interesa la Ford Territory Híbrida 2026. ¿Me compartes información y versiones?",
+    caracteristicas: [
+      "SUV con excelente presencia",
+      "Muy buena para familia",
+      "Gran potencial comercial en redes",
+    ],
+  },
+  {
+    id: "edge-hibrida-2026",
+    nombre: "Ford Edge Híbrida 2026",
+    categoria: "SUV",
+    precio: "$897,000",
+    badge: "SUV premium",
+    imagen: "/edge.jpg",
+    descripcion:
+      "SUV elegante y con mucha presencia para clientes que buscan algo más refinado.",
+    dialogo:
+      "La Edge Híbrida es una SUV ideal para quien quiere confort, imagen y una propuesta premium muy atractiva.",
+    versiones: ["Titanium", "ST-Line"],
+    whatsappTexto:
+      "Hola Diego, me interesa la Ford Edge Híbrida 2026. ¿Me compartes más información?",
+    caracteristicas: [
+      "Diseño elegante",
+      "Muy buena para clientes familiares y ejecutivos",
+      "Imagen de alto valor",
+    ],
+  },
+  {
+    id: "explorer-2026",
+    nombre: "Ford Explorer 2026",
+    categoria: "SUV",
+    precio: "$1,193,600",
+    badge: "SUV grande",
+    imagen: "/explorer.jpg",
+    descripcion:
+      "SUV amplia, familiar y de gran presencia para clientes que quieren espacio y nivel.",
+    dialogo:
+      "La Explorer 2026 es una SUV para clientes que buscan espacio, presencia y una experiencia más completa.",
+    versiones: ["Active", "Platinum"],
+    whatsappTexto:
+      "Hola Diego, me interesa la Ford Explorer 2026. ¿Qué versiones y precio manejas?",
+    caracteristicas: [
+      "Muy buena para familia",
+      "Presencia sólida",
+      "Excelente opción de SUV grande",
+    ],
+  },
+  {
+    id: "explorer-st-2025",
+    nombre: "Ford Explorer ST 2025",
+    categoria: "Performance",
+    precio: "Cotizar",
+    badge: "ST",
+    imagen: "/explorer-st.jpg",
+    descripcion:
+      "SUV deportiva para clientes que quieren espacio, diseño y personalidad más agresiva.",
+    dialogo:
+      "La Explorer ST mezcla el espacio de una SUV con una imagen mucho más deportiva y atractiva.",
+    versiones: ["ST"],
+    whatsappTexto:
+      "Hola Diego, me interesa la Ford Explorer ST 2025. ¿Me compartes información?",
+    caracteristicas: [
+      "SUV con enfoque deportivo",
+      "Muy atractiva visualmente",
+      "Ideal para clientes que quieren diferenciarse",
+    ],
+  },
+  {
+    id: "mustang-mache-2025",
+    nombre: "Ford Mustang Mach-E 2025",
+    categoria: "Eléctrico",
+    precio: "$989,000",
+    badge: "Eléctrico",
+    imagen: "/mustang-mache.jpg",
+    descripcion:
+      "Una propuesta eléctrica y moderna con imagen fuerte para clientes innovadores.",
+    dialogo:
+      "El Mustang Mach-E es para quien quiere algo distinto, moderno y con una identidad muy marcada.",
+    versiones: ["Premium", "GT"],
+    whatsappTexto:
+      "Hola Diego, me interesa el Ford Mustang Mach-E 2025. ¿Me compartes información?",
+    caracteristicas: [
+      "Propuesta eléctrica",
+      "Diseño moderno",
+      "Muy llamativo en contenido digital",
+    ],
+  },
+  {
+    id: "mustang-mache-2026",
+    nombre: "Ford Mustang Mach-E 2026",
+    categoria: "Eléctrico",
+    precio: "$996,500",
+    badge: "Eléctrico",
+    imagen: "/mustang-mache-2026.jpg",
+    descripcion:
+      "Crossover eléctrico para clientes que quieren tecnología, diseño y exclusividad.",
+    dialogo:
+      "Si tu cliente quiere una Ford totalmente diferente, moderna y de alto impacto, el Mach-E 2026 puede ser ideal.",
+    versiones: ["Premium", "GT"],
+    whatsappTexto:
+      "Hola Diego, me interesa el Ford Mustang Mach-E 2026. ¿Me das información completa?",
+    caracteristicas: [
+      "Enfoque tecnológico",
+      "Muy buena imagen comercial",
+      "Unidad aspiracional y moderna",
+    ],
+  },
+  {
+    id: "bronco-raptor-2025",
+    nombre: "Ford Bronco Raptor 2025",
+    categoria: "Performance",
+    precio: "$2,242,478",
+    badge: "Raptor",
+    imagen: "/bronco-raptor.jpg",
+    descripcion:
+      "Una unidad extrema para clientes que quieren aventura, diseño agresivo y una personalidad única.",
+    dialogo:
+      "La Bronco Raptor no pasa desapercibida: es una unidad para clientes que quieren algo totalmente fuera de serie.",
+    versiones: ["Raptor"],
+    whatsappTexto:
+      "Hola Diego, me interesa la Ford Bronco Raptor 2025. ¿Me compartes información?",
+    caracteristicas: [
+      "Imagen brutal",
+      "Muy aspiracional",
+      "Excelente para atraer atención",
+    ],
+  },
+  {
+    id: "bronco-raptor-2026",
+    nombre: "Ford Bronco Raptor 2026",
+    categoria: "Performance",
+    precio: "$2,140,500",
+    badge: "Raptor",
+    imagen: "/bronco-raptor-2026.jpg",
+    descripcion:
+      "Pensada para clientes que quieren aventura, presencia y una unidad muy especial.",
+    dialogo:
+      "Si buscas una unidad que genere conversación y deseo, la Bronco Raptor 2026 es de las más fuertes del catálogo.",
+    versiones: ["Raptor"],
+    whatsappTexto:
+      "Hola Diego, me interesa la Ford Bronco Raptor 2026. ¿Qué me puedes compartir?",
+    caracteristicas: [
+      "Muy alta atracción visual",
+      "Gran personalidad",
+      "Excelente para marketing aspiracional",
+    ],
+  },
+];
 
 function formatearWhatsApp(numero, texto) {
   const limpio = String(numero).replace(/\D/g, "");
   return `https://wa.me/52${limpio}?text=${encodeURIComponent(texto)}`;
 }
 
+function formatearLlamada(numero) {
+  return `tel:+52${String(numero).replace(/\D/g, "")}`;
+}
+
+function crearPlaceholder(nombre) {
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800">
+      <defs>
+        <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0%" stop-color="#0b1b31"/>
+          <stop offset="100%" stop-color="#1570ef"/>
+        </linearGradient>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#g)"/>
+      <circle cx="980" cy="130" r="180" fill="rgba(255,255,255,0.08)"/>
+      <circle cx="180" cy="650" r="220" fill="rgba(255,255,255,0.06)"/>
+      <text x="70" y="330" fill="#ffffff" font-size="66" font-family="Arial, Helvetica, sans-serif" font-weight="700">
+        ${nombre}
+      </text>
+      <text x="70" y="410" fill="#cfe3ff" font-size="30" font-family="Arial, Helvetica, sans-serif">
+        Imagen pendiente por cargar
+      </text>
+      <text x="70" y="470" fill="#cfe3ff" font-size="24" font-family="Arial, Helvetica, sans-serif">
+        Ford App Parral - Diego Valenzuela
+      </text>
+    </svg>
+  `;
+  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+}
+
+function ImagenVehiculo({ src, alt }) {
+  const [error, setError] = useState(false);
+
+  return (
+    <img
+      src={error ? crearPlaceholder(alt) : src}
+      alt={alt}
+      onError={() => setError(true)}
+    />
+  );
+}
+
 export default function Home() {
-  const [vehiculos, setVehiculos] = useState(VEHICULOS_BASE);
-  const [negocio, setNegocio] = useState(DATOS_NEGOCIO_BASE);
-  const [filtro, setFiltro] = useState("Todos");
-
-  useEffect(() => {
-    const datos = cargarDatos();
-    setVehiculos(datos.vehiculos);
-    setNegocio(datos.negocio);
-
-    const sincronizar = () => {
-      const nuevosDatos = cargarDatos();
-      setVehiculos(nuevosDatos.vehiculos);
-      setNegocio(nuevosDatos.negocio);
-    };
-
-    window.addEventListener("storage", sincronizar);
-    window.addEventListener("focus", sincronizar);
-
-    return () => {
-      window.removeEventListener("storage", sincronizar);
-      window.removeEventListener("focus", sincronizar);
-    };
-  }, []);
+  const [categoria, setCategoria] = useState("Todos");
+  const [busqueda, setBusqueda] = useState("");
 
   const categorias = useMemo(() => {
-    const unicas = Array.from(new Set(vehiculos.map((v) => v.categoria)));
-    return ["Todos", ...unicas];
-  }, [vehiculos]);
+    return ["Todos", ...Array.from(new Set(CATALOGO.map((item) => item.categoria)))];
+  }, []);
 
-  const vehiculosFiltrados = useMemo(() => {
-    if (filtro === "Todos") return vehiculos;
-    return vehiculos.filter((v) => v.categoria === filtro);
-  }, [vehiculos, filtro]);
+  const resultados = useMemo(() => {
+    return CATALOGO.filter((item) => {
+      const coincideCategoria =
+        categoria === "Todos" ? true : item.categoria === categoria;
+
+      const texto = `
+        ${item.nombre}
+        ${item.categoria}
+        ${item.descripcion}
+        ${item.dialogo}
+        ${item.versiones.join(" ")}
+        ${item.caracteristicas.join(" ")}
+      `.toLowerCase();
+
+      const coincideBusqueda = texto.includes(busqueda.toLowerCase());
+
+      return coincideCategoria && coincideBusqueda;
+    });
+  }, [categoria, busqueda]);
 
   const linkWhatsappGeneral = formatearWhatsApp(
-    negocio.telefono,
-    `Hola ${negocio.asesorNombre}, vi tu página y quiero información sobre vehículos Ford.`
+    NEGOCIO.telefono,
+    `Hola ${NEGOCIO.asesorNombre}, vi tu catálogo Ford y quiero información sobre una unidad.`
   );
+
+  const linkLlamada = formatearLlamada(NEGOCIO.telefono);
 
   return (
     <>
@@ -203,12 +744,12 @@ export default function Home() {
               <div className="logo">F</div>
               <div>
                 <p className="brandMini">Ford App Parral</p>
-                <h1>{negocio.asesorNombre}</h1>
+                <h1>{NEGOCIO.asesorNombre}</h1>
               </div>
             </div>
 
             <nav className="nav">
-              <a href="#inventario">Inventario</a>
+              <a href="#catalogo">Catálogo</a>
               <a href="#asesor">Asesor</a>
               <a href="#contacto">Contacto</a>
               <a href="/admin" className="adminLink">
@@ -221,9 +762,9 @@ export default function Home() {
         <section className="hero">
           <div className="container heroGrid">
             <div className="heroText">
-              <span className="eyebrow">Asesoría profesional Ford en Parral</span>
-              <h2>{negocio.heroTitulo}</h2>
-              <p>{negocio.heroTexto}</p>
+              <span className="eyebrow">Catálogo Ford profesional</span>
+              <h2>{NEGOCIO.heroTitulo}</h2>
+              <p>{NEGOCIO.heroTexto}</p>
 
               <div className="heroButtons">
                 <a
@@ -234,128 +775,154 @@ export default function Home() {
                 >
                   Cotizar por WhatsApp
                 </a>
-                <a href="#inventario" className="btnSecondary">
-                  Ver inventario
+
+                <a href={linkLlamada} className="btnSecondary">
+                  Llamar ahora
                 </a>
               </div>
 
-              <div className="beneficios">
-                {negocio.beneficios.map((item, index) => (
-                  <span key={index}>{item}</span>
-                ))}
+              <div className="statsInline">
+                <div>
+                  <strong>{CATALOGO.length}</strong>
+                  <span>Unidades / versiones destacadas</span>
+                </div>
+                <div>
+                  <strong>{categorias.length - 1}</strong>
+                  <span>Categorías</span>
+                </div>
+                <div>
+                  <strong>1 a 1</strong>
+                  <span>Atención directa</span>
+                </div>
               </div>
             </div>
 
             <div className="heroCard">
-              <img
-                src="/diego-asesor.jpg"
-                alt={negocio.asesorNombre}
-                className="asesorHeroImg"
-              />
+              <div className="heroImageWrap">
+                <img src="/diego-asesor.jpg" alt={NEGOCIO.asesorNombre} />
+              </div>
+
               <div className="heroCardInfo">
                 <p className="miniLabel">Asesor</p>
-                <h3>{negocio.asesorNombre}</h3>
-                <p>{negocio.slogan}</p>
-                <p>{negocio.ciudad}</p>
+                <h3>{NEGOCIO.asesorNombre}</h3>
+                <p>{NEGOCIO.slogan}</p>
+                <p>{NEGOCIO.ciudad}</p>
 
-                <a
-                  href={linkWhatsappGeneral}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btnPrimary full"
-                >
-                  Hablar ahora
-                </a>
+                <div className="heroCtas">
+                  <a
+                    href={linkWhatsappGeneral}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btnPrimary full"
+                  >
+                    Hablar por WhatsApp
+                  </a>
+                  <a href={linkLlamada} className="btnSecondary full">
+                    Llamar
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="stats">
-          <div className="container statsGrid">
-            <div className="statCard">
-              <strong>Atención rápida</strong>
-              <span>Respuesta directa por WhatsApp</span>
-            </div>
-            <div className="statCard">
-              <strong>Cotización personalizada</strong>
-              <span>Cada cliente recibe atención según su perfil</span>
-            </div>
-            <div className="statCard">
-              <strong>Opciones reales</strong>
-              <span>Unidades para trabajo, familia y negocio</span>
-            </div>
-          </div>
-        </section>
-
-        <section id="inventario" className="inventario">
+        <section className="filtrosSection" id="catalogo">
           <div className="container">
             <div className="sectionHead">
               <div>
-                <span className="eyebrow">Inventario destacado</span>
-                <h2>Unidades Ford disponibles para cotización</h2>
+                <span className="eyebrow">Inventario comercial</span>
+                <h2>Catálogo completo de unidades Ford</h2>
                 <p>
-                  Explora pickups, SUV y vehículos de trabajo. Los precios se
-                  muestran de forma directa y la propuesta final puede variar
-                  según versión, disponibilidad y perfil de compra.
+                  Busca por nombre, versión o tipo de unidad. Cada tarjeta ya trae
+                  un diálogo comercial para ayudarte a resaltar mejor la unidad
+                  ante el cliente.
                 </p>
               </div>
+            </div>
+
+            <div className="toolsBar">
+              <input
+                type="text"
+                placeholder="Buscar unidad, versión o categoría..."
+                value={busqueda}
+                onChange={(e) => setBusqueda(e.target.value)}
+                className="searchInput"
+              />
 
               <div className="filtros">
-                {categorias.map((cat) => (
+                {categorias.map((item) => (
                   <button
-                    key={cat}
-                    className={filtro === cat ? "filtro active" : "filtro"}
-                    onClick={() => setFiltro(cat)}
+                    key={item}
+                    onClick={() => setCategoria(item)}
+                    className={categoria === item ? "filtro active" : "filtro"}
                   >
-                    {cat}
+                    {item}
                   </button>
                 ))}
               </div>
             </div>
 
+            <div className="catalogSummary">
+              Mostrando <strong>{resultados.length}</strong> unidades
+            </div>
+
             <div className="gridVehiculos">
-              {vehiculosFiltrados.map((vehiculo) => (
-                <article key={vehiculo.id} className="cardVehiculo">
-                  <div className="imgWrap">
-                    <img src={vehiculo.imagen} alt={vehiculo.nombre} />
-                    <span className="badge">{vehiculo.badge}</span>
-                  </div>
+              {resultados.map((vehiculo) => {
+                const linkUnidad = formatearWhatsApp(
+                  NEGOCIO.telefono,
+                  vehiculo.whatsappTexto
+                );
 
-                  <div className="cardContent">
-                    <p className="categoria">{vehiculo.categoria}</p>
-                    <h3>{vehiculo.nombre}</h3>
-                    <p className="descripcion">{vehiculo.descripcion}</p>
+                return (
+                  <article key={vehiculo.id} className="cardVehiculo">
+                    <div className="imgWrap">
+                      <ImagenVehiculo src={vehiculo.imagen} alt={vehiculo.nombre} />
+                      <span className="badge">{vehiculo.badge}</span>
+                    </div>
 
-                    <div className="precioBox">
-                      <div>
-                        <span className="label">Precio desde</span>
-                        <strong>{vehiculo.precio}</strong>
+                    <div className="cardContent">
+                      <div className="cardTop">
+                        <p className="categoria">{vehiculo.categoria}</p>
+                        <span className="precio">{vehiculo.precio}</span>
+                      </div>
+
+                      <h3>{vehiculo.nombre}</h3>
+                      <p className="descripcion">{vehiculo.descripcion}</p>
+
+                      <div className="versiones">
+                        {vehiculo.versiones.map((version) => (
+                          <span key={version}>{version}</span>
+                        ))}
+                      </div>
+
+                      <div className="dialogoBox">
+                        <span className="dialogoLabel">Diálogo sugerido</span>
+                        <p>{vehiculo.dialogo}</p>
+                      </div>
+
+                      <ul className="features">
+                        {vehiculo.caracteristicas.map((item, index) => (
+                          <li key={index}>{item}</li>
+                        ))}
+                      </ul>
+
+                      <div className="acciones">
+                        <a
+                          href={linkUnidad}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="btnPrimary"
+                        >
+                          Solicitar información
+                        </a>
+                        <a href={linkLlamada} className="btnSecondary">
+                          Llamar
+                        </a>
                       </div>
                     </div>
-
-                    <ul className="features">
-                      {vehiculo.caracteristicas.map((item, i) => (
-                        <li key={i}>{item}</li>
-                      ))}
-                    </ul>
-
-                    <div className="acciones">
-                      <a
-                        href={formatearWhatsApp(
-                          negocio.telefono,
-                          vehiculo.whatsappTexto
-                        )}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="btnPrimary"
-                      >
-                        Solicitar información
-                      </a>
-                    </div>
-                  </div>
-                </article>
-              ))}
+                  </article>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -363,24 +930,24 @@ export default function Home() {
         <section className="ventajas">
           <div className="container ventajasGrid">
             <div className="ventajaCard">
-              <h3>Atención directa</h3>
+              <h3>Catálogo más completo</h3>
               <p>
-                El cliente habla contigo de forma inmediata y eso genera más
-                confianza desde el primer contacto.
+                Ahora tu página luce más sólida y transmite que manejas un portafolio
+                amplio y profesional.
               </p>
             </div>
             <div className="ventajaCard">
-              <h3>Imagen profesional</h3>
+              <h3>Diálogo por unidad</h3>
               <p>
-                La página transmite presencia, orden y seriedad para apoyar el
-                cierre de ventas.
+                Cada vehículo ya incluye una forma de presentarlo mejor y provocar
+                interés del cliente.
               </p>
             </div>
             <div className="ventajaCard">
-              <h3>Enfoque comercial</h3>
+              <h3>Más enfoque comercial</h3>
               <p>
-                Cada unidad tiene mensaje directo a WhatsApp para facilitar la
-                prospección y la conversión.
+                Todo está pensado para llevar al prospecto a WhatsApp o llamada lo
+                más rápido posible.
               </p>
             </div>
           </div>
@@ -391,36 +958,41 @@ export default function Home() {
             <div className="asesorFotoBox">
               <img
                 src="/diego-asesor.jpg"
-                alt={`Asesor ${negocio.asesorNombre}`}
+                alt={`Asesor ${NEGOCIO.asesorNombre}`}
                 className="asesorFoto"
               />
             </div>
 
             <div className="asesorInfo">
               <span className="eyebrow">Tu asesor</span>
-              <h2>{negocio.asesorNombre}</h2>
-              <p className="asesorSub">{negocio.slogan}</p>
+              <h2>{NEGOCIO.asesorNombre}</h2>
+              <p className="asesorSub">{NEGOCIO.slogan}</p>
               <p>
-                Atención enfocada en ayudarte a tomar una decisión clara, rápida
-                y confiable. Ya sea una pickup para trabajo, una SUV o una van
-                para negocio, te acompaño en todo el proceso.
+                Atención enfocada en ayudarte a presentar mejor cada unidad, generar
+                más confianza y convertir más prospectos desde una imagen seria y
+                profesional.
               </p>
 
               <div className="asesorPuntos">
-                <div className="point">Seguimiento personalizado</div>
-                <div className="point">Atención por WhatsApp</div>
-                <div className="point">Cotizaciones claras</div>
-                <div className="point">Enfoque profesional</div>
+                <div className="point">Atención directa</div>
+                <div className="point">Respuesta rápida</div>
+                <div className="point">Cierre por WhatsApp</div>
+                <div className="point">Imagen profesional</div>
               </div>
 
-              <a
-                href={linkWhatsappGeneral}
-                target="_blank"
-                rel="noreferrer"
-                className="btnPrimary"
-              >
-                Contactar a {negocio.asesorNombre}
-              </a>
+              <div className="heroButtons">
+                <a
+                  href={linkWhatsappGeneral}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btnPrimary"
+                >
+                  Contactar a Diego
+                </a>
+                <a href={linkLlamada} className="btnSecondary">
+                  Llamar
+                </a>
+              </div>
             </div>
           </div>
         </section>
@@ -428,11 +1000,11 @@ export default function Home() {
         <section id="contacto" className="contacto">
           <div className="container contactoBox">
             <div>
-              <span className="eyebrow">Contacto</span>
-              <h2>¿Listo para cotizar tu próxima Ford?</h2>
+              <span className="eyebrow">Contacto directo</span>
+              <h2>Convierte más visitas en prospectos</h2>
               <p>
-                Escríbeme y te ayudo a revisar opciones, versiones, precio y la
-                unidad ideal según tu necesidad.
+                Lleva al cliente directo a conversación contigo. Esa parte hace una
+                gran diferencia para cerrar más rápido.
               </p>
             </div>
 
@@ -443,10 +1015,10 @@ export default function Home() {
                 rel="noreferrer"
                 className="btnPrimary"
               >
-                WhatsApp: {negocio.telefono}
+                WhatsApp: {NEGOCIO.telefono}
               </a>
-              <a href="/admin" className="btnSecondary">
-                Ir al panel admin
+              <a href={linkLlamada} className="btnSecondary">
+                Llamar ahora
               </a>
             </div>
           </div>
@@ -455,12 +1027,12 @@ export default function Home() {
         <footer className="footer">
           <div className="container footerInner">
             <div>
-              <strong>{negocio.asesorNombre}</strong>
-              <p>{negocio.slogan}</p>
+              <strong>{NEGOCIO.asesorNombre}</strong>
+              <p>{NEGOCIO.slogan}</p>
             </div>
 
             <div className="footerLinks">
-              <a href="#inventario">Inventario</a>
+              <a href="#catalogo">Catálogo</a>
               <a href="#asesor">Asesor</a>
               <a href="/admin">Admin</a>
             </div>
@@ -506,7 +1078,7 @@ export default function Home() {
         }
 
         .container {
-          width: min(1200px, calc(100% - 32px));
+          width: min(1280px, calc(100% - 32px));
           margin: 0 auto;
         }
 
@@ -645,20 +1217,30 @@ export default function Home() {
           background: rgba(255, 255, 255, 0.03);
         }
 
-        .beneficios {
-          margin-top: 22px;
-          display: flex;
-          gap: 10px;
-          flex-wrap: wrap;
+        .statsInline {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 12px;
+          margin-top: 24px;
         }
 
-        .beneficios span {
-          padding: 10px 14px;
-          border-radius: 999px;
-          font-size: 13px;
-          color: #dbe9f8;
-          background: rgba(255, 255, 255, 0.06);
+        .statsInline div {
+          padding: 16px;
+          border-radius: 18px;
+          background: rgba(255, 255, 255, 0.05);
           border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .statsInline strong {
+          display: block;
+          font-size: 24px;
+          margin-bottom: 6px;
+        }
+
+        .statsInline span {
+          color: #dbe9f8;
+          font-size: 14px;
+          line-height: 1.5;
         }
 
         .heroCard {
@@ -669,7 +1251,7 @@ export default function Home() {
           box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
         }
 
-        .asesorHeroImg {
+        .heroImageWrap img {
           width: 100%;
           height: 380px;
           object-fit: cover;
@@ -690,6 +1272,12 @@ export default function Home() {
           margin: 0 0 8px;
         }
 
+        .heroCtas {
+          display: grid;
+          gap: 10px;
+          margin-top: 14px;
+        }
+
         .miniLabel {
           color: #7fc0ff !important;
           text-transform: uppercase;
@@ -700,47 +1288,10 @@ export default function Home() {
 
         .full {
           width: 100%;
-          margin-top: 12px;
         }
 
-        .stats {
-          padding: 12px 0 20px;
-        }
-
-        .statsGrid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 18px;
-        }
-
-        .statCard {
-          padding: 22px;
-          border-radius: 20px;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.07);
-        }
-
-        .statCard strong {
-          display: block;
-          margin-bottom: 8px;
-          font-size: 18px;
-        }
-
-        .statCard span {
-          color: #dbe9f8;
-          line-height: 1.6;
-        }
-
-        .inventario {
-          padding: 52px 0;
-        }
-
-        .sectionHead {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-end;
-          gap: 20px;
-          margin-bottom: 24px;
+        .filtrosSection {
+          padding: 20px 0 52px;
         }
 
         .sectionHead h2 {
@@ -751,8 +1302,30 @@ export default function Home() {
         .sectionHead p {
           margin: 0;
           color: #dbe9f8;
-          max-width: 700px;
+          max-width: 760px;
           line-height: 1.7;
+        }
+
+        .toolsBar {
+          margin-top: 22px;
+          display: grid;
+          gap: 16px;
+        }
+
+        .searchInput {
+          width: 100%;
+          min-height: 54px;
+          border-radius: 16px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: rgba(255, 255, 255, 0.05);
+          color: #fff;
+          padding: 0 18px;
+          font-size: 15px;
+          outline: none;
+        }
+
+        .searchInput::placeholder {
+          color: #9fbbd7;
         }
 
         .filtros {
@@ -775,10 +1348,16 @@ export default function Home() {
           background: linear-gradient(135deg, #1570ef, #3ea6ff);
         }
 
+        .catalogSummary {
+          margin: 18px 0 0;
+          color: #dbe9f8;
+        }
+
         .gridVehiculos {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           gap: 22px;
+          margin-top: 22px;
         }
 
         .cardVehiculo {
@@ -791,7 +1370,7 @@ export default function Home() {
 
         .imgWrap {
           position: relative;
-          height: 280px;
+          height: 300px;
           overflow: hidden;
           background: #081522;
         }
@@ -805,7 +1384,7 @@ export default function Home() {
         }
 
         .cardVehiculo:hover .imgWrap img {
-          transform: scale(1.04);
+          transform: scale(1.03);
         }
 
         .badge {
@@ -828,8 +1407,15 @@ export default function Home() {
           padding: 22px;
         }
 
+        .cardTop {
+          display: flex;
+          justify-content: space-between;
+          gap: 12px;
+          align-items: center;
+        }
+
         .categoria {
-          margin: 0 0 8px;
+          margin: 0;
           color: #7fc0ff;
           font-size: 13px;
           font-weight: 700;
@@ -837,41 +1423,73 @@ export default function Home() {
           letter-spacing: 1px;
         }
 
+        .precio {
+          display: inline-flex;
+          align-items: center;
+          min-height: 34px;
+          padding: 0 12px;
+          border-radius: 999px;
+          background: rgba(21, 112, 239, 0.14);
+          color: #dfeeff;
+          font-size: 13px;
+          font-weight: 700;
+        }
+
         .cardContent h3 {
-          margin: 0 0 10px;
+          margin: 12px 0 10px;
           font-size: 28px;
+          line-height: 1.15;
         }
 
         .descripcion {
           color: #dbe9f8;
           line-height: 1.7;
-          margin: 0 0 18px;
+          margin: 0 0 16px;
         }
 
-        .precioBox {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 14px;
+        .versiones {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
           margin-bottom: 18px;
         }
 
-        .precioBox > div {
-          padding: 14px;
-          border-radius: 16px;
-          background: rgba(255, 255, 255, 0.05);
-        }
-
-        .label {
-          display: block;
-          color: #95b7db;
+        .versiones span {
+          padding: 8px 12px;
+          border-radius: 999px;
           font-size: 12px;
-          margin-bottom: 6px;
-          text-transform: uppercase;
-          letter-spacing: 0.8px;
+          font-weight: 700;
+          color: #dbe9f8;
+          background: rgba(255, 255, 255, 0.06);
+          border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        .precioBox strong {
-          font-size: 22px;
+        .dialogoBox {
+          padding: 16px;
+          border-radius: 18px;
+          background: linear-gradient(
+            135deg,
+            rgba(21, 112, 239, 0.16),
+            rgba(62, 166, 255, 0.08)
+          );
+          border: 1px solid rgba(127, 192, 255, 0.18);
+          margin-bottom: 18px;
+        }
+
+        .dialogoLabel {
+          display: block;
+          margin-bottom: 8px;
+          color: #7fc0ff;
+          font-size: 12px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+        }
+
+        .dialogoBox p {
+          margin: 0;
+          color: #eef5ff;
+          line-height: 1.7;
         }
 
         .features {
@@ -941,10 +1559,6 @@ export default function Home() {
           display: block;
         }
 
-        .asesorInfo {
-          padding: 10px 0;
-        }
-
         .asesorInfo h2 {
           margin: 0 0 8px;
           font-size: 40px;
@@ -983,7 +1597,11 @@ export default function Home() {
         .contactoBox {
           padding: 28px;
           border-radius: 26px;
-          background: linear-gradient(135deg, rgba(21, 112, 239, 0.18), rgba(62, 166, 255, 0.08));
+          background: linear-gradient(
+            135deg,
+            rgba(21, 112, 239, 0.18),
+            rgba(62, 166, 255, 0.08)
+          );
           border: 1px solid rgba(127, 192, 255, 0.16);
           display: flex;
           justify-content: space-between;
@@ -1056,15 +1674,14 @@ export default function Home() {
           .heroGrid,
           .asesorGrid,
           .gridVehiculos,
-          .statsGrid,
           .ventajasGrid,
-          .contactoBox {
+          .contactoBox,
+          .statsInline {
             grid-template-columns: 1fr;
           }
 
-          .sectionHead,
-          .footerInner,
-          .topbarInner {
+          .topbarInner,
+          .footerInner {
             flex-direction: column;
             align-items: flex-start;
           }
@@ -1098,12 +1715,17 @@ export default function Home() {
             grid-template-columns: 1fr;
           }
 
-          .asesorHeroImg {
+          .heroImageWrap img {
             height: 280px;
           }
 
           .asesorFoto {
             min-height: 300px;
+          }
+
+          .cardTop {
+            flex-direction: column;
+            align-items: flex-start;
           }
         }
       `}</style>
