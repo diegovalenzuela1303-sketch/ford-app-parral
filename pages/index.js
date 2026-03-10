@@ -1,11 +1,11 @@
-
 import { useState } from "react";
-import { createClient } from "@supabase/supabase-js"
+import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
   process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
 );
+
 async function guardarProspecto(nombre, telefono, vehiculo) {
   const { data, error } = await supabase
     .from("prospectos")
@@ -15,135 +15,145 @@ async function guardarProspecto(nombre, telefono, vehiculo) {
         telefono: telefono,
         vehiculo: vehiculo
       }
-    ])
+    ]);
 
   if (error) {
-    console.log("Error guardando prospecto:", error)
+    console.log("Error guardando prospecto:", error);
   } else {
-    console.log("Prospecto guardado:", data)
+    console.log("Prospecto guardado:", data);
   }
 }
-async function enviarFormulario() {
 
-  if(!nombre || !telefono){
-    alert("Por favor llena nombre y teléfono")
-    return
-  }
-
-  const { error } = await supabase
-    .from("prospectos")
-    .insert([
-      {
-        nombre:nombre,
-        telefono:telefono,
-        vehiculo:vehiculo,
-        comentario:comentario,
-        origen:"formulario"
-      }
-    ])
-
-  if(error){
-    alert("Error guardando prospecto")
-  } else {
-    alert("Solicitud enviada. Te contactaremos pronto.")
-    setNombre("")
-    setTelefono("")
-    setVehiculo("")
-    setComentario("")
-  }
-
-}
 const vehiclesBase = [
- { id:1, name:"Ford Territory", price:"$599,000", type:"SUV"},
- { id:2, name:"Ford Ranger", price:"$763,500", type:"Pickup"},
- { id:3, name:"Ford Ranger Raptor", price:"$1,313,500", type:"Pickup"},
- { id:4, name:"Ford Maverick", price:"$749,000", type:"Pickup"},
- { id:5, name:"Ford Bronco Sport", price:"$773,500", type:"SUV"},
- { id:6, name:"Ford Mustang", price:"$1,050,000", type:"Performance"},
+  { id: 1, name: "Ford Territory", price: "$599,000", type: "SUV" },
+  { id: 2, name: "Ford Ranger", price: "$763,500", type: "Pickup" },
+  { id: 3, name: "Ford Ranger Raptor", price: "$1,313,500", type: "Pickup" },
+  { id: 4, name: "Ford Maverick", price: "$749,000", type: "Pickup" },
+  { id: 5, name: "Ford Bronco Sport", price: "$773,500", type: "SUV" },
+  { id: 6, name: "Ford Mustang", price: "$1,050,000", type: "Performance" }
 ];
 
-export default function Home(){
- const [vehicles,setVehicles] = useState(vehiclesBase);
- const [admin,setAdmin] = useState(false);
-const [nombre,setNombre] = useState("")
-const [telefono,setTelefono] = useState("")
-const [vehiculo,setVehiculo] = useState("")
-const [comentario,setComentario] = useState("")
- function updatePrice(id,value){
-   setVehicles(v=>v.map(i=>i.id===id ? {...i,price:value}:i))
- }
+export default function Home() {
+  const [vehicles, setVehicles] = useState(vehiclesBase);
+  const [admin, setAdmin] = useState(false);
 
- return(
-   <div style={{fontFamily:"Arial",padding:40}}>
-     <h1>Diego Valenzuela | Asesor Ford Parral</h1>
-     <p>Contacto WhatsApp: 6272850550</p>
+  const [nombre, setNombre] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const [vehiculo, setVehiculo] = useState("");
+  const [comentario, setComentario] = useState("");
 
-     <button onClick={()=>setAdmin(!admin)}>
-       {admin ? "Salir Admin":"Modo Admin"}
-     </button>
-<h2>Solicitar información</h2>
+  function updatePrice(id, value) {
+    setVehicles((v) => v.map((i) => (i.id === id ? { ...i, price: value } : i)));
+  }
 
-<input
-  placeholder="Nombre"
-  value={nombre}
-  onChange={e=>setNombre(e.target.value)}
-/>
+  async function enviarFormulario() {
+    if (!nombre || !telefono) {
+      alert("Por favor llena nombre y teléfono");
+      return;
+    }
 
-<br/><br/>
+    const { error } = await supabase
+      .from("prospectos")
+      .insert([
+        {
+          nombre: nombre,
+          telefono: telefono,
+          vehiculo: vehiculo,
+          comentario: comentario,
+          origen: "formulario"
+        }
+      ]);
 
-<input
-  placeholder="Teléfono"
-  value={telefono}
-  onChange={e=>setTelefono(e.target.value)}
-/>
+    if (error) {
+      console.log(error);
+      alert("Error guardando prospecto");
+    } else {
+      alert("Solicitud enviada. Te contactaremos pronto.");
+      setNombre("");
+      setTelefono("");
+      setVehiculo("");
+      setComentario("");
+    }
+  }
 
-<br/><br/>
+  return (
+    <div style={{ fontFamily: "Arial", padding: 40 }}>
+      <h1>Diego Valenzuela | Asesor Ford Parral</h1>
+      <p>Contacto WhatsApp: 6272850550</p>
 
-<input
-  placeholder="Vehículo de interés"
-  value={vehiculo}
-  onChange={e=>setVehiculo(e.target.value)}
-/>
+      <button onClick={() => setAdmin(!admin)}>
+        {admin ? "Salir Admin" : "Modo Admin"}
+      </button>
 
-<br/><br/>
+      <h2>Solicitar información</h2>
 
-<textarea
-  placeholder="Comentario"
-  value={comentario}
-  onChange={e=>setComentario(e.target.value)}
-/>
+      <input
+        placeholder="Nombre"
+        value={nombre}
+        onChange={(e) => setNombre(e.target.value)}
+      />
 
-<br/><br/>
+      <br /><br />
 
-<button onClick={enviarFormulario}>
-  Enviar solicitud
-</button>
+      <input
+        placeholder="Teléfono"
+        value={telefono}
+        onChange={(e) => setTelefono(e.target.value)}
+      />
 
-<br/><br/>
-     <h2>Catálogo Ford</h2>
+      <br /><br />
 
-     {vehicles.map(v=>(
-       <div key={v.id} style={{border:"1px solid #ddd",padding:15,marginTop:10}}>
-         <h3>{v.name}</h3>
-         <p>Tipo: {v.type}</p>
-         <p>Precio: {v.price}</p>
+      <input
+        placeholder="Vehículo de interés"
+        value={vehiculo}
+        onChange={(e) => setVehiculo(e.target.value)}
+      />
 
-         {admin && (
-           <input
-             value={v.price}
-             onChange={e=>updatePrice(v.id,e.target.value)}
-           />
-         )}
+      <br /><br />
 
-         <br/>
-    <a
-  href={`https://wa.me/526272850550?text=Hola me interesa ${v.name}`}
-  onClick={() => guardarProspecto("Cliente Web", "Pendiente", v.name)}
->
-  Contactar por WhatsApp
-</a>
-       </div>
-     ))}
-   </div>
- )
+      <textarea
+        placeholder="Comentario"
+        value={comentario}
+        onChange={(e) => setComentario(e.target.value)}
+      />
+
+      <br /><br />
+
+      <button onClick={enviarFormulario}>
+        Enviar solicitud
+      </button>
+
+      <br /><br />
+
+      <h2>Catálogo Ford</h2>
+
+      {vehicles.map((v) => (
+        <div
+          key={v.id}
+          style={{ border: "1px solid #ddd", padding: 15, marginTop: 10 }}
+        >
+          <h3>{v.name}</h3>
+          <p>Tipo: {v.type}</p>
+          <p>Precio: {v.price}</p>
+
+          {admin && (
+            <input
+              value={v.price}
+              onChange={(e) => updatePrice(v.id, e.target.value)}
+            />
+          )}
+
+          <br />
+
+          <a
+            href={`https://wa.me/526272850550?text=Hola me interesa ${v.name}`}
+            onClick={() => guardarProspecto("Cliente Web", "Pendiente", v.name)}
+          >
+            Contactar por WhatsApp
+          </a>
+        </div>
+      ))}
+    </div>
+  );
+}
 }
