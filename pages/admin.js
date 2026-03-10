@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+
+const ADMIN_PASSWORD = "FordParral2026";
 
 const NEGOCIO_BASE = {
   asesorNombre: "Diego Valenzuela",
@@ -934,8 +936,16 @@ export default function Admin() {
   const [catalogo, setCatalogo] = useState(CATALOGO_BASE);
   const [mensaje, setMensaje] = useState("");
   const [busqueda, setBusqueda] = useState("");
+  const [autorizado, setAutorizado] = useState(false);
+  const [passwordInput, setPasswordInput] = useState("");
+  const [errorLogin, setErrorLogin] = useState("");
 
   useEffect(() => {
+    const sesion = localStorage.getItem("fordAdminAuth");
+    if (sesion === "ok") {
+      setAutorizado(true);
+    }
+
     setNegocio(cargarNegocio());
     setCatalogo(cargarCatalogo());
   }, []);
@@ -943,6 +953,26 @@ export default function Admin() {
   const mostrarMensaje = (texto) => {
     setMensaje(texto);
     setTimeout(() => setMensaje(""), 2500);
+  };
+
+  const iniciarSesion = (e) => {
+    e.preventDefault();
+
+    if (passwordInput === ADMIN_PASSWORD) {
+      localStorage.setItem("fordAdminAuth", "ok");
+      setAutorizado(true);
+      setErrorLogin("");
+      setPasswordInput("");
+    } else {
+      setErrorLogin("Contraseña incorrecta.");
+    }
+  };
+
+  const cerrarSesion = () => {
+    localStorage.removeItem("fordAdminAuth");
+    setAutorizado(false);
+    setPasswordInput("");
+    setErrorLogin("");
   };
 
   const guardarTodo = () => {
@@ -1001,17 +1031,163 @@ export default function Admin() {
     );
   };
 
-  const resultados = catalogo.filter((item) => {
-    const texto = `
-      ${item.nombre}
-      ${item.categoria}
-      ${item.precio}
-      ${item.descripcion}
-      ${item.dialogo}
-    `.toLowerCase();
+  const resultados = useMemo(() => {
+    return catalogo.filter((item) => {
+      const texto = `
+        ${item.nombre}
+        ${item.categoria}
+        ${item.precio}
+        ${item.descripcion}
+        ${item.dialogo}
+      `.toLowerCase();
 
-    return texto.includes(busqueda.toLowerCase());
-  });
+      return texto.includes(busqueda.toLowerCase());
+    });
+  }, [catalogo, busqueda]);
+
+  if (!autorizado) {
+    return (
+      <>
+        <div className="loginPage">
+          <div className="loginCard">
+            <p className="mini">Acceso restringido</p>
+            <h1>Panel Admin Ford App</h1>
+            <p className="sub">
+              Ingresa la contraseña para administrar precios, textos, fichas técnicas e imágenes.
+            </p>
+
+            <form onSubmit={iniciarSesion} className="loginForm">
+              <label>Contraseña</label>
+              <input
+                type="password"
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
+                placeholder="Escribe tu contraseña"
+              />
+
+              {errorLogin ? <div className="errorBox">{errorLogin}</div> : null}
+
+              <button type="submit" className="btnPrimary">
+                Entrar al admin
+              </button>
+
+              <a href="/" className="btnSecondary">
+                Volver al sitio
+              </a>
+            </form>
+          </div>
+
+          <style jsx>{`
+            :global(body) {
+              margin: 0;
+              font-family: Arial, Helvetica, sans-serif;
+              background: #08111f;
+              color: #fff;
+            }
+
+            :global(*) {
+              box-sizing: border-box;
+            }
+
+            .loginPage {
+              min-height: 100vh;
+              display: grid;
+              place-items: center;
+              padding: 24px;
+              background:
+                radial-gradient(circle at top right, rgba(0,118,255,.2), transparent 30%),
+                linear-gradient(180deg, #08111f 0%, #102038 100%);
+            }
+
+            .loginCard {
+              width: min(520px, 100%);
+              padding: 28px;
+              border-radius: 24px;
+              background: rgba(255,255,255,.06);
+              border: 1px solid rgba(255,255,255,.08);
+              box-shadow: 0 25px 60px rgba(0,0,0,.35);
+            }
+
+            .mini {
+              margin: 0 0 8px;
+              color: #7fc0ff;
+              font-size: 12px;
+              font-weight: 700;
+              text-transform: uppercase;
+              letter-spacing: 1px;
+            }
+
+            h1 {
+              margin: 0 0 12px;
+              font-size: 34px;
+            }
+
+            .sub {
+              margin: 0 0 20px;
+              color: #d8e6f7;
+              line-height: 1.7;
+            }
+
+            .loginForm {
+              display: grid;
+              gap: 14px;
+            }
+
+            label {
+              font-size: 13px;
+              color: #b7d4f3;
+              font-weight: 700;
+            }
+
+            input {
+              width: 100%;
+              border: 1px solid rgba(255,255,255,.14);
+              background: rgba(255,255,255,.06);
+              color: #fff;
+              border-radius: 14px;
+              padding: 14px;
+              outline: none;
+              font-size: 15px;
+            }
+
+            .btnPrimary,
+            .btnSecondary {
+              border: none;
+              min-height: 48px;
+              padding: 0 18px;
+              border-radius: 14px;
+              font-weight: 700;
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 15px;
+              text-decoration: none;
+              cursor: pointer;
+            }
+
+            .btnPrimary {
+              color: #fff;
+              background: linear-gradient(135deg, #1570ef, #3ea6ff);
+            }
+
+            .btnSecondary {
+              color: #fff;
+              background: rgba(255,255,255,.08);
+            }
+
+            .errorBox {
+              padding: 12px 14px;
+              border-radius: 14px;
+              background: rgba(239,68,68,.12);
+              border: 1px solid rgba(239,68,68,.35);
+              color: #ffd7d7;
+              font-weight: 700;
+            }
+          `}</style>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -1022,13 +1198,14 @@ export default function Admin() {
               <p className="mini">Panel administrativo</p>
               <h1>Admin Ford App Parral</h1>
               <p className="sub">
-                Aquí puedes editar el contenido del sitio antes de pasar a la seguridad.
+                Aquí puedes editar el contenido del sitio antes de pasar a la seguridad avanzada.
               </p>
             </div>
 
             <div className="accionesTop">
               <a href="/" className="btnSecondary">Ver sitio</a>
               <button onClick={guardarTodo} className="btnPrimary">Guardar cambios</button>
+              <button onClick={cerrarSesion} className="btnDanger">Cerrar sesión</button>
             </div>
           </div>
 
