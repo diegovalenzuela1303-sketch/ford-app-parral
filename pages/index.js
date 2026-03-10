@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
@@ -6,143 +6,272 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
 );
 
-const vehiclesBase = [
+const whatsappBase = process.env.NEXT_PUBLIC_WHATSAPP || "526272850550";
+
+const catalogo = [
   {
     id: 1,
-    name: "Ford Territory 2026",
-    shortName: "Territory",
-    price: "$559,900",
-    type: "SUV",
-    image:
+    categoria: "SUV",
+    nombre: "Ford Territory 2026",
+    corto: "Territory",
+    precio: "$559,900",
+    imagen:
       "https://www.ford.mx/content/dam/Ford/website-assets/latam/mx/nameplate/territory/2026/colorizer/v1/colorizer/gris-piedra/ford-territory-2026-camioneta-suv-tecnologica-color-gris-piedra.jpg.dam.full.high.jpg/1756926697802.jpg",
-    tagline: "SUV familiar con gran tecnología y presencia.",
-    specs: [
+    frase: "La SUV que proyecta seguridad, tecnología y presencia desde la primera vista.",
+    gancho: "Más espacio, mejor imagen y tecnología que sí se nota.",
+    ficha: [
       "Motor 1.8L Turbo EcoBoost I4",
       "187 HP",
       "236 lb-pie de torque",
-      "Transmisión de 7 velocidades",
-      "Tracción delantera (FWD)",
-      "Pantalla táctil de 12 pulgadas",
+      "Transmisión automática de 7 velocidades",
+      "Pantalla de 12 pulgadas",
       "Clúster digital de 12 pulgadas",
       "4 modos de manejo"
     ],
-    officialUrl: "https://www.ford.mx/suv/territory/2026/"
+    versiones: [
+      { nombre: "Ambiente", precio: "$559,900" },
+      { nombre: "Trend", precio: "Consulta versión y disponibilidad" },
+      { nombre: "Titanium", precio: "Consulta versión y disponibilidad" }
+    ]
   },
   {
     id: 2,
-    name: "Ford Ranger 2026",
-    shortName: "Ranger",
-    price: "$763,500",
-    type: "Pickup",
-    image:
+    categoria: "Pickup",
+    nombre: "Ford Ranger 2026",
+    corto: "Ranger",
+    precio: "$763,500",
+    imagen:
       "https://www.ford.mx/content/dam/Ford/website-assets/latam/mx/nameplate/ranger/2026/models/ford-ranger-xl-2026-camioneta-pickup-4x2-versiones-precios-equipo.jpg",
-    tagline: "Pickup fuerte para trabajo, ciudad y carretera.",
-    specs: [
-      "Motor 2.3L I4 EcoBoost gasolina",
-      "270 HP",
-      "310 lb-pie de torque",
-      "Opción diésel 2.0L Panther",
-      "168 HP en versión diésel",
-      "299 lb-pie en versión diésel",
+    frase: "La pickup que trabaja duro entre semana y luce fuerte todos los días.",
+    gancho: "Potencia, versatilidad y presencia para campo, ciudad y negocio.",
+    ficha: [
+      "Motor 2.3L EcoBoost gasolina disponible",
+      "270 HP en gasolina",
+      "310 lb-pie de torque en gasolina",
+      "Motor diésel 2.0L disponible",
       "Versiones 4x2 y 4x4",
-      "Enfoque trabajo + versatilidad"
+      "Enfoque trabajo + uso diario"
     ],
-    officialUrl: "https://www.ford.mx/camiones/ranger/2026/"
+    versiones: [
+      { nombre: "XL 4x2", precio: "$763,500" },
+      { nombre: "XLT", precio: "Consulta versión y precio" },
+      { nombre: "Lariat", precio: "Consulta versión y precio" }
+    ]
   },
   {
     id: 3,
-    name: "Ford Ranger Raptor 2026",
-    shortName: "Ranger Raptor",
-    price: "$1,313,500",
-    type: "Pickup Performance",
-    image:
+    categoria: "Pickup Performance",
+    nombre: "Ford Ranger Raptor 2026",
+    corto: "Ranger Raptor",
+    precio: "$1,313,500",
+    imagen:
       "https://www.ford.mx/content/ford/mx/es_mx/ranger-raptor-2026-content/media-carousels/overview-features/jcr%3Acontent/par/mediacarouselitem/image.imgs.full.high.jpg/1758827332055.jpg",
-    tagline: "La pickup deportiva para impacto total.",
-    specs: [
+    frase: "No es solo una pickup, es una declaración de poder y presencia.",
+    gancho: "Impacta, acelera y domina cualquier terreno con imagen brutal.",
+    ficha: [
       "Motor 3.0L V6 Twin Turbo",
       "392 HP",
       "430 lb-pie de torque",
       "Transmisión automática de 10 velocidades",
-      "7 modos de manejo",
-      "Pantalla SYNC 4 de 12 pulgadas",
-      "Clúster digital de 12 pulgadas",
-      "Capacidad todoterreno de alto nivel"
+      "SYNC 4 con pantalla de 12 pulgadas",
+      "7 modos de manejo"
     ],
-    officialUrl: "https://www.ford.mx/performance/raptor/ranger/2026/"
+    versiones: [
+      { nombre: "Raptor", precio: "$1,313,500" }
+    ]
   },
   {
     id: 4,
-    name: "Ford Maverick 2025",
-    shortName: "Maverick",
-    price: "$737,100",
-    type: "Pickup",
-    image:
+    categoria: "Pickup",
+    nombre: "Ford Maverick 2025",
+    corto: "Maverick",
+    precio: "$737,100",
+    imagen:
       "https://www.ford.mx/content/dam/Ford/website-assets/latam/mx/nameplate/maverick/2025/models/ford-maverick-2025-camioneta-pickup-versiones-precios-equipo-xlt.jpg",
-    tagline: "Pickup compacta, moderna y muy vendible.",
-    specs: [
+    frase: "La pickup inteligente para emprender, moverte diario y vender mejor tu imagen.",
+    gancho: "Compacta por fuera, muy útil por dentro y con perfil ganador.",
+    ficha: [
       "Versiones gasolina e híbrida",
-      "Motor híbrido disponible",
-      "191 HP combinados en versión híbrida",
-      "Batería de iones de litio de 1.1 kWh",
-      "Hasta 800 km por tanque en versión híbrida",
-      "Audio B&O de 8 bocinas en equipamiento destacado",
-      "Ideal para uso diario y negocio",
-      "Diseño compacto y práctico"
+      "191 HP combinados en híbrida",
+      "Hasta 800 km por tanque en híbrida",
+      "Diseño práctico y moderno",
+      "Ideal para ciudad, negocio y uso diario"
     ],
-    officialUrl: "https://www.ford.mx/camiones/maverick/2025/"
+    versiones: [
+      { nombre: "XLT", precio: "$737,100" },
+      { nombre: "Lariat", precio: "Consulta versión y precio" },
+      { nombre: "Híbrida", precio: "Consulta versión y precio" }
+    ]
   },
   {
     id: 5,
-    name: "Ford Bronco Sport 2026",
-    shortName: "Bronco Sport",
-    price: "$773,500",
-    type: "SUV Off-Road",
-    image:
+    categoria: "SUV",
+    nombre: "Ford Bronco Sport 2026",
+    corto: "Bronco Sport",
+    precio: "$773,500",
+    imagen:
       "https://www.ford.mx/content/dam/Ford/website-assets/latam/mx/nameplate/bronco-sport/2026/models/ford-bronco-sport-2026-suv-todoterreno-offroad-version-big-bend.jpg",
-    tagline: "SUV 4x4 para aventura, imagen y estilo.",
-    specs: [
+    frase: "Diseñada para quien no quiere pasar desapercibido ni en ciudad ni en aventura.",
+    gancho: "Aventura, estilo y carácter en una sola SUV.",
+    ficha: [
       "Motor 1.5L EcoBoost",
       "181 HP",
-      "190 lb-pie de torque",
-      "Motor 2.0L Turbo EcoBoost disponible",
+      "Motor 2.0L Turbo disponible",
       "250 HP en versiones superiores",
-      "277 lb-pie de torque en 2.0L",
       "Capacidad 4x4",
-      "Enfoque off-road y aventura"
+      "Perfil off-road y aspiracional"
     ],
-    officialUrl: "https://www.ford.mx/suv/bronco-sport/2026/"
+    versiones: [
+      { nombre: "Big Bend", precio: "$773,500" },
+      { nombre: "Outer Banks", precio: "Consulta versión y precio" },
+      { nombre: "Badlands", precio: "Consulta versión y precio" }
+    ]
   },
   {
     id: 6,
-    name: "Ford Mustang 2026",
-    shortName: "Mustang",
-    price: "$951,500",
-    type: "Deportivo",
-    image:
+    categoria: "Deportivo",
+    nombre: "Ford Mustang 2026",
+    corto: "Mustang",
+    precio: "$951,500",
+    imagen:
       "https://www.ford.mx/content/ford/mx/es_mx/mustang-content/2026/media-carousel/version/jcr%3Acontent/par/mediacarouselitem/image.imgs.full.high.jpg/1760544961974.jpg",
-    tagline: "Deportivo icónico para venta aspiracional.",
-    specs: [
+    frase: "No todos compran un auto; algunos compran una forma de destacar.",
+    gancho: "Pasión, sonido y presencia que cierran miradas desde el primer segundo.",
+    ficha: [
       "Motor 2.3L EcoBoost",
       "315 HP",
       "350 lb-pie de torque",
-      "Motor V8 5.0L GT disponible",
-      "486 HP en versión GT",
-      "500 HP en Dark Horse",
-      "6 modos de manejo",
-      "Perfil deportivo y premium"
+      "V8 5.0L GT disponible",
+      "486 HP en GT",
+      "Hasta 500 HP en Dark Horse"
     ],
-    officialUrl: "https://www.ford.mx/autos/mustang/2026/"
+    versiones: [
+      { nombre: "EcoBoost", precio: "$951,500" },
+      { nombre: "GT", precio: "Consulta versión y precio" },
+      { nombre: "Dark Horse", precio: "Consulta versión y precio" }
+    ]
+  },
+  {
+    id: 7,
+    categoria: "Pickup",
+    nombre: "Ford F-150 2025",
+    corto: "F-150",
+    precio: "$1,008,100",
+    imagen:
+      "https://www.ford.mx/content/dam/Ford/website-assets/latam/mx/nameplate/f150/2025/versions/f150-xl-regular-cab-v6-4x2-8-box.jpg",
+    frase: "Cuando el trabajo exige resultados, F-150 responde con fuerza real.",
+    gancho: "Capacidad, imagen y respaldo para quien no puede darse el lujo de fallar.",
+    ficha: [
+      "Motor 2.7L V6 disponible",
+      "325 HP",
+      "400 lb-pie de torque",
+      "Motor 5.0L V8 disponible",
+      "400 HP",
+      "410 lb-pie de torque",
+      "Configuraciones 4x2 y 4x4"
+    ],
+    versiones: [
+      { nombre: "XL Cabina Regular V6 4x2 Caja 8'", precio: "$1,008,100" },
+      { nombre: "XL Cabina y Media V6 4x2 Caja 6.5'", precio: "$1,042,100" },
+      { nombre: "XL Doble Cabina V6 4x2 Caja 5.5'", precio: "$1,050,100" },
+      { nombre: "XL Doble Cabina V6 4x4 Caja 5.5'", precio: "$1,092,100" },
+      { nombre: "XL Doble Cabina V8 4x4 Caja 5.5'", precio: "$1,187,100" },
+      { nombre: "XLT Cabina y Media V8 4x4", precio: "$1,232,100" },
+      { nombre: "XLT Doble Cabina V8 4x2", precio: "$1,276,100" },
+      { nombre: "XLT Doble Cabina V8 4x4", precio: "$1,332,100" }
+    ]
+  },
+  {
+    id: 8,
+    categoria: "Pickup Premium",
+    nombre: "Ford Lobo 2025",
+    corto: "Lobo",
+    precio: "$1,417,100",
+    imagen:
+      "https://www.ford.mx/content/dam/Ford/website-assets/latam/mx/nameplate/lobo/2025/models/ford-lobo-2025-pickup-4x4-versiones-precios-equipo-lariat.jpg",
+    frase: "Una pickup premium que impone respeto antes de arrancar.",
+    gancho: "Lujo, capacidad y estatus en una sola unidad.",
+    ficha: [
+      "Pickup 4x4 premium",
+      "Versiones orientadas a lujo, trabajo y aventura",
+      "Tecnología, confort y gran presencia",
+      "Versiones HEV disponibles en gama alta"
+    ],
+    versiones: [
+      { nombre: "Tremor", precio: "$1,417,100" },
+      { nombre: "Lariat", precio: "$1,428,100" },
+      { nombre: "King Ranch", precio: "$1,499,000" },
+      { nombre: "Tremor High", precio: "$1,572,100" },
+      { nombre: "Platinum", precio: "$1,615,100" },
+      { nombre: "Platinum Plus HEV", precio: "$1,789,100" }
+    ]
+  },
+  {
+    id: 9,
+    categoria: "Camión Pickup",
+    nombre: "Ford Super Duty F-250 2026",
+    corto: "F-250",
+    precio: "$1,560,800",
+    imagen:
+      "https://www.ford.mx/content/dam/Ford/website-assets/latam/mx/nameplate/f250/2026/models/ford-super-duty-f250-2026-pickup-xlt-versiones-precios-equipo.jpg",
+    frase: "Si el trabajo es pesado, necesitas una unidad que lo soporte de verdad.",
+    gancho: "Capacidad bruta, presencia fuerte y respaldo para jale serio.",
+    ficha: [
+      "Motor 6.7L V8 Diésel",
+      "500 HP",
+      "1,200 lb-pie de torque",
+      "Transmisión de 10 velocidades TorqShift",
+      "Capacidad de carga de hasta 1,500 kg",
+      "Capacidad de arrastre de 9,977 kg"
+    ],
+    versiones: [
+      { nombre: "XLT", precio: "$1,560,800" },
+      { nombre: "King Ranch", precio: "$1,962,400" },
+      { nombre: "Platinum Plus", precio: "$2,477,500" }
+    ]
+  },
+  {
+    id: 10,
+    categoria: "Camión Chasis",
+    nombre: "Ford Super Duty Chasis 2026",
+    corto: "F-350",
+    precio: "$1,081,600",
+    imagen:
+      "https://www.ford.mx/content/dam/Ford/website-assets/latam/mx/nameplate/super-duty-chasis/2026/models/ford-super-duty-chasis-2026-camion-de-trabajo-version-f350-xl-gasolina.jpg",
+    frase: "Para carrozar, cargar y producir: una base de trabajo que sí deja dinero.",
+    gancho: "El aliado ideal para negocio, carga y trabajo rudo en la región.",
+    ficha: [
+      "Plataforma de trabajo para carrozado",
+      "Versiones F-350 y superiores",
+      "Enfoque carga, flotilla y trabajo pesado",
+      "Ideal para negocio, campo y operación diaria"
+    ],
+    versiones: [
+      { nombre: "F-350 XL Gasolina", precio: "$1,081,600" },
+      { nombre: "F-350 XL Plus Gasolina", precio: "$1,098,600" },
+      { nombre: "F-350 XL Gasolina Doble Cabina", precio: "$1,128,900" }
+    ]
   }
 ];
 
 export default function Home() {
-  const [vehicles] = useState(vehiclesBase);
-
   const [nombre, setNombre] = useState("");
   const [telefono, setTelefono] = useState("");
   const [vehiculo, setVehiculo] = useState("");
   const [comentario, setComentario] = useState("");
+  const [categoriaActiva, setCategoriaActiva] = useState("Todos");
   const [expandedId, setExpandedId] = useState(null);
+  const [versionSeleccionada, setVersionSeleccionada] = useState({});
+
+  const categorias = useMemo(
+    () => ["Todos", ...new Set(catalogo.map((v) => v.categoria))],
+    []
+  );
+
+  const vehicles = useMemo(() => {
+    if (categoriaActiva === "Todos") return catalogo;
+    return catalogo.filter((v) => v.categoria === categoriaActiva);
+  }, [categoriaActiva]);
 
   async function guardarProspecto({
     nombre,
@@ -156,7 +285,7 @@ export default function Home() {
       telefono: telefono || "Pendiente",
       vehiculo: vehiculo || "Vehículo no especificado",
       comentario: comentario || "",
-      origen: origen
+      origen
     };
 
     const { error } = await supabase.from("prospectos").insert([payload]);
@@ -166,7 +295,6 @@ export default function Home() {
       alert("No se pudo guardar el prospecto");
       return false;
     }
-
     return true;
   }
 
@@ -193,14 +321,19 @@ export default function Home() {
     }
   }
 
-  async function handleWhatsAppClick(vehicleName) {
+  async function handleWhatsAppClick(modelo, versionTexto) {
     await guardarProspecto({
       nombre: "Cliente Web",
       telefono: "Pendiente",
-      vehiculo: vehicleName,
+      vehiculo: `${modelo}${versionTexto ? " - " + versionTexto : ""}`,
       comentario: "",
       origen: "whatsapp"
     });
+  }
+
+  function obtenerVersionActual(vehicle) {
+    const selectedIndex = versionSeleccionada[vehicle.id] ?? 0;
+    return vehicle.versiones[selectedIndex];
   }
 
   return (
@@ -212,53 +345,39 @@ export default function Home() {
         color: "#111827"
       }}
     >
-      <div
-        style={{
-          maxWidth: 1200,
-          margin: "0 auto",
-          padding: 24
-        }}
-      >
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: 24 }}>
         <div
           style={{
             background: "linear-gradient(135deg, #0f172a, #1e293b)",
             color: "white",
             borderRadius: 24,
             padding: 28,
-            marginBottom: 24,
-            boxShadow: "0 10px 30px rgba(0,0,0,0.15)"
+            marginBottom: 24
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              gap: 20,
-              justifyContent: "space-between",
-              alignItems: "center",
-              flexWrap: "wrap"
-            }}
-          >
-            <div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 18, justifyContent: "space-between" }}>
+            <div style={{ maxWidth: 760 }}>
               <div
                 style={{
                   display: "inline-block",
-                  background: "rgba(255,255,255,0.12)",
+                  background: "rgba(255,255,255,0.14)",
                   padding: "6px 12px",
                   borderRadius: 999,
                   fontSize: 13,
                   marginBottom: 12
                 }}
               >
-                App comercial Ford Parral
+                Catálogo Ford Parral
               </div>
-              <h1 style={{ margin: 0, fontSize: 42, lineHeight: 1.1 }}>
+              <h1 style={{ margin: 0, fontSize: 42, lineHeight: 1.05 }}>
                 Diego Valenzuela
               </h1>
               <p style={{ marginTop: 8, fontSize: 22, opacity: 0.95 }}>
                 Asesor Ford Parral
               </p>
-              <p style={{ marginTop: 8, opacity: 0.85 }}>
-                Catálogo visual + ficha técnica + captura de prospectos
+              <p style={{ marginTop: 10, opacity: 0.9, maxWidth: 700 }}>
+                Pickups, SUVs y camiones Ford con enfoque comercial, versiones clave para la región
+                y contacto directo por WhatsApp para cotización actualizada.
               </p>
             </div>
 
@@ -267,18 +386,12 @@ export default function Home() {
                 background: "rgba(255,255,255,0.08)",
                 borderRadius: 20,
                 padding: 18,
-                minWidth: 260
+                minWidth: 250
               }}
             >
-              <p style={{ margin: "0 0 8px 0" }}>
-                <b>WhatsApp:</b> 6272850550
-              </p>
-              <p style={{ margin: "0 0 8px 0" }}>
-                <b>Zona:</b> Parral y región
-              </p>
-              <p style={{ margin: 0 }}>
-                <b>Acceso privado:</b> /admin
-              </p>
+              <p style={{ margin: "0 0 8px 0" }}><b>WhatsApp:</b> 6272850550</p>
+              <p style={{ margin: "0 0 8px 0" }}><b>Zona:</b> Parral y región</p>
+              <p style={{ margin: 0 }}><b>Panel privado:</b> /admin</p>
             </div>
           </div>
         </div>
@@ -294,7 +407,7 @@ export default function Home() {
         >
           <h2 style={{ marginTop: 0 }}>Solicitar información</h2>
           <p style={{ color: "#4b5563", marginTop: 0 }}>
-            Deja tus datos y te contacto con la mejor opción.
+            Déjame tus datos y te contacto con opción, promoción y plan disponible al momento.
           </p>
 
           <div
@@ -310,21 +423,18 @@ export default function Home() {
               onChange={(e) => setNombre(e.target.value)}
               style={inputStyle}
             />
-
             <input
               placeholder="Teléfono"
               value={telefono}
               onChange={(e) => setTelefono(e.target.value)}
               style={inputStyle}
             />
-
             <input
               placeholder="Vehículo de interés"
               value={vehiculo}
               onChange={(e) => setVehiculo(e.target.value)}
               style={inputStyle}
             />
-
             <input
               placeholder="Comentario"
               value={comentario}
@@ -339,21 +449,42 @@ export default function Home() {
         </div>
 
         <div style={{ marginBottom: 18 }}>
-          <h2 style={{ marginBottom: 6 }}>Catálogo Ford</h2>
-          <p style={{ margin: 0, color: "#4b5563" }}>
-            Fotos oficiales, precio base y ficha técnica rápida.
+          <h2 style={{ marginBottom: 8 }}>Explora el catálogo</h2>
+          <p style={{ marginTop: 0, color: "#4b5563" }}>
+            Selecciona categoría, revisa ficha rápida y pide cotización por versión.
           </p>
+
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 14 }}>
+            {categorias.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setCategoriaActiva(cat)}
+                style={{
+                  ...chipButton,
+                  background: categoriaActiva === cat ? "#111827" : "#ffffff",
+                  color: categoriaActiva === cat ? "#ffffff" : "#111827",
+                  border: categoriaActiva === cat ? "1px solid #111827" : "1px solid #d1d5db"
+                }}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
             gap: 18
           }}
         >
           {vehicles.map((v) => {
             const expanded = expandedId === v.id;
+            const versionActual = obtenerVersionActual(v);
+
+            const mensaje = `Hola Diego, quiero cotización de ${v.nombre} versión ${versionActual.nombre}. ¿Me apoyas con precio, promoción y opciones de financiamiento?`;
+            const whatsappHref = `https://wa.me/${whatsappBase}?text=${encodeURIComponent(mensaje)}`;
 
             return (
               <div
@@ -367,8 +498,8 @@ export default function Home() {
                 }}
               >
                 <img
-                  src={v.image}
-                  alt={v.name}
+                  src={v.imagen}
+                  alt={v.nombre}
                   style={{
                     width: "100%",
                     height: 220,
@@ -399,66 +530,74 @@ export default function Home() {
                           marginBottom: 10
                         }}
                       >
-                        {v.type}
+                        {v.categoria}
                       </div>
-                      <h3 style={{ margin: "0 0 6px 0", fontSize: 24 }}>
-                        {v.shortName}
-                      </h3>
+                      <h3 style={{ margin: "0 0 6px 0", fontSize: 24 }}>{v.corto}</h3>
                     </div>
 
                     <div style={{ textAlign: "right" }}>
-                      <p style={{ margin: 0, color: "#6b7280", fontSize: 12 }}>
-                        Precio desde
-                      </p>
-                      <p
-                        style={{
-                          margin: 0,
-                          fontSize: 22,
-                          fontWeight: 700,
-                          color: "#111827"
-                        }}
-                      >
-                        {v.price}
-                      </p>
+                      <p style={{ margin: 0, color: "#6b7280", fontSize: 12 }}>Precio base</p>
+                      <p style={{ margin: 0, fontSize: 22, fontWeight: 700 }}>{v.precio}</p>
                     </div>
                   </div>
 
-                  <p style={{ color: "#4b5563", marginTop: 10 }}>{v.tagline}</p>
+                  <p style={{ marginTop: 10, marginBottom: 10, fontWeight: 700 }}>
+                    {v.frase}
+                  </p>
+                  <p style={{ color: "#4b5563", marginTop: 0 }}>{v.gancho}</p>
+
+                  <div style={{ marginTop: 14 }}>
+                    <label style={{ display: "block", fontSize: 13, marginBottom: 6, color: "#374151" }}>
+                      Selecciona versión
+                    </label>
+                    <select
+                      value={versionSeleccionada[v.id] ?? 0}
+                      onChange={(e) =>
+                        setVersionSeleccionada((prev) => ({
+                          ...prev,
+                          [v.id]: Number(e.target.value)
+                        }))
+                      }
+                      style={selectStyle}
+                    >
+                      {v.versiones.map((ver, idx) => (
+                        <option key={ver.nombre} value={idx}>
+                          {ver.nombre} — {ver.precio}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
                   <div
                     style={{
-                      display: "flex",
-                      gap: 10,
-                      flexWrap: "wrap",
-                      marginTop: 14
+                      marginTop: 14,
+                      padding: 12,
+                      background: "#f9fafb",
+                      borderRadius: 14,
+                      border: "1px solid #e5e7eb"
                     }}
                   >
+                    <p style={{ margin: "0 0 6px 0", fontSize: 13, color: "#6b7280" }}>
+                      Versión seleccionada
+                    </p>
+                    <p style={{ margin: "0 0 4px 0", fontWeight: 700 }}>{versionActual.nombre}</p>
+                    <p style={{ margin: 0, color: "#111827" }}>{versionActual.precio}</p>
+                  </div>
+
+                  <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 14 }}>
                     <button
-                      onClick={() =>
-                        setExpandedId(expanded ? null : v.id)
-                      }
+                      onClick={() => setExpandedId(expanded ? null : v.id)}
                       style={secondaryButton}
                     >
                       {expanded ? "Ocultar ficha" : "Ver ficha técnica"}
                     </button>
 
                     <a
-                      href={`https://wa.me/526272850550?text=Hola me interesa ${encodeURIComponent(
-                        v.name
-                      )}`}
-                      onClick={() => handleWhatsAppClick(v.name)}
-                      style={linkButton}
+                      href={whatsappHref}
+                      onClick={() => handleWhatsAppClick(v.nombre, versionActual.nombre)}
+                      style={whatsButton}
                     >
-                      WhatsApp
-                    </a>
-
-                    <a
-                      href={v.officialUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      style={ghostLink}
-                    >
-                      Sitio oficial
+                      Pedir cotización
                     </a>
                   </div>
 
@@ -472,19 +611,9 @@ export default function Home() {
                         border: "1px solid #e5e7eb"
                       }}
                     >
-                      <h4 style={{ marginTop: 0, marginBottom: 10 }}>
-                        Ficha técnica rápida
-                      </h4>
-
-                      <ul
-                        style={{
-                          margin: 0,
-                          paddingLeft: 18,
-                          color: "#374151",
-                          lineHeight: 1.7
-                        }}
-                      >
-                        {v.specs.map((item, idx) => (
+                      <h4 style={{ marginTop: 0, marginBottom: 10 }}>Ficha técnica rápida</h4>
+                      <ul style={{ margin: 0, paddingLeft: 18, color: "#374151", lineHeight: 1.7 }}>
+                        {v.ficha.map((item, idx) => (
                           <li key={idx}>{item}</li>
                         ))}
                       </ul>
@@ -510,6 +639,17 @@ const inputStyle = {
   boxSizing: "border-box"
 };
 
+const selectStyle = {
+  width: "100%",
+  padding: "12px 14px",
+  borderRadius: 12,
+  border: "1px solid #d1d5db",
+  fontSize: 14,
+  outline: "none",
+  background: "#fff",
+  boxSizing: "border-box"
+};
+
 const primaryButton = {
   marginTop: 16,
   background: "#111827",
@@ -528,11 +668,10 @@ const secondaryButton = {
   borderRadius: 10,
   padding: "10px 14px",
   fontSize: 14,
-  cursor: "pointer",
-  textDecoration: "none"
+  cursor: "pointer"
 };
 
-const linkButton = {
+const whatsButton = {
   background: "#16a34a",
   color: "white",
   borderRadius: 10,
@@ -542,12 +681,9 @@ const linkButton = {
   display: "inline-block"
 };
 
-const ghostLink = {
-  background: "#f3f4f6",
-  color: "#111827",
-  borderRadius: 10,
+const chipButton = {
   padding: "10px 14px",
+  borderRadius: 999,
   fontSize: 14,
-  textDecoration: "none",
-  display: "inline-block"
+  cursor: "pointer"
 };
