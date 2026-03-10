@@ -1,6 +1,28 @@
 
 import { useState } from "react";
+import { createClient } from "@supabase/supabase-js"
 
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
+);
+async function guardarProspecto(nombre, telefono, vehiculo) {
+  const { data, error } = await supabase
+    .from("prospectos")
+    .insert([
+      {
+        nombre: nombre,
+        telefono: telefono,
+        vehiculo: vehiculo
+      }
+    ])
+
+  if (error) {
+    console.log("Error guardando prospecto:", error)
+  } else {
+    console.log("Prospecto guardado:", data)
+  }
+}
 const vehiclesBase = [
  { id:1, name:"Ford Territory", price:"$599,000", type:"SUV"},
  { id:2, name:"Ford Ranger", price:"$763,500", type:"Pickup"},
@@ -43,9 +65,12 @@ export default function Home(){
          )}
 
          <br/>
-         <a href={`https://wa.me/526272850550?text=Hola me interesa ${v.name}`}>
-           Contactar por WhatsApp
-         </a>
+    <a
+  href={`https://wa.me/526272850550?text=Hola me interesa ${v.name}`}
+  onClick={() => guardarProspecto("Cliente Web", "Pendiente", v.name)}
+>
+  Contactar por WhatsApp
+</a>
        </div>
      ))}
    </div>
