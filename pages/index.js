@@ -7,7 +7,6 @@ const supabase = createClient(
 );
 
 const whatsappBase = process.env.NEXT_PUBLIC_WHATSAPP || "526272850550";
-const asesorFoto = "/diego-asesor.jpg";
 
 const catalogo = [
   {
@@ -16,10 +15,10 @@ const catalogo = [
     nombre: "Ford Territory 2026",
     corto: "Territory",
     precioBase: "$559,900",
-    imagen:
-      "https://www.ford.mx/content/dam/Ford/website-assets/latam/mx/nameplate/territory/2026/colorizer/v1/colorizer/gris-piedra/ford-territory-2026-camioneta-suv-tecnologica-color-gris-piedra.jpg.dam.full.high.jpg/1756926697802.jpg",
+    imagen: "/territory.jpg",
     frase: "La SUV que proyecta seguridad, tecnología y presencia desde la primera vista.",
     gancho: "Más espacio, mejor imagen y tecnología que sí se nota.",
+    etiqueta: "Ideal para familia",
     ficha: [
       "Motor 1.8L Turbo EcoBoost I4",
       "187 HP",
@@ -41,10 +40,10 @@ const catalogo = [
     nombre: "Ford Ranger 2026",
     corto: "Ranger",
     precioBase: "$763,500",
-    imagen:
-      "https://www.ford.mx/content/dam/Ford/website-assets/latam/mx/nameplate/ranger/2026/models/ford-ranger-xl-2026-camioneta-pickup-4x2-versiones-precios-equipo.jpg",
+    imagen: "/ranger.jpg",
     frase: "La pickup que trabaja duro entre semana y luce fuerte todos los días.",
     gancho: "Potencia, versatilidad y presencia para campo, ciudad y negocio.",
+    etiqueta: "Muy vendida",
     ficha: [
       "Motor 2.3L EcoBoost gasolina disponible",
       "270 HP en gasolina",
@@ -65,10 +64,10 @@ const catalogo = [
     nombre: "Ford Ranger Raptor 2026",
     corto: "Ranger Raptor",
     precioBase: "$1,313,500",
-    imagen:
-      "https://www.ford.mx/content/ford/mx/es_mx/ranger-raptor-2026-content/media-carousels/overview-features/jcr%3Acontent/par/mediacarouselitem/image.imgs.full.high.jpg/1758827332055.jpg",
+    imagen: "/raptor.jpg",
     frase: "No es solo una pickup, es una declaración de poder y presencia.",
     gancho: "Impacta, acelera y domina cualquier terreno con imagen brutal.",
+    etiqueta: "Imagen agresiva",
     ficha: [
       "Motor 3.0L V6 Twin Turbo",
       "392 HP",
@@ -85,10 +84,10 @@ const catalogo = [
     nombre: "Ford Maverick 2025",
     corto: "Maverick",
     precioBase: "$737,100",
-    imagen:
-      "https://www.ford.mx/content/dam/Ford/website-assets/latam/mx/nameplate/maverick/2025/models/ford-maverick-2025-camioneta-pickup-versiones-precios-equipo-xlt.jpg",
+    imagen: "/maverick.jpg",
     frase: "La pickup inteligente para emprender, moverte diario y vender mejor tu imagen.",
     gancho: "Compacta por fuera, muy útil por dentro y con perfil ganador.",
+    etiqueta: "Excelente para ciudad",
     ficha: [
       "Versiones gasolina e híbrida",
       "191 HP combinados en híbrida",
@@ -108,10 +107,10 @@ const catalogo = [
     nombre: "Ford Bronco Sport 2026",
     corto: "Bronco Sport",
     precioBase: "$773,500",
-    imagen:
-      "https://www.ford.mx/content/dam/Ford/website-assets/latam/mx/nameplate/bronco-sport/2026/models/ford-bronco-sport-2026-suv-todoterreno-offroad-version-big-bend.jpg",
+    imagen: "/bronco.jpg",
     frase: "Diseñada para quien no quiere pasar desapercibido ni en ciudad ni en aventura.",
     gancho: "Aventura, estilo y carácter en una sola SUV.",
+    etiqueta: "Estilo aventurero",
     ficha: [
       "Motor 1.5L EcoBoost",
       "181 HP",
@@ -132,10 +131,10 @@ const catalogo = [
     nombre: "Ford Mustang 2026",
     corto: "Mustang",
     precioBase: "$951,500",
-    imagen:
-      "https://www.ford.mx/content/ford/mx/es_mx/mustang-content/2026/media-carousel/version/jcr%3Acontent/par/mediacarouselitem/image.imgs.full.high.jpg/1760544961974.jpg",
+    imagen: "/mustang.jpg",
     frase: "No todos compran un auto; algunos compran una forma de destacar.",
     gancho: "Pasión, sonido y presencia que cierran miradas desde el primer segundo.",
+    etiqueta: "Aspiracional",
     ficha: [
       "Motor 2.3L EcoBoost",
       "315 HP",
@@ -156,10 +155,10 @@ const catalogo = [
     nombre: "Ford F-150 2025",
     corto: "F-150",
     precioBase: "$1,008,100",
-    imagen:
-      "https://www.ford.mx/content/dam/Ford/website-assets/latam/mx/nameplate/f150/2025/versions/f150-xl-regular-cab-v6-4x2-8-box.jpg",
+    imagen: "/f150.jpg",
     frase: "Cuando el trabajo exige resultados, F-150 responde con fuerza real.",
     gancho: "Capacidad, imagen y respaldo para quien no puede darse el lujo de fallar.",
+    etiqueta: "Trabajo pesado",
     ficha: [
       "Motor 2.7L V6 disponible",
       "325 HP",
@@ -186,10 +185,10 @@ const catalogo = [
     nombre: "Ford Lobo 2025",
     corto: "Lobo",
     precioBase: "$1,417,100",
-    imagen:
-      "https://www.ford.mx/content/dam/Ford/website-assets/latam/mx/nameplate/lobo/2025/models/ford-lobo-2025-pickup-4x4-versiones-precios-equipo-lariat.jpg",
+    imagen: "/lobo.jpg",
     frase: "Una pickup premium que impone respeto antes de arrancar.",
     gancho: "Lujo, capacidad y estatus en una sola unidad.",
+    etiqueta: "Premium",
     ficha: [
       "Pickup 4x4 premium",
       "Versiones orientadas a lujo, trabajo y aventura",
@@ -211,10 +210,10 @@ const catalogo = [
     nombre: "Ford Super Duty F-250 2026",
     corto: "F-250",
     precioBase: "$1,560,800",
-    imagen:
-      "https://www.ford.mx/content/dam/Ford/website-assets/latam/mx/nameplate/f250/2026/models/ford-super-duty-f250-2026-pickup-xlt-versiones-precios-equipo.jpg",
+    imagen: "/f250.jpg",
     frase: "Si el trabajo es pesado, necesitas una unidad que lo soporte de verdad.",
     gancho: "Capacidad bruta, presencia fuerte y respaldo para jale serio.",
+    etiqueta: "Muy fuerte",
     ficha: [
       "Motor 6.7L V8 Diésel",
       "500 HP",
@@ -235,10 +234,10 @@ const catalogo = [
     nombre: "Ford Super Duty F-350 2026",
     corto: "F-350",
     precioBase: "$1,081,600",
-    imagen:
-      "https://www.ford.mx/content/dam/Ford/website-assets/latam/mx/nameplate/super-duty-chasis/2026/models/ford-super-duty-chasis-2026-camion-de-trabajo-version-f350-xl-gasolina.jpg",
+    imagen: "/f350.jpg",
     frase: "Para carrozar, cargar y producir: una base de trabajo que sí deja dinero.",
     gancho: "El aliado ideal para negocio, carga y trabajo rudo en la región.",
+    etiqueta: "Negocio y carga",
     ficha: [
       "Base ideal para carrozado",
       "Pensada para trabajo pesado",
@@ -285,8 +284,7 @@ function ImagenVehiculo({ src, alt }) {
         width: "100%",
         height: 240,
         objectFit: "cover",
-        display: "block",
-        background: "#e5e7eb"
+        display: "block"
       }}
     />
   );
@@ -318,7 +316,7 @@ function FotoAsesor() {
 
   return (
     <img
-      src={asesorFoto}
+      src="/diego-asesor.jpg"
       alt="Diego Valenzuela"
       onError={() => setError(true)}
       style={{
@@ -339,6 +337,7 @@ export default function Home() {
   const [vehiculo, setVehiculo] = useState("");
   const [comentario, setComentario] = useState("");
   const [categoriaActiva, setCategoriaActiva] = useState("Todos");
+  const [busqueda, setBusqueda] = useState("");
   const [expandedId, setExpandedId] = useState(null);
   const [versionSeleccionada, setVersionSeleccionada] = useState({});
 
@@ -348,9 +347,18 @@ export default function Home() {
   );
 
   const vehicles = useMemo(() => {
-    if (categoriaActiva === "Todos") return catalogo;
-    return catalogo.filter((v) => v.categoria === categoriaActiva);
-  }, [categoriaActiva]);
+    return catalogo.filter((v) => {
+      const coincideCategoria =
+        categoriaActiva === "Todos" || v.categoria === categoriaActiva;
+
+      const texto = `${v.nombre} ${v.corto} ${v.categoria} ${v.frase} ${v.gancho}`
+        .toLowerCase();
+
+      const coincideBusqueda = texto.includes(busqueda.toLowerCase());
+
+      return coincideCategoria && coincideBusqueda;
+    });
+  }, [categoriaActiva, busqueda]);
 
   async function guardarProspecto({
     nombre,
@@ -432,23 +440,11 @@ export default function Home() {
             borderRadius: 32,
             padding: 28,
             marginBottom: 26,
-            color: "white",
-            overflow: "hidden",
-            position: "relative"
+            color: "white"
           }}
         >
           <div
             style={{
-              position: "absolute",
-              inset: 0,
-              background:
-                "radial-gradient(circle at top right, rgba(59,130,246,0.18), transparent 30%)"
-            }}
-          />
-
-          <div
-            style={{
-              position: "relative",
               display: "grid",
               gridTemplateColumns: "1.2fr 0.8fr",
               gap: 26,
@@ -469,14 +465,7 @@ export default function Home() {
                 Catálogo Ford Parral
               </div>
 
-              <h1
-                style={{
-                  margin: 0,
-                  fontSize: 52,
-                  lineHeight: 1.02,
-                  letterSpacing: "-0.02em"
-                }}
-              >
+              <h1 style={{ margin: 0, fontSize: 52, lineHeight: 1.02 }}>
                 Diego Valenzuela
               </h1>
 
@@ -583,7 +572,16 @@ export default function Home() {
             Selecciona categoría, revisa ficha técnica y pide cotización por versión.
           </p>
 
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 16 }}>
+          <div style={{ marginTop: 16, marginBottom: 16 }}>
+            <input
+              placeholder="Buscar vehículo, categoría o tipo..."
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
+              style={inputStyle}
+            />
+          </div>
+
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 8 }}>
             {categorias.map((cat) => (
               <button
                 key={cat}
@@ -661,9 +659,24 @@ export default function Home() {
                     </div>
                   </div>
 
+                  <div
+                    style={{
+                      display: "inline-block",
+                      marginTop: 8,
+                      background: "#dcfce7",
+                      color: "#166534",
+                      padding: "6px 10px",
+                      borderRadius: 999,
+                      fontSize: 12,
+                      fontWeight: 700
+                    }}
+                  >
+                    {v.etiqueta}
+                  </div>
+
                   <p
                     style={{
-                      margin: "10px 0 10px 0",
+                      margin: "12px 0 10px 0",
                       fontSize: 20,
                       fontWeight: 800,
                       lineHeight: 1.3
@@ -764,6 +777,15 @@ export default function Home() {
           })}
         </section>
       </div>
+
+      <a
+        href={`https://wa.me/${whatsappBase}?text=${encodeURIComponent(
+          "Hola Diego, quiero información sobre un vehículo Ford."
+        )}`}
+        style={floatingWhatsapp}
+      >
+        WhatsApp
+      </a>
     </div>
   );
 }
@@ -849,4 +871,18 @@ const typeBadge = {
   color: "#1d4ed8",
   fontSize: 12,
   fontWeight: 700
+};
+
+const floatingWhatsapp = {
+  position: "fixed",
+  right: 20,
+  bottom: 20,
+  background: "#16a34a",
+  color: "white",
+  padding: "14px 18px",
+  borderRadius: 999,
+  textDecoration: "none",
+  fontWeight: 700,
+  boxShadow: "0 12px 24px rgba(0,0,0,0.18)",
+  zIndex: 1000
 };
