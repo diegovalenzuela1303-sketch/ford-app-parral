@@ -47,22 +47,23 @@ export default function Home() {
   }
 
   async function enviarFormulario() {
-    if (!nombre || !telefono) {
-      alert("Por favor llena nombre y teléfono");
-      return;
-    }
+  if (!nombre || !telefono) {
+    alert("Por favor llena nombre y teléfono");
+    return;
+  }
 
-    const { error } = await supabase
-      .from("prospectos")
-      .insert([
-        {
-          nombre: nombre,
-          telefono: telefono,
-          vehiculo: vehiculo,
-          comentario: comentario,
-          origen: "formulario"
-        }
-      ]);
+  await guardarProspecto(
+    nombre,
+    telefono,
+    vehiculo || "Vehículo no especificado"
+  );
+
+  alert("Solicitud enviada. Te contactaremos pronto.");
+  setNombre("");
+  setTelefono("");
+  setVehiculo("");
+  setComentario("");
+}
 
     if (error) {
       console.log(error);
