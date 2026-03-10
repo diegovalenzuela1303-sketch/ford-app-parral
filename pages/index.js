@@ -6,24 +6,6 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
 );
 
-async function guardarProspecto(nombre, telefono, vehiculo) {
-  const { data, error } = await supabase
-    .from("prospectos")
-    .insert([
-      {
-        nombre: nombre,
-        telefono: telefono,
-        vehiculo: vehiculo
-      }
-    ]);
-
-  if (error) {
-    console.log("Error guardando prospecto:", error);
-  } else {
-    console.log("Prospecto guardado:", data);
-  }
-}
-
 const vehiclesBase = [
   { id: 1, name: "Ford Territory", price: "$599,000", type: "SUV" },
   { id: 2, name: "Ford Ranger", price: "$763,500", type: "Pickup" },
@@ -43,38 +25,69 @@ export default function Home() {
   const [comentario, setComentario] = useState("");
 
   function updatePrice(id, value) {
-    setVehicles((v) => v.map((i) => (i.id === id ? { ...i, price: value } : i)));
+    setVehicles((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, price: value } : item))
+    );
+  }
+
+  async function guardarProspecto({
+    nombre,
+    telefono,
+    vehiculo,
+    comentario = "",
+    origen = "web"
+  }) {
+    const payload = {
+      nombre: nombre || "Cliente Web",
+      telefono: telefono || "Pendiente",
+      vehiculo: vehiculo || "Vehículo no especificado",
+      comentario: comentario || "",
+      origen: origen
+    };
+
+    const { data, error } = await supabase.from("prospectos").insert([payload]);
+
+    if (error) {
+      console.error("Error guardando prospecto:", error);
+      alert("No se pudo guardar el prospecto");
+      return false;
+    }
+
+    console.log("Prospecto guardado:", data);
+    return true;
   }
 
   async function enviarFormulario() {
-  if (!nombre || !telefono) {
-    alert("Por favor llena nombre y teléfono");
-    return;
-  }
+    if (!nombre || !telefono) {
+      alert("Por favor llena nombre y teléfono");
+      return;
+    }
 
-  await guardarProspecto(
-    nombre,
-    telefono,
-    vehiculo || "Vehículo no especificado"
-  );
+    const ok = await guardarProspecto({
+      nombre,
+      telefono,
+      vehiculo,
+      comentario,
+      origen: "formulario"
+    });
 
-  alert("Solicitud enviada. Te contactaremos pronto.");
-  setNombre("");
-  setTelefono("");
-  setVehiculo("");
-  setComentario("");
-}
-
-    if (error) {
-      console.log(error);
-      alert("Error guardando prospecto");
-    } else {
+    if (ok) {
       alert("Solicitud enviada. Te contactaremos pronto.");
       setNombre("");
       setTelefono("");
       setVehiculo("");
       setComentario("");
     }
+  }
+
+  async function handleWhatsAppClick(vehicleName) {
+    await guardarProspecto({
+      nombre: "Cliente Web",
+      telefono: "Pendiente",
+      vehiculo: vehicleName,
+      comentario: "",
+      origen: "whatsapp"
+    });
   }
 
   return (
@@ -86,47 +99,39 @@ export default function Home() {
         {admin ? "Salir Admin" : "Modo Admin"}
       </button>
 
-      <h2>Solicitar información</h2>
+      <h2 style={{ marginTop: 30 }}>Solicitar información</h2>
 
       <input
         placeholder="Nombre"
         value={nombre}
         onChange={(e) => setNombre(e.target.value)}
+        style={{ display: "block", marginBottom: 12, width: 260, padding: 8 }}
       />
-
-      <br /><br />
 
       <input
         placeholder="Teléfono"
         value={telefono}
         onChange={(e) => setTelefono(e.target.value)}
+        style={{ display: "block", marginBottom: 12, width: 260, padding: 8 }}
       />
-
-      <br /><br />
 
       <input
         placeholder="Vehículo de interés"
         value={vehiculo}
         onChange={(e) => setVehiculo(e.target.value)}
+        style={{ display: "block", marginBottom: 12, width: 260, padding: 8 }}
       />
-
-      <br /><br />
 
       <textarea
         placeholder="Comentario"
         value={comentario}
         onChange={(e) => setComentario(e.target.value)}
+        style={{ display: "block", marginBottom: 12, width: 260, padding: 8, minHeight: 70 }}
       />
 
-      <br /><br />
+      <button onClick={enviarFormulario}>Enviar solicitud</button>
 
-      <button onClick={enviarFormulario}>
-        Enviar solicitud
-      </button>
-
-      <br /><br />
-
-      <h2>Catálogo Ford</h2>
+      <h2 style={{ marginTop: 40 }}>Catálogo Ford</h2>
 
       {vehicles.map((v) => (
         <div
@@ -141,14 +146,15 @@ export default function Home() {
             <input
               value={v.price}
               onChange={(e) => updatePrice(v.id, e.target.value)}
+              style={{ display: "block", marginBottom: 12, padding: 6 }}
             />
           )}
 
-          <br />
-
           <a
-            href={`https://wa.me/526272850550?text=Hola me interesa ${v.name}`}
-            onClick={() => guardarProspecto("Cliente Web", "Pendiente", v.name)}
+            href={`https://wa.me/526272850550?text=Hola me interesa ${encodeURIComponent(
+              v.name
+            )}`}
+            onClick={() => handleWhatsAppClick(v.name)}
           >
             Contactar por WhatsApp
           </a>
@@ -156,5 +162,4 @@ export default function Home() {
       ))}
     </div>
   );
-}
 }
