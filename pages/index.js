@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
-const NEGOCIO = {
+const NEGOCIO_BASE = {
   asesorNombre: "Diego Valenzuela",
   telefono: "6272850550",
   ciudad: "Hidalgo del Parral, Chihuahua",
@@ -10,7 +10,7 @@ const NEGOCIO = {
     "Explora pickups, SUVs, vans y versiones especiales Ford. Cada unidad cuenta con enfoque comercial, versiones y ficha técnica para ayudarte a generar más confianza y más cierres desde WhatsApp.",
 };
 
-const CATALOGO = [
+const CATALOGO_BASE = [
   {
     id: "maverick-2025",
     nombre: "Ford Maverick 2025",
@@ -909,1166 +909,509 @@ const CATALOGO = [
   },
 ];
 
-function formatearWhatsApp(numero, texto) {
-  const limpio = String(numero).replace(/\D/g, "");
-  return `https://wa.me/52${limpio}?text=${encodeURIComponent(texto)}`;
+function cargarNegocio() {
+  if (typeof window === "undefined") return NEGOCIO_BASE;
+  try {
+    const guardado = localStorage.getItem("fordAppNegocio");
+    return guardado ? JSON.parse(guardado) : NEGOCIO_BASE;
+  } catch {
+    return NEGOCIO_BASE;
+  }
 }
 
-function formatearLlamada(numero) {
-  return `tel:+52${String(numero).replace(/\D/g, "")}`;
+function cargarCatalogo() {
+  if (typeof window === "undefined") return CATALOGO_BASE;
+  try {
+    const guardado = localStorage.getItem("fordAppCatalogo");
+    return guardado ? JSON.parse(guardado) : CATALOGO_BASE;
+  } catch {
+    return CATALOGO_BASE;
+  }
 }
 
-function crearPlaceholder(nombre) {
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800">
-      <defs>
-        <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
-          <stop offset="0%" stop-color="#0b1b31"/>
-          <stop offset="100%" stop-color="#1570ef"/>
-        </linearGradient>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#g)"/>
-      <circle cx="980" cy="130" r="180" fill="rgba(255,255,255,0.08)"/>
-      <circle cx="180" cy="650" r="220" fill="rgba(255,255,255,0.06)"/>
-      <text x="70" y="330" fill="#ffffff" font-size="66" font-family="Arial, Helvetica, sans-serif" font-weight="700">
-        ${nombre}
-      </text>
-      <text x="70" y="410" fill="#cfe3ff" font-size="30" font-family="Arial, Helvetica, sans-serif">
-        Imagen pendiente por cargar
-      </text>
-      <text x="70" y="470" fill="#cfe3ff" font-size="24" font-family="Arial, Helvetica, sans-serif">
-        Ford App Parral - Diego Valenzuela
-      </text>
-    </svg>
-  `;
-  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
-}
-
-function ImagenVehiculo({ src, alt }) {
-  const [error, setError] = useState(false);
-
-  return (
-    <img
-      src={error ? crearPlaceholder(alt) : src}
-      alt={alt}
-      onError={() => setError(true)}
-    />
-  );
-}
-
-export default function Home() {
-  const [categoria, setCategoria] = useState("Todos");
+export default function Admin() {
+  const [negocio, setNegocio] = useState(NEGOCIO_BASE);
+  const [catalogo, setCatalogo] = useState(CATALOGO_BASE);
+  const [mensaje, setMensaje] = useState("");
   const [busqueda, setBusqueda] = useState("");
-  const [fichaAbierta, setFichaAbierta] = useState({});
 
-  const categorias = useMemo(() => {
-    return ["Todos", ...Array.from(new Set(CATALOGO.map((item) => item.categoria)))];
+  useEffect(() => {
+    setNegocio(cargarNegocio());
+    setCatalogo(cargarCatalogo());
   }, []);
 
-  const resultados = useMemo(() => {
-    return CATALOGO.filter((item) => {
-      const coincideCategoria =
-        categoria === "Todos" ? true : item.categoria === categoria;
-
-      const texto = `
-        ${item.nombre}
-        ${item.categoria}
-        ${item.descripcion}
-        ${item.dialogo}
-        ${item.versiones.join(" ")}
-        ${item.caracteristicas.join(" ")}
-        ${item.fichaTecnica.map((f) => `${f.etiqueta} ${f.valor}`).join(" ")}
-      `.toLowerCase();
-
-      const coincideBusqueda = texto.includes(busqueda.toLowerCase());
-
-      return coincideCategoria && coincideBusqueda;
-    });
-  }, [categoria, busqueda]);
-
-  const linkWhatsappGeneral = formatearWhatsApp(
-    NEGOCIO.telefono,
-    `Hola ${NEGOCIO.asesorNombre}, vi tu catálogo Ford y quiero información sobre una unidad.`
-  );
-
-  const linkLlamada = formatearLlamada(NEGOCIO.telefono);
-
-  const toggleFicha = (id) => {
-    setFichaAbierta((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
+  const mostrarMensaje = (texto) => {
+    setMensaje(texto);
+    setTimeout(() => setMensaje(""), 2500);
   };
+
+  const guardarTodo = () => {
+    localStorage.setItem("fordAppNegocio", JSON.stringify(negocio));
+    localStorage.setItem("fordAppCatalogo", JSON.stringify(catalogo));
+    mostrarMensaje("Cambios guardados correctamente.");
+  };
+
+  const restablecerTodo = () => {
+    localStorage.removeItem("fordAppNegocio");
+    localStorage.removeItem("fordAppCatalogo");
+    setNegocio(NEGOCIO_BASE);
+    setCatalogo(CATALOGO_BASE);
+    mostrarMensaje("Datos restablecidos.");
+  };
+
+  const actualizarVehiculo = (id, campo, valor) => {
+    setCatalogo((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, [campo]: valor } : item))
+    );
+  };
+
+  const actualizarVersion = (id, index, valor) => {
+    setCatalogo((prev) =>
+      prev.map((item) => {
+        if (item.id !== id) return item;
+        const nuevas = [...(item.versiones || [])];
+        nuevas[index] = valor;
+        return { ...item, versiones: nuevas };
+      })
+    );
+  };
+
+  const actualizarCaracteristica = (id, index, valor) => {
+    setCatalogo((prev) =>
+      prev.map((item) => {
+        if (item.id !== id) return item;
+        const nuevas = [...(item.caracteristicas || [])];
+        nuevas[index] = valor;
+        return { ...item, caracteristicas: nuevas };
+      })
+    );
+  };
+
+  const actualizarFicha = (id, index, campo, valor) => {
+    setCatalogo((prev) =>
+      prev.map((item) => {
+        if (item.id !== id) return item;
+        const nuevaFicha = [...(item.fichaTecnica || [])];
+        nuevaFicha[index] = {
+          ...nuevaFicha[index],
+          [campo]: valor,
+        };
+        return { ...item, fichaTecnica: nuevaFicha };
+      })
+    );
+  };
+
+  const resultados = catalogo.filter((item) => {
+    const texto = `
+      ${item.nombre}
+      ${item.categoria}
+      ${item.precio}
+      ${item.descripcion}
+      ${item.dialogo}
+    `.toLowerCase();
+
+    return texto.includes(busqueda.toLowerCase());
+  });
 
   return (
     <>
-      <div className="app">
-        <header className="topbar">
-          <div className="container topbarInner">
-            <div className="brand">
-              <div className="logo">F</div>
-              <div>
-                <p className="brandMini">Ford App Parral</p>
-                <h1>{NEGOCIO.asesorNombre}</h1>
-              </div>
+      <div className="adminPage">
+        <div className="container">
+          <div className="topbar">
+            <div>
+              <p className="mini">Panel administrativo</p>
+              <h1>Admin Ford App Parral</h1>
+              <p className="sub">
+                Aquí puedes editar el contenido del sitio antes de pasar a la seguridad.
+              </p>
             </div>
 
-            <nav className="nav">
-              <a href="#catalogo">Catálogo</a>
-              <a href="#asesor">Asesor</a>
-              <a href="#contacto">Contacto</a>
-              <a href="/admin" className="adminLink">
-                Admin
-              </a>
-            </nav>
-          </div>
-        </header>
-
-        <section className="hero">
-          <div className="container heroGrid">
-            <div className="heroText">
-              <span className="eyebrow">Catálogo Ford profesional</span>
-              <h2>{NEGOCIO.heroTitulo}</h2>
-              <p>{NEGOCIO.heroTexto}</p>
-
-              <div className="heroButtons">
-                <a
-                  href={linkWhatsappGeneral}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btnPrimary"
-                >
-                  Cotizar por WhatsApp
-                </a>
-
-                <a href={linkLlamada} className="btnSecondary">
-                  Llamar ahora
-                </a>
-              </div>
-
-              <div className="statsInline">
-                <div>
-                  <strong>{CATALOGO.length}</strong>
-                  <span>Unidades / versiones destacadas</span>
-                </div>
-                <div>
-                  <strong>{categorias.length - 1}</strong>
-                  <span>Categorías</span>
-                </div>
-                <div>
-                  <strong>1 a 1</strong>
-                  <span>Atención directa</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="heroCard">
-              <div className="heroImageWrap">
-                <img src="/diego-asesor.jpg" alt={NEGOCIO.asesorNombre} />
-              </div>
-
-              <div className="heroCardInfo">
-                <p className="miniLabel">Asesor</p>
-                <h3>{NEGOCIO.asesorNombre}</h3>
-                <p>{NEGOCIO.slogan}</p>
-                <p>{NEGOCIO.ciudad}</p>
-
-                <div className="heroCtas">
-                  <a
-                    href={linkWhatsappGeneral}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="btnPrimary full"
-                  >
-                    Hablar por WhatsApp
-                  </a>
-                  <a href={linkLlamada} className="btnSecondary full">
-                    Llamar
-                  </a>
-                </div>
-              </div>
+            <div className="accionesTop">
+              <a href="/" className="btnSecondary">Ver sitio</a>
+              <button onClick={guardarTodo} className="btnPrimary">Guardar cambios</button>
             </div>
           </div>
-        </section>
 
-        <section className="filtrosSection" id="catalogo">
-          <div className="container">
-            <div className="sectionHead">
-              <div>
-                <span className="eyebrow">Inventario comercial</span>
-                <h2>Catálogo completo de unidades Ford</h2>
-                <p>
-                  Busca por nombre, versión o tipo de unidad. Cada tarjeta incluye
-                  diálogo comercial, versiones y ficha técnica para dar más seguridad
-                  al cliente.
-                </p>
+          {mensaje ? <div className="alerta">{mensaje}</div> : null}
+
+          <section className="panel">
+            <h2>Datos del asesor</h2>
+            <div className="grid2">
+              <div className="campo">
+                <label>Nombre</label>
+                <input value={negocio.asesorNombre} onChange={(e) => setNegocio({ ...negocio, asesorNombre: e.target.value })} />
+              </div>
+
+              <div className="campo">
+                <label>Teléfono</label>
+                <input value={negocio.telefono} onChange={(e) => setNegocio({ ...negocio, telefono: e.target.value })} />
+              </div>
+
+              <div className="campo">
+                <label>Ciudad</label>
+                <input value={negocio.ciudad} onChange={(e) => setNegocio({ ...negocio, ciudad: e.target.value })} />
+              </div>
+
+              <div className="campo">
+                <label>Slogan</label>
+                <input value={negocio.slogan} onChange={(e) => setNegocio({ ...negocio, slogan: e.target.value })} />
+              </div>
+
+              <div className="campo full">
+                <label>Título principal</label>
+                <input value={negocio.heroTitulo} onChange={(e) => setNegocio({ ...negocio, heroTitulo: e.target.value })} />
+              </div>
+
+              <div className="campo full">
+                <label>Texto principal</label>
+                <textarea rows="4" value={negocio.heroTexto} onChange={(e) => setNegocio({ ...negocio, heroTexto: e.target.value })} />
               </div>
             </div>
+          </section>
 
-            <div className="toolsBar">
-              <input
-                type="text"
-                placeholder="Buscar unidad, versión, categoría o ficha técnica..."
-                value={busqueda}
-                onChange={(e) => setBusqueda(e.target.value)}
-                className="searchInput"
-              />
-
-              <div className="filtros">
-                {categorias.map((item) => (
-                  <button
-                    key={item}
-                    onClick={() => setCategoria(item)}
-                    className={categoria === item ? "filtro active" : "filtro"}
-                  >
-                    {item}
-                  </button>
-                ))}
-              </div>
+          <section className="panel">
+            <div className="panelHead">
+              <h2>Unidades</h2>
+              <button onClick={restablecerTodo} className="btnDanger">Restablecer todo</button>
             </div>
 
-            <div className="catalogSummary">
-              Mostrando <strong>{resultados.length}</strong> unidades
-            </div>
+            <input
+              className="searchInput"
+              type="text"
+              placeholder="Buscar unidad para editar..."
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
+            />
 
-            <div className="gridVehiculos">
-              {resultados.map((vehiculo) => {
-                const linkUnidad = formatearWhatsApp(
-                  NEGOCIO.telefono,
-                  vehiculo.whatsappTexto
-                );
+            <div className="cardsAdmin">
+              {resultados.map((vehiculo) => (
+                <div className="vehiculoAdmin" key={vehiculo.id}>
+                  <div className="preview">
+                    <img src={vehiculo.imagen} alt={vehiculo.nombre} />
+                  </div>
 
-                const abierta = !!fichaAbierta[vehiculo.id];
+                  <div className="formVehiculo">
+                    <div className="grid2">
+                      <div className="campo">
+                        <label>Nombre</label>
+                        <input value={vehiculo.nombre} onChange={(e) => actualizarVehiculo(vehiculo.id, "nombre", e.target.value)} />
+                      </div>
 
-                return (
-                  <article key={vehiculo.id} className="cardVehiculo">
-                    <div className="imgWrap">
-                      <ImagenVehiculo src={vehiculo.imagen} alt={vehiculo.nombre} />
-                      <span className="badge">{vehiculo.badge}</span>
+                      <div className="campo">
+                        <label>Categoría</label>
+                        <input value={vehiculo.categoria} onChange={(e) => actualizarVehiculo(vehiculo.id, "categoria", e.target.value)} />
+                      </div>
+
+                      <div className="campo">
+                        <label>Precio</label>
+                        <input value={vehiculo.precio} onChange={(e) => actualizarVehiculo(vehiculo.id, "precio", e.target.value)} />
+                      </div>
+
+                      <div className="campo">
+                        <label>Badge</label>
+                        <input value={vehiculo.badge} onChange={(e) => actualizarVehiculo(vehiculo.id, "badge", e.target.value)} />
+                      </div>
+
+                      <div className="campo full">
+                        <label>Ruta de imagen</label>
+                        <input value={vehiculo.imagen} onChange={(e) => actualizarVehiculo(vehiculo.id, "imagen", e.target.value)} />
+                      </div>
+
+                      <div className="campo full">
+                        <label>Descripción</label>
+                        <textarea rows="3" value={vehiculo.descripcion} onChange={(e) => actualizarVehiculo(vehiculo.id, "descripcion", e.target.value)} />
+                      </div>
+
+                      <div className="campo full">
+                        <label>Diálogo comercial</label>
+                        <textarea rows="3" value={vehiculo.dialogo} onChange={(e) => actualizarVehiculo(vehiculo.id, "dialogo", e.target.value)} />
+                      </div>
+
+                      <div className="campo full">
+                        <label>Texto WhatsApp</label>
+                        <textarea rows="3" value={vehiculo.whatsappTexto} onChange={(e) => actualizarVehiculo(vehiculo.id, "whatsappTexto", e.target.value)} />
+                      </div>
                     </div>
 
-                    <div className="cardContent">
-                      <div className="cardTop">
-                        <p className="categoria">{vehiculo.categoria}</p>
-                        <span className="precio">{vehiculo.precio}</span>
-                      </div>
+                    <div className="subPanel">
+                      <h3>Versiones</h3>
+                      {(vehiculo.versiones || []).map((version, index) => (
+                        <div className="campo" key={index}>
+                          <label>Versión {index + 1}</label>
+                          <input value={version} onChange={(e) => actualizarVersion(vehiculo.id, index, e.target.value)} />
+                        </div>
+                      ))}
+                    </div>
 
-                      <h3>{vehiculo.nombre}</h3>
-                      <p className="descripcion">{vehiculo.descripcion}</p>
+                    <div className="subPanel">
+                      <h3>Características</h3>
+                      {(vehiculo.caracteristicas || []).map((item, index) => (
+                        <div className="campo" key={index}>
+                          <label>Característica {index + 1}</label>
+                          <input value={item} onChange={(e) => actualizarCaracteristica(vehiculo.id, index, e.target.value)} />
+                        </div>
+                      ))}
+                    </div>
 
-                      <div className="versiones">
-                        {vehiculo.versiones.map((version) => (
-                          <span key={version}>{version}</span>
-                        ))}
-                      </div>
-
-                      <div className="dialogoBox">
-                        <span className="dialogoLabel">Diálogo sugerido</span>
-                        <p>{vehiculo.dialogo}</p>
-                      </div>
-
-                      <ul className="features">
-                        {vehiculo.caracteristicas.map((item, index) => (
-                          <li key={index}>{item}</li>
-                        ))}
-                      </ul>
-
-                      <div className="fichaTecnicaBox">
-                        <button
-                          className="fichaToggle"
-                          onClick={() => toggleFicha(vehiculo.id)}
-                          type="button"
-                        >
-                          <span>Ficha técnica</span>
-                          <span>{abierta ? "−" : "+"}</span>
-                        </button>
-
-                        {abierta && (
-                          <div className="fichaGrid">
-                            {vehiculo.fichaTecnica.map((dato, index) => (
-                              <div key={index} className="fichaItem">
-                                <span className="fichaLabel">{dato.etiqueta}</span>
-                                <strong className="fichaValor">{dato.valor}</strong>
-                              </div>
-                            ))}
+                    <div className="subPanel">
+                      <h3>Ficha técnica</h3>
+                      {(vehiculo.fichaTecnica || []).map((dato, index) => (
+                        <div className="grid2 fichaRow" key={index}>
+                          <div className="campo">
+                            <label>Etiqueta {index + 1}</label>
+                            <input
+                              value={dato.etiqueta}
+                              onChange={(e) =>
+                                actualizarFicha(vehiculo.id, index, "etiqueta", e.target.value)
+                              }
+                            />
                           </div>
-                        )}
-                      </div>
 
-                      <div className="acciones">
-                        <a
-                          href={linkUnidad}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="btnPrimary"
-                        >
-                          Solicitar información
-                        </a>
-                        <a href={linkLlamada} className="btnSecondary">
-                          Llamar
-                        </a>
-                      </div>
+                          <div className="campo">
+                            <label>Valor {index + 1}</label>
+                            <input
+                              value={dato.valor}
+                              onChange={(e) =>
+                                actualizarFicha(vehiculo.id, index, "valor", e.target.value)
+                              }
+                            />
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        <section className="ventajas">
-          <div className="container ventajasGrid">
-            <div className="ventajaCard">
-              <h3>Catálogo más completo</h3>
-              <p>
-                Ahora tu página luce más sólida y transmite que manejas un portafolio
-                amplio y profesional.
-              </p>
-            </div>
-            <div className="ventajaCard">
-              <h3>Diálogo por unidad</h3>
-              <p>
-                Cada vehículo ya incluye una forma de presentarlo mejor y provocar
-                interés del cliente.
-              </p>
-            </div>
-            <div className="ventajaCard">
-              <h3>Ficha técnica visible</h3>
-              <p>
-                El cliente puede revisar información clave sin salir de la página,
-                lo que ayuda a generar más confianza.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section id="asesor" className="asesorSection">
-          <div className="container asesorGrid">
-            <div className="asesorFotoBox">
-              <img
-                src="/diego-asesor.jpg"
-                alt={`Asesor ${NEGOCIO.asesorNombre}`}
-                className="asesorFoto"
-              />
+                  </div>
+                </div>
+              ))}
             </div>
 
-            <div className="asesorInfo">
-              <span className="eyebrow">Tu asesor</span>
-              <h2>{NEGOCIO.asesorNombre}</h2>
-              <p className="asesorSub">{NEGOCIO.slogan}</p>
-              <p>
-                Atención enfocada en ayudarte a presentar mejor cada unidad, generar
-                más confianza y convertir más prospectos desde una imagen seria y
-                profesional.
-              </p>
-
-              <div className="asesorPuntos">
-                <div className="point">Atención directa</div>
-                <div className="point">Respuesta rápida</div>
-                <div className="point">Cierre por WhatsApp</div>
-                <div className="point">Imagen profesional</div>
-              </div>
-
-              <div className="heroButtons">
-                <a
-                  href={linkWhatsappGeneral}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btnPrimary"
-                >
-                  Contactar a Diego
-                </a>
-                <a href={linkLlamada} className="btnSecondary">
-                  Llamar
-                </a>
-              </div>
+            <div className="accionesBottom">
+              <button onClick={guardarTodo} className="btnPrimary">Guardar todo</button>
+              <a href="/" className="btnSecondary">Ir al sitio</a>
             </div>
-          </div>
-        </section>
-
-        <section id="contacto" className="contacto">
-          <div className="container contactoBox">
-            <div>
-              <span className="eyebrow">Contacto directo</span>
-              <h2>Convierte más visitas en prospectos</h2>
-              <p>
-                Lleva al cliente directo a conversación contigo. Esa parte hace una
-                gran diferencia para cerrar más rápido.
-              </p>
-            </div>
-
-            <div className="contactActions">
-              <a
-                href={linkWhatsappGeneral}
-                target="_blank"
-                rel="noreferrer"
-                className="btnPrimary"
-              >
-                WhatsApp: {NEGOCIO.telefono}
-              </a>
-              <a href={linkLlamada} className="btnSecondary">
-                Llamar ahora
-              </a>
-            </div>
-          </div>
-        </section>
-
-        <footer className="footer">
-          <div className="container footerInner">
-            <div>
-              <strong>{NEGOCIO.asesorNombre}</strong>
-              <p>{NEGOCIO.slogan}</p>
-            </div>
-
-            <div className="footerLinks">
-              <a href="#catalogo">Catálogo</a>
-              <a href="#asesor">Asesor</a>
-              <a href="/admin">Admin</a>
-            </div>
-          </div>
-        </footer>
-
-        <a
-          href={linkWhatsappGeneral}
-          target="_blank"
-          rel="noreferrer"
-          className="whatsappFloat"
-          aria-label="WhatsApp"
-        >
-          WA
-        </a>
+          </section>
+        </div>
       </div>
 
       <style jsx>{`
-        :global(html) {
-          scroll-behavior: smooth;
-        }
-
         :global(body) {
           margin: 0;
           font-family: Arial, Helvetica, sans-serif;
-          background: #07111f;
-          color: #ffffff;
+          background: #08111f;
+          color: #fff;
         }
 
         :global(*) {
           box-sizing: border-box;
         }
 
-        :global(a) {
-          text-decoration: none;
-        }
-
-        :global(button) {
-          font-family: inherit;
-        }
-
-        .app {
+        .adminPage {
           min-height: 100vh;
+          padding: 32px 0 60px;
           background:
-            radial-gradient(circle at top right, rgba(0, 118, 255, 0.22), transparent 30%),
-            linear-gradient(180deg, #07111f 0%, #0c1a2d 40%, #07111f 100%);
+            radial-gradient(circle at top right, rgba(0,118,255,.2), transparent 30%),
+            linear-gradient(180deg, #08111f 0%, #102038 100%);
         }
 
         .container {
-          width: min(1280px, calc(100% - 32px));
+          width: min(1220px, calc(100% - 32px));
           margin: 0 auto;
         }
 
         .topbar {
-          position: sticky;
-          top: 0;
-          z-index: 100;
-          backdrop-filter: blur(12px);
-          background: rgba(7, 17, 31, 0.82);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .topbarInner {
-          min-height: 78px;
           display: flex;
-          align-items: center;
           justify-content: space-between;
           gap: 20px;
+          align-items: flex-start;
+          margin-bottom: 24px;
         }
 
-        .brand {
-          display: flex;
-          align-items: center;
-          gap: 14px;
-        }
-
-        .logo {
-          width: 48px;
-          height: 48px;
-          border-radius: 14px;
-          display: grid;
-          place-items: center;
-          font-size: 22px;
-          font-weight: 800;
-          background: linear-gradient(135deg, #1570ef, #3ea6ff);
-          box-shadow: 0 12px 30px rgba(21, 112, 239, 0.35);
-        }
-
-        .brandMini {
-          margin: 0 0 4px;
+        .mini {
+          margin: 0 0 8px;
           color: #7fc0ff;
           font-size: 12px;
+          font-weight: 700;
           text-transform: uppercase;
           letter-spacing: 1px;
         }
 
-        .brand h1 {
+        h1 {
+          margin: 0 0 10px;
+          font-size: 40px;
+        }
+
+        .sub {
           margin: 0;
-          font-size: 20px;
-        }
-
-        .nav {
-          display: flex;
-          align-items: center;
-          gap: 16px;
-          flex-wrap: wrap;
-        }
-
-        .nav a {
           color: #d8e6f7;
-          font-size: 14px;
+          line-height: 1.7;
+          max-width: 760px;
         }
 
-        .adminLink {
-          padding: 10px 14px;
-          border-radius: 12px;
-          background: rgba(255, 255, 255, 0.08);
+        .panel {
+          background: rgba(255,255,255,.05);
+          border: 1px solid rgba(255,255,255,.08);
+          border-radius: 24px;
+          padding: 24px;
+          margin-bottom: 24px;
         }
 
-        .hero {
-          padding: 56px 0 36px;
-        }
-
-        .heroGrid {
-          display: grid;
-          grid-template-columns: 1.2fr 0.8fr;
-          gap: 28px;
+        .panelHead {
+          display: flex;
+          justify-content: space-between;
+          gap: 16px;
           align-items: center;
+          margin-bottom: 16px;
         }
 
-        .eyebrow {
-          display: inline-block;
-          margin-bottom: 14px;
-          color: #7fc0ff;
-          font-size: 12px;
-          letter-spacing: 1px;
-          text-transform: uppercase;
+        .grid2 {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 16px;
+        }
+
+        .campo {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .full {
+          grid-column: 1 / -1;
+        }
+
+        label {
+          font-size: 13px;
+          color: #b7d4f3;
           font-weight: 700;
         }
 
-        .heroText h2 {
-          margin: 0 0 14px;
-          font-size: clamp(32px, 5vw, 56px);
-          line-height: 1.05;
+        input,
+        textarea {
+          width: 100%;
+          border: 1px solid rgba(255,255,255,.14);
+          background: rgba(255,255,255,.06);
+          color: #fff;
+          border-radius: 14px;
+          padding: 14px;
+          outline: none;
+          font-size: 15px;
         }
 
-        .heroText p {
-          margin: 0;
-          color: #dbe9f8;
-          line-height: 1.7;
-          font-size: 17px;
+        textarea {
+          resize: vertical;
         }
 
-        .heroButtons {
+        .searchInput {
+          margin-bottom: 20px;
+        }
+
+        .cardsAdmin {
           display: flex;
-          gap: 14px;
+          flex-direction: column;
+          gap: 20px;
+        }
+
+        .vehiculoAdmin {
+          display: grid;
+          grid-template-columns: 320px 1fr;
+          gap: 20px;
+          padding: 18px;
+          border-radius: 22px;
+          background: rgba(255,255,255,.04);
+          border: 1px solid rgba(255,255,255,.08);
+        }
+
+        .preview {
+          border-radius: 18px;
+          overflow: hidden;
+          background: #0a1728;
+          min-height: 220px;
+        }
+
+        .preview img {
+          width: 100%;
+          height: 100%;
+          min-height: 220px;
+          object-fit: cover;
+          display: block;
+        }
+
+        .formVehiculo {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        .subPanel {
+          padding: 16px;
+          border-radius: 18px;
+          background: rgba(255,255,255,.04);
+          border: 1px solid rgba(255,255,255,.06);
+        }
+
+        .subPanel h3 {
+          margin: 0 0 14px;
+        }
+
+        .fichaRow {
+          margin-bottom: 12px;
+        }
+
+        .accionesTop,
+        .accionesBottom {
+          display: flex;
+          gap: 12px;
           flex-wrap: wrap;
-          margin-top: 24px;
         }
 
         .btnPrimary,
-        .btnSecondary {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
+        .btnSecondary,
+        .btnDanger {
+          border: none;
+          cursor: pointer;
           min-height: 48px;
           padding: 0 18px;
           border-radius: 14px;
           font-weight: 700;
-          transition: 0.25s ease;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 15px;
+          text-decoration: none;
         }
 
         .btnPrimary {
           color: #fff;
           background: linear-gradient(135deg, #1570ef, #3ea6ff);
-          box-shadow: 0 14px 35px rgba(21, 112, 239, 0.28);
-        }
-
-        .btnPrimary:hover {
-          transform: translateY(-2px);
         }
 
         .btnSecondary {
           color: #fff;
-          border: 1px solid rgba(255, 255, 255, 0.16);
-          background: rgba(255, 255, 255, 0.03);
+          background: rgba(255,255,255,.08);
         }
 
-        .statsInline {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 12px;
-          margin-top: 24px;
-        }
-
-        .statsInline div {
-          padding: 16px;
-          border-radius: 18px;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .statsInline strong {
-          display: block;
-          font-size: 24px;
-          margin-bottom: 6px;
-        }
-
-        .statsInline span {
-          color: #dbe9f8;
-          font-size: 14px;
-          line-height: 1.5;
-        }
-
-        .heroCard {
-          overflow: hidden;
-          border-radius: 24px;
-          background: rgba(255, 255, 255, 0.06);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
-        }
-
-        .heroImageWrap img {
-          width: 100%;
-          height: 380px;
-          object-fit: cover;
-          display: block;
-        }
-
-        .heroCardInfo {
-          padding: 22px;
-        }
-
-        .heroCardInfo h3 {
-          margin: 0 0 8px;
-          font-size: 26px;
-        }
-
-        .heroCardInfo p {
-          color: #dbe9f8;
-          margin: 0 0 8px;
-        }
-
-        .heroCtas {
-          display: grid;
-          gap: 10px;
-          margin-top: 14px;
-        }
-
-        .miniLabel {
-          color: #7fc0ff !important;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-          font-size: 12px;
-          font-weight: 700;
-        }
-
-        .full {
-          width: 100%;
-        }
-
-        .filtrosSection {
-          padding: 20px 0 52px;
-        }
-
-        .sectionHead h2 {
-          margin: 0 0 10px;
-          font-size: 34px;
-        }
-
-        .sectionHead p {
-          margin: 0;
-          color: #dbe9f8;
-          max-width: 760px;
-          line-height: 1.7;
-        }
-
-        .toolsBar {
-          margin-top: 22px;
-          display: grid;
-          gap: 16px;
-        }
-
-        .searchInput {
-          width: 100%;
-          min-height: 54px;
-          border-radius: 16px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          background: rgba(255, 255, 255, 0.05);
+        .btnDanger {
           color: #fff;
-          padding: 0 18px;
-          font-size: 15px;
-          outline: none;
+          background: linear-gradient(135deg, #dc2626, #ef4444);
         }
 
-        .searchInput::placeholder {
-          color: #9fbbd7;
-        }
-
-        .filtros {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 10px;
-        }
-
-        .filtro {
-          border: none;
-          cursor: pointer;
-          min-height: 42px;
-          padding: 0 14px;
-          border-radius: 999px;
-          color: #fff;
-          background: rgba(255, 255, 255, 0.07);
-        }
-
-        .filtro.active {
-          background: linear-gradient(135deg, #1570ef, #3ea6ff);
-        }
-
-        .catalogSummary {
-          margin: 18px 0 0;
-          color: #dbe9f8;
-        }
-
-        .gridVehiculos {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 22px;
-          margin-top: 22px;
-        }
-
-        .cardVehiculo {
-          overflow: hidden;
-          border-radius: 24px;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.22);
-        }
-
-        .imgWrap {
-          position: relative;
-          height: 300px;
-          overflow: hidden;
-          background: #081522;
-        }
-
-        .imgWrap img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          display: block;
-          transition: transform 0.35s ease;
-        }
-
-        .cardVehiculo:hover .imgWrap img {
-          transform: scale(1.03);
-        }
-
-        .badge {
-          position: absolute;
-          top: 16px;
-          left: 16px;
-          display: inline-flex;
-          align-items: center;
-          min-height: 34px;
-          padding: 0 12px;
-          border-radius: 999px;
-          font-size: 12px;
-          font-weight: 700;
-          color: #fff;
-          background: rgba(0, 0, 0, 0.55);
-          backdrop-filter: blur(8px);
-        }
-
-        .cardContent {
-          padding: 22px;
-        }
-
-        .cardTop {
-          display: flex;
-          justify-content: space-between;
-          gap: 12px;
-          align-items: center;
-        }
-
-        .categoria {
-          margin: 0;
-          color: #7fc0ff;
-          font-size: 13px;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-        }
-
-        .precio {
-          display: inline-flex;
-          align-items: center;
-          min-height: 34px;
-          padding: 0 12px;
-          border-radius: 999px;
-          background: rgba(21, 112, 239, 0.14);
-          color: #dfeeff;
-          font-size: 13px;
-          font-weight: 700;
-        }
-
-        .cardContent h3 {
-          margin: 12px 0 10px;
-          font-size: 28px;
-          line-height: 1.15;
-        }
-
-        .descripcion {
-          color: #dbe9f8;
-          line-height: 1.7;
-          margin: 0 0 16px;
-        }
-
-        .versiones {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
+        .alerta {
           margin-bottom: 18px;
-        }
-
-        .versiones span {
-          padding: 8px 12px;
-          border-radius: 999px;
-          font-size: 12px;
-          font-weight: 700;
-          color: #dbe9f8;
-          background: rgba(255, 255, 255, 0.06);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .dialogoBox {
-          padding: 16px;
-          border-radius: 18px;
-          background: linear-gradient(
-            135deg,
-            rgba(21, 112, 239, 0.16),
-            rgba(62, 166, 255, 0.08)
-          );
-          border: 1px solid rgba(127, 192, 255, 0.18);
-          margin-bottom: 18px;
-        }
-
-        .dialogoLabel {
-          display: block;
-          margin-bottom: 8px;
-          color: #7fc0ff;
-          font-size: 12px;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-        }
-
-        .dialogoBox p {
-          margin: 0;
-          color: #eef5ff;
-          line-height: 1.7;
-        }
-
-        .features {
-          margin: 0 0 22px;
-          padding-left: 18px;
-          color: #dbe9f8;
-          line-height: 1.9;
-        }
-
-        .fichaTecnicaBox {
-          margin-bottom: 20px;
-        }
-
-        .fichaToggle {
-          width: 100%;
-          min-height: 52px;
-          border: 1px solid rgba(127, 192, 255, 0.16);
-          background: rgba(255, 255, 255, 0.04);
-          color: #fff;
-          border-radius: 16px;
-          padding: 0 16px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          cursor: pointer;
-          font-size: 15px;
-          font-weight: 700;
-        }
-
-        .fichaGrid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 12px;
-          margin-top: 14px;
-        }
-
-        .fichaItem {
-          padding: 14px;
-          border-radius: 16px;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .fichaLabel {
-          display: block;
-          color: #95b7db;
-          font-size: 12px;
-          text-transform: uppercase;
-          letter-spacing: 0.8px;
-          margin-bottom: 6px;
-        }
-
-        .fichaValor {
-          color: #ffffff;
-          font-size: 15px;
-          line-height: 1.5;
-        }
-
-        .acciones {
-          display: flex;
-          gap: 12px;
-          flex-wrap: wrap;
-        }
-
-        .ventajas {
-          padding: 0 0 52px;
-        }
-
-        .ventajasGrid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 18px;
-        }
-
-        .ventajaCard {
-          padding: 22px;
-          border-radius: 20px;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.07);
-        }
-
-        .ventajaCard h3 {
-          margin: 0 0 10px;
-          font-size: 22px;
-        }
-
-        .ventajaCard p {
-          margin: 0;
-          color: #dbe9f8;
-          line-height: 1.7;
-        }
-
-        .asesorSection {
-          padding: 30px 0 52px;
-        }
-
-        .asesorGrid {
-          display: grid;
-          grid-template-columns: 0.8fr 1.2fr;
-          gap: 26px;
-          align-items: center;
-        }
-
-        .asesorFotoBox {
-          border-radius: 24px;
-          overflow: hidden;
-          background: rgba(255, 255, 255, 0.06);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .asesorFoto {
-          width: 100%;
-          height: 100%;
-          min-height: 420px;
-          object-fit: cover;
-          display: block;
-        }
-
-        .asesorInfo h2 {
-          margin: 0 0 8px;
-          font-size: 40px;
-        }
-
-        .asesorSub {
-          color: #7fc0ff;
-          font-weight: 700;
-          margin: 0 0 14px;
-        }
-
-        .asesorInfo p {
-          color: #dbe9f8;
-          line-height: 1.8;
-          font-size: 17px;
-        }
-
-        .asesorPuntos {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 12px;
-          margin: 22px 0;
-        }
-
-        .point {
           padding: 14px 16px;
           border-radius: 16px;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .contacto {
-          padding: 10px 0 60px;
-        }
-
-        .contactoBox {
-          padding: 28px;
-          border-radius: 26px;
-          background: linear-gradient(
-            135deg,
-            rgba(21, 112, 239, 0.18),
-            rgba(62, 166, 255, 0.08)
-          );
-          border: 1px solid rgba(127, 192, 255, 0.16);
-          display: flex;
-          justify-content: space-between;
-          gap: 20px;
-          align-items: center;
-        }
-
-        .contactoBox h2 {
-          margin: 0 0 10px;
-          font-size: 34px;
-        }
-
-        .contactoBox p {
-          margin: 0;
-          color: #dbe9f8;
-          line-height: 1.7;
-          max-width: 720px;
-        }
-
-        .contactActions {
-          display: flex;
-          gap: 12px;
-          flex-wrap: wrap;
-        }
-
-        .footer {
-          border-top: 1px solid rgba(255, 255, 255, 0.08);
-          padding: 22px 0 28px;
-        }
-
-        .footerInner {
-          display: flex;
-          justify-content: space-between;
-          gap: 20px;
-          align-items: center;
-        }
-
-        .footerInner p {
-          margin: 6px 0 0;
-          color: #dbe9f8;
-        }
-
-        .footerLinks {
-          display: flex;
-          gap: 14px;
-          flex-wrap: wrap;
-        }
-
-        .footerLinks a {
-          color: #dbe9f8;
-        }
-
-        .whatsappFloat {
-          position: fixed;
-          right: 18px;
-          bottom: 18px;
-          width: 62px;
-          height: 62px;
-          border-radius: 999px;
-          display: grid;
-          place-items: center;
-          font-weight: 800;
-          color: #fff;
-          background: linear-gradient(135deg, #11b857, #36d97d);
-          box-shadow: 0 18px 35px rgba(17, 184, 87, 0.35);
-          z-index: 50;
+          background: rgba(17,184,87,.14);
+          border: 1px solid rgba(17,184,87,.35);
+          color: #d7ffe7;
+          font-weight: 700;
         }
 
         @media (max-width: 980px) {
-          .heroGrid,
-          .asesorGrid,
-          .gridVehiculos,
-          .ventajasGrid,
-          .contactoBox,
-          .statsInline,
-          .fichaGrid {
-            grid-template-columns: 1fr;
-          }
-
-          .topbarInner,
-          .footerInner {
+          .topbar {
             flex-direction: column;
-            align-items: flex-start;
           }
 
-          .nav {
-            width: 100%;
-          }
-
-          .contactoBox {
-            align-items: flex-start;
-          }
-        }
-
-        @media (max-width: 640px) {
-          .hero {
-            padding-top: 34px;
-          }
-
-          .heroText h2,
-          .asesorInfo h2,
-          .sectionHead h2,
-          .contactoBox h2 {
-            font-size: 30px;
-          }
-
-          .imgWrap {
-            height: 220px;
-          }
-
-          .asesorPuntos {
+          .vehiculoAdmin,
+          .grid2 {
             grid-template-columns: 1fr;
-          }
-
-          .heroImageWrap img {
-            height: 280px;
-          }
-
-          .asesorFoto {
-            min-height: 300px;
-          }
-
-          .cardTop {
-            flex-direction: column;
-            align-items: flex-start;
           }
         }
       `}</style>
