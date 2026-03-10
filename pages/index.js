@@ -51,22 +51,44 @@ export default function Home() {
 
     setEnviando(true);
 
-    const { error } = await supabase.from('prospectos').insert([form]);
+    try {
+      const payload = {
+        nombre: form.nombre,
+        telefono: form.telefono,
+        ciudad: form.ciudad || '',
+        vehiculo: form.vehiculo,
+        tipo_cliente: form.tipo_cliente || '',
+        uso_principal: form.uso_principal || '',
+        mensaje: form.mensaje || '',
+        consentimiento: form.consentimiento
+      };
 
-    if (error) {
-      setMensajeEstado('Hubo un error al enviar la solicitud.');
-    } else {
-      setMensajeEstado('Solicitud enviada correctamente.');
-      setForm({
-        nombre: '',
-        telefono: '',
-        ciudad: '',
-        vehiculo: '',
-        tipo_cliente: '',
-        uso_principal: '',
-        mensaje: '',
-        consentimiento: false
-      });
+      const { data, error } = await supabase
+        .from('prospectos')
+        .insert([payload])
+        .select();
+
+      if (error) {
+        console.error('ERROR SUPABASE:', error);
+        setMensajeEstado(`Error real: ${error.message}`);
+      } else {
+        console.log('INSERT OK:', data);
+        setMensajeEstado('Solicitud enviada correctamente.');
+
+        setForm({
+          nombre: '',
+          telefono: '',
+          ciudad: '',
+          vehiculo: '',
+          tipo_cliente: '',
+          uso_principal: '',
+          mensaje: '',
+          consentimiento: false
+        });
+      }
+    } catch (err) {
+      console.error('ERROR GENERAL:', err);
+      setMensajeEstado(`Error general: ${err.message}`);
     }
 
     setEnviando(false);
