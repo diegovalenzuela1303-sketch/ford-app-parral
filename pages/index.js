@@ -1,1139 +1,1112 @@
-import { useMemo, useState } from "react";
-import { createClient } from "@supabase/supabase-js";
+import { useEffect, useMemo, useState } from "react";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
-);
-
-const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP || "526272850550";
-
-const catalogo = [
+const VEHICULOS_BASE = [
   {
-    id: 1,
+    id: "f150",
+    nombre: "Ford F-150",
+    categoria: "Pickup",
+    precio: "$1,189,900",
+    descripcion:
+      "Potencia, presencia y tecnología para trabajo, familia y carretera.",
+    imagen: "/f-150.jpg",
+    badge: "Más buscada",
+    caracteristicas: [
+      "Motor potente y gran desempeño",
+      "Interior amplio y tecnológico",
+      "Ideal para trabajo y uso diario",
+    ],
+    whatsappTexto:
+      "Hola Diego, me interesa cotizar la Ford F-150. ¿Me das información?",
+  },
+  {
+    id: "f250",
+    nombre: "Ford F-250 Super Duty",
+    categoria: "Trabajo pesado",
+    precio: "$1,399,900",
+    descripcion:
+      "Capacidad real para carga, arrastre y trabajo duro en Parral y la región.",
+    imagen: "/f-250.jpg",
+    badge: "Trabajo pesado",
+    caracteristicas: [
+      "Gran capacidad de carga",
+      "Excelente para negocio y trabajo rudo",
+      "Fuerza y durabilidad Ford",
+    ],
+    whatsappTexto:
+      "Hola Diego, me interesa la Ford F-250 Super Duty. ¿Me compartes información y disponibilidad?",
+  },
+  {
+    id: "f350",
+    nombre: "Ford F-350 Super Duty",
+    categoria: "Uso rudo",
+    precio: "$1,579,900",
+    descripcion:
+      "La solución para quienes necesitan máxima fuerza, resistencia y capacidad.",
+    imagen: "/f-350.jpg",
+    badge: "Máxima capacidad",
+    caracteristicas: [
+      "Mayor capacidad para remolque",
+      "Pensada para trabajo intenso",
+      "Seguridad y robustez superior",
+    ],
+    whatsappTexto:
+      "Hola Diego, quiero información de la Ford F-350 Super Duty. ¿Me ayudas con una cotización?",
+  },
+  {
+    id: "lobo",
+    nombre: "Ford Lobo",
+    categoria: "Pickup premium",
+    precio: "$1,329,900",
+    descripcion:
+      "Lujo, potencia y presencia para quien busca una pickup con nivel premium.",
+    imagen: "/lobo.jpg",
+    badge: "Premium",
+    caracteristicas: [
+      "Diseño imponente",
+      "Confort y tecnología avanzada",
+      "Gran opción para ejecutivos y familia",
+    ],
+    whatsappTexto:
+      "Hola Diego, me interesa la Ford Lobo. ¿Me puedes enviar versiones y precio?",
+  },
+  {
+    id: "edge",
+    nombre: "Ford Edge",
     categoria: "SUV",
-    nombre: "Ford Territory 2026",
-    corto: "Territory",
-    precioBase: "$559,900",
-    imagen:
-      "https://www.ford.mx/content/dam/Ford/website-assets/latam/mx/nameplate/territory/2025/overview/ford-territory-2025-suv-blanco.jpg",
-    etiqueta: "Ideal para familia",
-    frase:
-      "La SUV que proyecta seguridad, tecnología y presencia desde la primera vista.",
-    gancho:
-      "Más espacio, mejor imagen y tecnología que sí se nota en cada trayecto.",
-    resumen:
-      "Perfecta para familias y profesionistas que buscan una SUV moderna, amplia y con gran equipamiento.",
-    colorEtiqueta: "#dbeafe",
-    colorTextoEtiqueta: "#1d4ed8",
-    ficha: [
-      "Motor 1.8L Turbo EcoBoost I4",
-      "187 HP",
-      "236 lb-pie de torque",
-      "Transmisión automática de 7 velocidades",
-      "Pantalla táctil de 12 pulgadas",
-      "Clúster digital de 12 pulgadas",
-      "4 modos de manejo",
-      "Diseño moderno con gran presencia"
+    precio: "$999,900",
+    descripcion:
+      "SUV elegante, espaciosa y tecnológica para quien busca confort y presencia.",
+    imagen: "/edge.jpg",
+    badge: "SUV premium",
+    caracteristicas: [
+      "Diseño moderno y atractivo",
+      "Interior cómodo y amplio",
+      "Ideal para familia y ciudad",
     ],
-    versiones: [
-      { nombre: "Ambiente", precio: "$559,900" },
-      { nombre: "Trend", precio: "Consulta disponibilidad" },
-      { nombre: "Titanium", precio: "Consulta disponibilidad" }
-    ]
+    whatsappTexto:
+      "Hola Diego, me interesa la Ford Edge. ¿Me compartes precio y más información?",
   },
   {
-    id: 2,
-    categoria: "Pickup",
-    nombre: "Ford Ranger 2026",
-    corto: "Ranger",
-    precioBase: "$763,500",
-    imagen:
-      "https://www.ford.mx/content/dam/Ford/website-assets/latam/mx/nameplate/ranger/2024/overview/ranger-2024.jpg",
-    etiqueta: "Muy vendida",
-    frase:
-      "La pickup que trabaja duro entre semana y luce fuerte todos los días.",
-    gancho:
-      "Potencia, versatilidad y presencia para campo, ciudad y negocio.",
-    resumen:
-      "Una pickup equilibrada para quien necesita rendimiento, imagen y practicidad en el día a día.",
-    colorEtiqueta: "#dcfce7",
-    colorTextoEtiqueta: "#166534",
-    ficha: [
-      "Motor 2.3L EcoBoost disponible",
-      "270 HP",
-      "310 lb-pie de torque",
-      "Versiones 4x2 y 4x4",
-      "Excelente para trabajo y uso diario",
-      "Diseño robusto y moderno",
-      "Buena altura y presencia comercial",
-      "Ideal para Parral y la región"
+    id: "transit",
+    nombre: "Ford Transit",
+    categoria: "Van comercial",
+    precio: "$1,149,900",
+    descripcion:
+      "La van ideal para carga, personal o negocio con gran capacidad y versatilidad.",
+    imagen: "/transit.jpg",
+    badge: "Negocio",
+    caracteristicas: [
+      "Excelente para negocio o flotilla",
+      "Gran espacio y versatilidad",
+      "Capacidad para trabajo diario",
     ],
-    versiones: [
-      { nombre: "XL", precio: "$763,500" },
-      { nombre: "XLT", precio: "Consulta precio" },
-      { nombre: "Lariat", precio: "Consulta precio" }
-    ]
+    whatsappTexto:
+      "Hola Diego, me interesa la Ford Transit. ¿Me puedes compartir opciones y precio?",
   },
-  {
-    id: 3,
-    categoria: "Pickup Performance",
-    nombre: "Ford Ranger Raptor 2026",
-    corto: "Ranger Raptor",
-    precioBase: "$1,313,500",
-    imagen:
-      "https://www.ford.mx/content/dam/Ford/website-assets/latam/mx/nameplate/ranger-raptor/2024/overview/ranger-raptor.jpg",
-    etiqueta: "Imagen agresiva",
-    frase:
-      "No es solo una pickup, es una declaración de poder y presencia.",
-    gancho:
-      "Impacta, acelera y domina cualquier terreno con una imagen brutal.",
-    resumen:
-      "Para clientes que quieren una pickup aspiracional, agresiva y con muchísima presencia.",
-    colorEtiqueta: "#fee2e2",
-    colorTextoEtiqueta: "#b91c1c",
-    ficha: [
-      "Motor 3.0L V6 Twin Turbo",
-      "392 HP",
-      "430 lb-pie de torque",
-      "Transmisión automática de 10 velocidades",
-      "Modos de manejo avanzados",
-      "Desempeño off-road de alto nivel",
-      "Diseño extremo y deportivo",
-      "Ideal para clientes de alto impacto"
-    ],
-    versiones: [{ nombre: "Raptor", precio: "$1,313,500" }]
-  },
-  {
-    id: 4,
-    categoria: "Pickup",
-    nombre: "Ford Maverick 2025",
-    corto: "Maverick",
-    precioBase: "$737,100",
-    imagen:
-      "https://www.ford.mx/content/dam/Ford/website-assets/latam/mx/nameplate/maverick/2024/overview/maverick.jpg",
-    etiqueta: "Excelente ciudad",
-    frase:
-      "La pickup inteligente para emprender, moverte diario y vender mejor tu imagen.",
-    gancho:
-      "Compacta por fuera, muy útil por dentro y con perfil ganador.",
-    resumen:
-      "Ideal para emprendedores, uso diario y quien quiere una pickup cómoda sin irse a un tamaño grande.",
-    colorEtiqueta: "#fef3c7",
-    colorTextoEtiqueta: "#92400e",
-    ficha: [
-      "Versiones gasolina e híbrida",
-      "Muy práctica para uso diario",
-      "Diseño moderno y funcional",
-      "Excelente para ciudad",
-      "Caja útil para trabajo ligero",
-      "Buena imagen comercial",
-      "Muy atractiva para clientes jóvenes",
-      "Enfoque urbano y emprendedor"
-    ],
-    versiones: [
-      { nombre: "XLT", precio: "$737,100" },
-      { nombre: "Lariat", precio: "Consulta precio" }
-    ]
-  },
-  {
-    id: 5,
-    categoria: "SUV",
-    nombre: "Ford Bronco Sport 2026",
-    corto: "Bronco Sport",
-    precioBase: "$773,500",
-    imagen:
-      "https://www.ford.mx/content/dam/Ford/website-assets/latam/mx/nameplate/bronco-sport/2024/overview/bronco-sport.jpg",
-    etiqueta: "Estilo aventurero",
-    frase:
-      "Diseñada para quien no quiere pasar desapercibido ni en ciudad ni en aventura.",
-    gancho:
-      "Aventura, estilo y carácter en una sola SUV.",
-    resumen:
-      "Una SUV con personalidad fuerte, pensada para clientes que quieren imagen y versatilidad.",
-    colorEtiqueta: "#ede9fe",
-    colorTextoEtiqueta: "#6d28d9",
-    ficha: [
-      "Motor 1.5L EcoBoost",
-      "181 HP",
-      "Versiones superiores con mayor capacidad",
-      "Perfil aventurero",
-      "Excelente imagen",
-      "Diseño distintivo",
-      "Ideal para clientes que buscan estilo",
-      "Buena opción aspiracional"
-    ],
-    versiones: [
-      { nombre: "Big Bend", precio: "$773,500" },
-      { nombre: "Outer Banks", precio: "Consulta precio" },
-      { nombre: "Badlands", precio: "Consulta precio" }
-    ]
-  },
-  {
-    id: 6,
-    categoria: "Deportivo",
-    nombre: "Ford Mustang 2026",
-    corto: "Mustang",
-    precioBase: "$951,500",
-    imagen:
-      "https://www.ford.mx/content/dam/Ford/website-assets/latam/mx/nameplate/mustang/2024/overview/mustang.jpg",
-    etiqueta: "Aspiracional",
-    frase:
-      "No todos compran un auto; algunos compran una forma de destacar.",
-    gancho:
-      "Pasión, sonido y presencia que cierran miradas desde el primer segundo.",
-    resumen:
-      "Para clientes que buscan un auto con imagen, emoción y un perfil totalmente aspiracional.",
-    colorEtiqueta: "#fde68a",
-    colorTextoEtiqueta: "#92400e",
-    ficha: [
-      "Motor EcoBoost disponible",
-      "Versión GT disponible",
-      "Perfil deportivo icónico",
-      "Gran presencia visual",
-      "Interior orientado al manejo",
-      "Auto aspiracional de alto impacto",
-      "Ideal para generar deseo de compra",
-      "Uno de los modelos más emocionales"
-    ],
-    versiones: [
-      { nombre: "EcoBoost", precio: "$951,500" },
-      { nombre: "GT", precio: "Consulta precio" }
-    ]
-  },
-  {
-    id: 7,
-    categoria: "Pickup",
-    nombre: "Ford F-150 2025",
-    corto: "F-150",
-    precioBase: "$1,008,100",
-    imagen:
-      "https://www.ford.mx/content/dam/Ford/website-assets/latam/mx/nameplate/f150/2024/overview/f150.jpg",
-    etiqueta: "Trabajo pesado",
-    frase:
-      "Cuando el trabajo exige resultados, F-150 responde con fuerza real.",
-    gancho:
-      "Capacidad, imagen y respaldo para quien no puede darse el lujo de fallar.",
-    resumen:
-      "La pickup ideal para clientes que buscan una unidad de trabajo con gran reputación y presencia.",
-    colorEtiqueta: "#d1fae5",
-    colorTextoEtiqueta: "#065f46",
-    ficha: [
-      "Pickup de trabajo de gran reconocimiento",
-      "Excelente capacidad y respaldo",
-      "Versiones para distintos perfiles",
-      "Muy buena imagen comercial",
-      "Cabina cómoda y robusta",
-      "Ideal para negocio y campo",
-      "Muy atractiva para empresas y particulares",
-      "Gran nivel de confianza en el mercado"
-    ],
-    versiones: [
-      { nombre: "XL", precio: "$1,008,100" },
-      { nombre: "XLT", precio: "Consulta precio" }
-    ]
-  },
-  {
-    id: 8,
-    categoria: "Pickup Premium",
-    nombre: "Ford Lobo 2025",
-    corto: "Lobo",
-    precioBase: "$1,417,100",
-    imagen:
-      "https://www.ford.mx/content/dam/Ford/website-assets/latam/mx/nameplate/lobo/2024/overview/lobo.jpg",
-    etiqueta: "Premium",
-    frase:
-      "Una pickup premium que impone respeto antes de arrancar.",
-    gancho:
-      "Lujo, fuerza y estatus en una sola unidad.",
-    resumen:
-      "Perfecta para clientes que quieren una pickup premium, elegante y con muchísimo porte.",
-    colorEtiqueta: "#fce7f3",
-    colorTextoEtiqueta: "#9d174d",
-    ficha: [
-      "Pickup premium",
-      "Alto nivel de confort",
-      "Gran presencia exterior",
-      "Muy atractiva para clientes ejecutivos",
-      "Excelente imagen en ciudad y carretera",
-      "Ideal para quien busca lujo y fuerza",
-      "Interior superior",
-      "Perfil comercial de alto ticket"
-    ],
-    versiones: [
-      { nombre: "Lariat", precio: "$1,428,100" },
-      { nombre: "Platinum", precio: "Consulta precio" }
-    ]
-  },
-  {
-    id: 9,
-    categoria: "Camión",
-    nombre: "Ford F-250 Super Duty 2026",
-    corto: "F-250",
-    precioBase: "$1,560,800",
-    imagen:
-      "https://www.ford.mx/content/dam/Ford/website-assets/latam/mx/nameplate/super-duty/2024/overview/f250.jpg",
-    etiqueta: "Muy fuerte",
-    frase:
-      "Si el trabajo es pesado, necesitas una unidad que lo soporte de verdad.",
-    gancho:
-      "Capacidad bruta, presencia fuerte y respaldo para jale serio.",
-    resumen:
-      "Muy buscada para trabajo pesado, campo y clientes que necesitan una unidad realmente fuerte.",
-    colorEtiqueta: "#e0f2fe",
-    colorTextoEtiqueta: "#0c4a6e",
-    ficha: [
-      "Enfoque de trabajo pesado",
-      "Gran capacidad de carga y arrastre",
-      "Excelente presencia física",
-      "Ideal para campo e industria",
-      "Muy atractiva en la región",
-      "Buena opción para flotillas",
-      "Perfil fuerte y robusto",
-      "Unidad para clientes exigentes"
-    ],
-    versiones: [
-      { nombre: "XLT", precio: "$1,560,800" },
-      { nombre: "King Ranch", precio: "Consulta precio" }
-    ]
-  },
-  {
-    id: 10,
-    categoria: "Camión",
-    nombre: "Ford F-350 2026",
-    corto: "F-350",
-    precioBase: "$1,081,600",
-    imagen:
-      "https://www.ford.mx/content/dam/Ford/website-assets/latam/mx/nameplate/super-duty/2024/overview/f350.jpg",
-    etiqueta: "Negocio y carga",
-    frase:
-      "Para carrozar, cargar y producir: una base de trabajo que sí deja dinero.",
-    gancho:
-      "El aliado ideal para negocio, carga y trabajo rudo en la región.",
-    resumen:
-      "Excelente opción para negocio, carrozado y operación comercial.",
-    colorEtiqueta: "#ede9fe",
-    colorTextoEtiqueta: "#5b21b6",
-    ficha: [
-      "Base ideal para carrozado",
-      "Pensada para trabajo comercial",
-      "Buena capacidad de carga",
-      "Muy útil para negocio",
-      "Gran aceptación en trabajo regional",
-      "Ideal para operación diaria",
-      "Fuerte, práctica y rendidora",
-      "Pensada para producir"
-    ],
-    versiones: [
-      { nombre: "XL", precio: "$1,081,600" },
-      { nombre: "XL Plus", precio: "Consulta precio" }
-    ]
-  }
 ];
 
-const ventajas = [
-  {
-    titulo: "Atención directa",
-    texto: "Hablas conmigo de forma directa para resolver dudas, revisar versiones y avanzar a cotización."
-  },
-  {
-    titulo: "Seguimiento real",
-    texto: "Cada prospecto se registra para dar continuidad y no perder oportunidades."
-  },
-  {
-    titulo: "Enfoque regional",
-    texto: "La selección está pensada para lo que más se mueve en Parral y alrededores."
-  }
-];
+const DATOS_NEGOCIO_BASE = {
+  asesorNombre: "Diego Valenzuela",
+  telefono: "6272850550",
+  ciudad: "Hidalgo del Parral, Chihuahua",
+  slogan: "Asesor profesional en vehículos Ford",
+  heroTitulo: "Encuentra tu próxima Ford con atención profesional y directa",
+  heroTexto:
+    "Te ayudo a elegir la unidad ideal para trabajo, familia o negocio. Atención rápida por WhatsApp, cotización personalizada y seguimiento profesional en Parral y alrededores.",
+  beneficios: [
+    "Atención personalizada",
+    "Seguimiento rápido",
+    "Apoyo en cotización",
+    "Unidades para trabajo y familia",
+  ],
+};
 
-function ImagenVehiculo({ src, alt }) {
-  const [error, setError] = useState(false);
-
-  if (error || !src) {
-    return (
-      <div
-        style={{
-          width: "100%",
-          height: 240,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "linear-gradient(135deg, #e5e7eb, #cbd5e1)",
-          color: "#1f2937",
-          fontWeight: 800,
-          fontSize: 28
-        }}
-      >
-        {alt}
-      </div>
-    );
+function cargarDatos() {
+  if (typeof window === "undefined") {
+    return {
+      vehiculos: VEHICULOS_BASE,
+      negocio: DATOS_NEGOCIO_BASE,
+    };
   }
 
-  return (
-    <img
-      src={src}
-      alt={alt}
-      onError={() => setError(true)}
-      style={{
-        width: "100%",
-        height: 240,
-        objectFit: "cover",
-        display: "block"
-      }}
-    />
-  );
+  try {
+    const vehiculosGuardados = localStorage.getItem("fordAppVehiculos");
+    const negocioGuardado = localStorage.getItem("fordAppNegocio");
+
+    return {
+      vehiculos: vehiculosGuardados
+        ? JSON.parse(vehiculosGuardados)
+        : VEHICULOS_BASE,
+      negocio: negocioGuardado
+        ? JSON.parse(negocioGuardado)
+        : DATOS_NEGOCIO_BASE,
+    };
+  } catch (error) {
+    return {
+      vehiculos: VEHICULOS_BASE,
+      negocio: DATOS_NEGOCIO_BASE,
+    };
+  }
 }
 
-function FotoAsesor() {
-  const [error, setError] = useState(false);
-
-  if (error) {
-    return (
-      <div
-        style={{
-          width: 290,
-          height: 360,
-          borderRadius: 26,
-          background: "linear-gradient(135deg, #1f2937, #111827)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          textAlign: "center",
-          color: "white",
-          padding: 24,
-          fontWeight: 700
-        }}
-      >
-        Sube tu foto a public/diego-asesor.jpg
-      </div>
-    );
-  }
-
-  return (
-    <img
-      src="/diego-asesor.jpg"
-      alt="Diego Valenzuela"
-      onError={() => setError(true)}
-      style={{
-        width: 290,
-        height: 360,
-        borderRadius: 26,
-        objectFit: "cover",
-        display: "block",
-        boxShadow: "0 16px 40px rgba(0,0,0,0.24)"
-      }}
-    />
-  );
-}
-
-function VentajaCard({ titulo, texto }) {
-  return (
-    <div
-      style={{
-        background: "white",
-        borderRadius: 20,
-        padding: 20,
-        border: "1px solid #e5e7eb",
-        boxShadow: "0 10px 24px rgba(0,0,0,0.05)"
-      }}
-    >
-      <h3 style={{ marginTop: 0, marginBottom: 10, fontSize: 22 }}>{titulo}</h3>
-      <p style={{ margin: 0, color: "#4b5563", lineHeight: 1.6 }}>{texto}</p>
-    </div>
-  );
+function formatearWhatsApp(numero, texto) {
+  const limpio = String(numero).replace(/\D/g, "");
+  return `https://wa.me/52${limpio}?text=${encodeURIComponent(texto)}`;
 }
 
 export default function Home() {
-  const [nombre, setNombre] = useState("");
-  const [telefono, setTelefono] = useState("");
-  const [vehiculo, setVehiculo] = useState("");
-  const [comentario, setComentario] = useState("");
-  const [categoriaActiva, setCategoriaActiva] = useState("Todos");
-  const [busqueda, setBusqueda] = useState("");
-  const [expandedId, setExpandedId] = useState(null);
-  const [versionSeleccionada, setVersionSeleccionada] = useState({});
+  const [vehiculos, setVehiculos] = useState(VEHICULOS_BASE);
+  const [negocio, setNegocio] = useState(DATOS_NEGOCIO_BASE);
+  const [filtro, setFiltro] = useState("Todos");
 
-  const categorias = useMemo(
-    () => ["Todos", ...new Set(catalogo.map((item) => item.categoria))],
-    []
-  );
+  useEffect(() => {
+    const datos = cargarDatos();
+    setVehiculos(datos.vehiculos);
+    setNegocio(datos.negocio);
 
-  const vehiculosFiltrados = useMemo(() => {
-    return catalogo.filter((item) => {
-      const coincideCategoria =
-        categoriaActiva === "Todos" || item.categoria === categoriaActiva;
-
-      const textoBusqueda = [
-        item.nombre,
-        item.corto,
-        item.categoria,
-        item.frase,
-        item.gancho,
-        item.etiqueta
-      ]
-        .join(" ")
-        .toLowerCase();
-
-      const coincideTexto = textoBusqueda.includes(busqueda.toLowerCase());
-
-      return coincideCategoria && coincideTexto;
-    });
-  }, [categoriaActiva, busqueda]);
-
-  async function guardarProspecto({
-    nombre,
-    telefono,
-    vehiculo,
-    comentario = "",
-    origen = "web"
-  }) {
-    const payload = {
-      nombre: nombre || "Cliente Web",
-      telefono: telefono || "Pendiente",
-      vehiculo: vehiculo || "Vehículo no especificado",
-      comentario: comentario || "",
-      origen
+    const sincronizar = () => {
+      const nuevosDatos = cargarDatos();
+      setVehiculos(nuevosDatos.vehiculos);
+      setNegocio(nuevosDatos.negocio);
     };
 
-    const { error } = await supabase.from("prospectos").insert([payload]);
+    window.addEventListener("storage", sincronizar);
+    window.addEventListener("focus", sincronizar);
 
-    if (error) {
-      console.error("Error guardando prospecto:", error);
-      alert("No se pudo guardar el prospecto");
-      return false;
-    }
+    return () => {
+      window.removeEventListener("storage", sincronizar);
+      window.removeEventListener("focus", sincronizar);
+    };
+  }, []);
 
-    return true;
-  }
+  const categorias = useMemo(() => {
+    const unicas = Array.from(new Set(vehiculos.map((v) => v.categoria)));
+    return ["Todos", ...unicas];
+  }, [vehiculos]);
 
-  async function enviarFormulario() {
-    if (!nombre || !telefono) {
-      alert("Por favor llena nombre y teléfono");
-      return;
-    }
+  const vehiculosFiltrados = useMemo(() => {
+    if (filtro === "Todos") return vehiculos;
+    return vehiculos.filter((v) => v.categoria === filtro);
+  }, [vehiculos, filtro]);
 
-    const ok = await guardarProspecto({
-      nombre,
-      telefono,
-      vehiculo,
-      comentario,
-      origen: "formulario"
-    });
-
-    if (ok) {
-      alert("Solicitud enviada. Te contactaremos pronto.");
-      setNombre("");
-      setTelefono("");
-      setVehiculo("");
-      setComentario("");
-    }
-  }
-
-  async function handleCotizar(item, version) {
-    await guardarProspecto({
-      nombre: "Cliente Web",
-      telefono: "Pendiente",
-      vehiculo: `${item.nombre} - ${version.nombre}`,
-      comentario: "",
-      origen: "whatsapp"
-    });
-
-    const mensaje = `Hola Diego, quiero cotización de ${item.nombre} versión ${version.nombre}. ¿Me apoyas con precio, promoción y opciones de financiamiento?`;
-
-    window.open(
-      `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(mensaje)}`,
-      "_blank"
-    );
-  }
-
-  function obtenerVersionActual(item) {
-    const index = versionSeleccionada[item.id] ?? 0;
-    return item.versiones[index];
-  }
+  const linkWhatsappGeneral = formatearWhatsApp(
+    negocio.telefono,
+    `Hola ${negocio.asesorNombre}, vi tu página y quiero información sobre vehículos Ford.`
+  );
 
   return (
-    <div
-      style={{
-        fontFamily: "Arial, sans-serif",
-        background: "#f3f4f6",
-        minHeight: "100vh",
-        color: "#111827"
-      }}
-    >
-      <div style={{ maxWidth: 1340, margin: "0 auto", padding: 24 }}>
-        <section
-          style={{
-            background:
-              "linear-gradient(135deg, rgba(15,23,42,0.97), rgba(30,41,59,0.94))",
-            color: "white",
-            borderRadius: 34,
-            padding: 30,
-            marginBottom: 28,
-            overflow: "hidden",
-            position: "relative"
-          }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background:
-                "radial-gradient(circle at top right, rgba(59,130,246,0.15), transparent 30%)"
-            }}
-          />
-
-          <div
-            style={{
-              position: "relative",
-              display: "grid",
-              gridTemplateColumns: "1.25fr 0.75fr",
-              gap: 28,
-              alignItems: "center"
-            }}
-          >
-            <div>
-              <div
-                style={{
-                  display: "inline-block",
-                  background: "rgba(255,255,255,0.12)",
-                  padding: "8px 14px",
-                  borderRadius: 999,
-                  fontSize: 13,
-                  marginBottom: 14,
-                  fontWeight: 700
-                }}
-              >
-                Catálogo Ford Parral
-              </div>
-
-              <h1
-                style={{
-                  margin: 0,
-                  fontSize: 54,
-                  lineHeight: 1.02,
-                  letterSpacing: "-0.02em"
-                }}
-              >
-                Diego Valenzuela
-              </h1>
-
-              <p style={{ marginTop: 10, fontSize: 29, fontWeight: 700 }}>
-                Asesor Profesional Ford Parral
-              </p>
-
-              <p
-                style={{
-                  marginTop: 14,
-                  fontSize: 18,
-                  lineHeight: 1.65,
-                  maxWidth: 760,
-                  color: "rgba(255,255,255,0.88)"
-                }}
-              >
-                Pickups, SUVs, deportivos y camiones Ford con enfoque comercial,
-                atención directa y cotización por WhatsApp según la versión que más te interese.
-              </p>
-
-              <div
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: 12,
-                  marginTop: 18
-                }}
-              >
-                <div style={heroBadge}>📲 WhatsApp: 6272850550</div>
-                <div style={heroBadge}>📍 Parral y región</div>
-                <div style={heroBadge}>🔒 Panel privado: /admin</div>
+    <>
+      <div className="app">
+        <header className="topbar">
+          <div className="container topbarInner">
+            <div className="brand">
+              <div className="logo">F</div>
+              <div>
+                <p className="brandMini">Ford App Parral</p>
+                <h1>{negocio.asesorNombre}</h1>
               </div>
             </div>
 
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <FotoAsesor />
+            <nav className="nav">
+              <a href="#inventario">Inventario</a>
+              <a href="#asesor">Asesor</a>
+              <a href="#contacto">Contacto</a>
+              <a href="/admin" className="adminLink">
+                Admin
+              </a>
+            </nav>
+          </div>
+        </header>
+
+        <section className="hero">
+          <div className="container heroGrid">
+            <div className="heroText">
+              <span className="eyebrow">Asesoría profesional Ford en Parral</span>
+              <h2>{negocio.heroTitulo}</h2>
+              <p>{negocio.heroTexto}</p>
+
+              <div className="heroButtons">
+                <a
+                  href={linkWhatsappGeneral}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btnPrimary"
+                >
+                  Cotizar por WhatsApp
+                </a>
+                <a href="#inventario" className="btnSecondary">
+                  Ver inventario
+                </a>
+              </div>
+
+              <div className="beneficios">
+                {negocio.beneficios.map((item, index) => (
+                  <span key={index}>{item}</span>
+                ))}
+              </div>
+            </div>
+
+            <div className="heroCard">
+              <img
+                src="/diego-asesor.jpg"
+                alt={negocio.asesorNombre}
+                className="asesorHeroImg"
+              />
+              <div className="heroCardInfo">
+                <p className="miniLabel">Asesor</p>
+                <h3>{negocio.asesorNombre}</h3>
+                <p>{negocio.slogan}</p>
+                <p>{negocio.ciudad}</p>
+
+                <a
+                  href={linkWhatsappGeneral}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btnPrimary full"
+                >
+                  Hablar ahora
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="stats">
+          <div className="container statsGrid">
+            <div className="statCard">
+              <strong>Atención rápida</strong>
+              <span>Respuesta directa por WhatsApp</span>
+            </div>
+            <div className="statCard">
+              <strong>Cotización personalizada</strong>
+              <span>Cada cliente recibe atención según su perfil</span>
+            </div>
+            <div className="statCard">
+              <strong>Opciones reales</strong>
+              <span>Unidades para trabajo, familia y negocio</span>
             </div>
           </div>
         </section>
 
-        <section
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-            gap: 18,
-            marginBottom: 28
-          }}
-        >
-          {ventajas.map((item) => (
-            <VentajaCard
-              key={item.titulo}
-              titulo={item.titulo}
-              texto={item.texto}
-            />
-          ))}
-        </section>
+        <section id="inventario" className="inventario">
+          <div className="container">
+            <div className="sectionHead">
+              <div>
+                <span className="eyebrow">Inventario destacado</span>
+                <h2>Unidades Ford disponibles para cotización</h2>
+                <p>
+                  Explora pickups, SUV y vehículos de trabajo. Los precios se
+                  muestran de forma directa y la propuesta final puede variar
+                  según versión, disponibilidad y perfil de compra.
+                </p>
+              </div>
 
-        <section
-          style={{
-            background: "white",
-            borderRadius: 26,
-            padding: 24,
-            marginBottom: 30,
-            boxShadow: "0 12px 30px rgba(0,0,0,0.06)"
-          }}
-        >
-          <h2 style={{ marginTop: 0, marginBottom: 10, fontSize: 34 }}>
-            Solicitar información
-          </h2>
-          <p style={{ marginTop: 0, color: "#4b5563", fontSize: 16 }}>
-            Déjame tus datos y te contacto con opción, promoción y disponibilidad.
-          </p>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-              gap: 14
-            }}
-          >
-            <input
-              placeholder="Nombre"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
-              style={inputStyle}
-            />
-            <input
-              placeholder="Teléfono"
-              value={telefono}
-              onChange={(e) => setTelefono(e.target.value)}
-              style={inputStyle}
-            />
-            <input
-              placeholder="Vehículo de interés"
-              value={vehiculo}
-              onChange={(e) => setVehiculo(e.target.value)}
-              style={inputStyle}
-            />
-          </div>
-
-          <textarea
-            placeholder="Comentario"
-            value={comentario}
-            onChange={(e) => setComentario(e.target.value)}
-            style={{
-              ...inputStyle,
-              minHeight: 110,
-              marginTop: 14,
-              resize: "vertical"
-            }}
-          />
-
-          <button onClick={enviarFormulario} style={primaryButton}>
-            Enviar solicitud
-          </button>
-        </section>
-
-        <section style={{ marginBottom: 22 }}>
-          <h2 style={{ marginBottom: 8, fontSize: 34 }}>Explora el catálogo</h2>
-          <p style={{ marginTop: 0, color: "#4b5563", fontSize: 16 }}>
-            Busca el vehículo ideal, elige la versión y solicita cotización directa.
-          </p>
-
-          <div style={{ marginTop: 16, marginBottom: 16 }}>
-            <input
-              placeholder="Buscar vehículo, categoría o palabra clave..."
-              value={busqueda}
-              onChange={(e) => setBusqueda(e.target.value)}
-              style={inputStyle}
-            />
-          </div>
-
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-            {categorias.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setCategoriaActiva(cat)}
-                style={{
-                  ...chipButton,
-                  background: categoriaActiva === cat ? "#111827" : "white",
-                  color: categoriaActiva === cat ? "white" : "#111827",
-                  border:
-                    categoriaActiva === cat
-                      ? "1px solid #111827"
-                      : "1px solid #d1d5db"
-                }}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </section>
-
-        <section
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))",
-            gap: 20
-          }}
-        >
-          {vehiculosFiltrados.map((item) => {
-            const expanded = expandedId === item.id;
-            const versionActual = obtenerVersionActual(item);
-
-            return (
-              <article
-                key={item.id}
-                style={{
-                  background: "white",
-                  borderRadius: 28,
-                  overflow: "hidden",
-                  border: "1px solid #e5e7eb",
-                  boxShadow: "0 14px 34px rgba(0,0,0,0.07)"
-                }}
-              >
-                <ImagenVehiculo src={item.imagen} alt={item.corto} />
-
-                <div style={{ padding: 22 }}>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      gap: 12,
-                      alignItems: "flex-start"
-                    }}
+              <div className="filtros">
+                {categorias.map((cat) => (
+                  <button
+                    key={cat}
+                    className={filtro === cat ? "filtro active" : "filtro"}
+                    onClick={() => setFiltro(cat)}
                   >
-                    <div>
-                      <div style={typeBadge}>{item.categoria}</div>
-                      <h3
-                        style={{
-                          margin: "12px 0 6px 0",
-                          fontSize: 31,
-                          lineHeight: 1.04
-                        }}
-                      >
-                        {item.corto}
-                      </h3>
-                    </div>
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-                    <div style={{ textAlign: "right" }}>
-                      <div style={{ fontSize: 12, color: "#6b7280" }}>Desde</div>
-                      <div style={{ fontSize: 28, fontWeight: 800 }}>
-                        {item.precioBase}
+            <div className="gridVehiculos">
+              {vehiculosFiltrados.map((vehiculo) => (
+                <article key={vehiculo.id} className="cardVehiculo">
+                  <div className="imgWrap">
+                    <img src={vehiculo.imagen} alt={vehiculo.nombre} />
+                    <span className="badge">{vehiculo.badge}</span>
+                  </div>
+
+                  <div className="cardContent">
+                    <p className="categoria">{vehiculo.categoria}</p>
+                    <h3>{vehiculo.nombre}</h3>
+                    <p className="descripcion">{vehiculo.descripcion}</p>
+
+                    <div className="precioBox">
+                      <div>
+                        <span className="label">Precio desde</span>
+                        <strong>{vehiculo.precio}</strong>
                       </div>
                     </div>
-                  </div>
 
-                  <div
-                    style={{
-                      display: "inline-block",
-                      marginTop: 6,
-                      padding: "6px 10px",
-                      borderRadius: 999,
-                      background: item.colorEtiqueta,
-                      color: item.colorTextoEtiqueta,
-                      fontSize: 12,
-                      fontWeight: 800
-                    }}
-                  >
-                    {item.etiqueta}
-                  </div>
-
-                  <p
-                    style={{
-                      margin: "14px 0 10px 0",
-                      fontSize: 20,
-                      fontWeight: 800,
-                      lineHeight: 1.35
-                    }}
-                  >
-                    {item.frase}
-                  </p>
-
-                  <p
-                    style={{
-                      marginTop: 0,
-                      marginBottom: 10,
-                      color: "#4b5563",
-                      lineHeight: 1.6
-                    }}
-                  >
-                    {item.gancho}
-                  </p>
-
-                  <p
-                    style={{
-                      marginTop: 0,
-                      color: "#6b7280",
-                      lineHeight: 1.6,
-                      fontSize: 14
-                    }}
-                  >
-                    {item.resumen}
-                  </p>
-
-                  <div
-                    style={{
-                      marginTop: 16,
-                      padding: 14,
-                      background: "#f9fafb",
-                      borderRadius: 16,
-                      border: "1px solid #e5e7eb"
-                    }}
-                  >
-                    <div
-                      style={{
-                        fontSize: 13,
-                        color: "#6b7280",
-                        marginBottom: 8,
-                        fontWeight: 700
-                      }}
-                    >
-                      Selecciona versión
-                    </div>
-
-                    <select
-                      value={versionSeleccionada[item.id] ?? 0}
-                      onChange={(e) =>
-                        setVersionSeleccionada((prev) => ({
-                          ...prev,
-                          [item.id]: Number(e.target.value)
-                        }))
-                      }
-                      style={selectStyle}
-                    >
-                      {item.versiones.map((ver, idx) => (
-                        <option key={ver.nombre} value={idx}>
-                          {ver.nombre} — {ver.precio}
-                        </option>
+                    <ul className="features">
+                      {vehiculo.caracteristicas.map((item, i) => (
+                        <li key={i}>{item}</li>
                       ))}
-                    </select>
-                  </div>
+                    </ul>
 
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "1fr 1fr",
-                      gap: 10,
-                      marginTop: 16
-                    }}
-                  >
-                    <button
-                      onClick={() =>
-                        setExpandedId(expanded ? null : item.id)
-                      }
-                      style={secondaryButton}
-                    >
-                      {expanded ? "Ocultar ficha" : "Ver ficha técnica"}
-                    </button>
-
-                    <button
-                      onClick={() => handleCotizar(item, versionActual)}
-                      style={whatsButton}
-                    >
-                      Pedir cotización
-                    </button>
-                  </div>
-
-                  {expanded && (
-                    <div
-                      style={{
-                        marginTop: 16,
-                        padding: 16,
-                        background: "#f9fafb",
-                        borderRadius: 16,
-                        border: "1px solid #e5e7eb"
-                      }}
-                    >
-                      <h4 style={{ margin: "0 0 12px 0", fontSize: 20 }}>
-                        Ficha técnica rápida
-                      </h4>
-
-                      <ul
-                        style={{
-                          margin: 0,
-                          paddingLeft: 20,
-                          lineHeight: 1.8,
-                          color: "#374151"
-                        }}
+                    <div className="acciones">
+                      <a
+                        href={formatearWhatsApp(
+                          negocio.telefono,
+                          vehiculo.whatsappTexto
+                        )}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="btnPrimary"
                       >
-                        {item.ficha.map((dato, idx) => (
-                          <li key={idx}>{dato}</li>
-                        ))}
-                      </ul>
+                        Solicitar información
+                      </a>
                     </div>
-                  )}
-                </div>
-              </article>
-            );
-          })}
-        </section>
-
-        <section
-          style={{
-            marginTop: 34,
-            background: "white",
-            borderRadius: 28,
-            padding: 28,
-            boxShadow: "0 12px 30px rgba(0,0,0,0.06)"
-          }}
-        >
-          <h2 style={{ marginTop: 0, marginBottom: 10, fontSize: 34 }}>
-            ¿Buscas una Ford para trabajo, familia o imagen?
-          </h2>
-          <p
-            style={{
-              marginTop: 0,
-              color: "#4b5563",
-              fontSize: 17,
-              lineHeight: 1.7,
-              maxWidth: 900
-            }}
-          >
-            Te ayudo a encontrar la versión correcta según tu perfil, necesidades
-            y tipo de uso. Escríbeme y revisamos la mejor opción para ti.
-          </p>
-
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 18 }}>
-            <button
-              onClick={() => {
-                window.open(
-                  `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(
-                    "Hola Diego, quiero asesoría para elegir una Ford."
-                  )}`,
-                  "_blank"
-                );
-              }}
-              style={primaryButton}
-            >
-              Quiero asesoría
-            </button>
-
-            <button
-              onClick={() => {
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-              style={secondaryButtonLight}
-            >
-              Volver arriba
-            </button>
+                  </div>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
+
+        <section className="ventajas">
+          <div className="container ventajasGrid">
+            <div className="ventajaCard">
+              <h3>Atención directa</h3>
+              <p>
+                El cliente habla contigo de forma inmediata y eso genera más
+                confianza desde el primer contacto.
+              </p>
+            </div>
+            <div className="ventajaCard">
+              <h3>Imagen profesional</h3>
+              <p>
+                La página transmite presencia, orden y seriedad para apoyar el
+                cierre de ventas.
+              </p>
+            </div>
+            <div className="ventajaCard">
+              <h3>Enfoque comercial</h3>
+              <p>
+                Cada unidad tiene mensaje directo a WhatsApp para facilitar la
+                prospección y la conversión.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section id="asesor" className="asesorSection">
+          <div className="container asesorGrid">
+            <div className="asesorFotoBox">
+              <img
+                src="/diego-asesor.jpg"
+                alt={`Asesor ${negocio.asesorNombre}`}
+                className="asesorFoto"
+              />
+            </div>
+
+            <div className="asesorInfo">
+              <span className="eyebrow">Tu asesor</span>
+              <h2>{negocio.asesorNombre}</h2>
+              <p className="asesorSub">{negocio.slogan}</p>
+              <p>
+                Atención enfocada en ayudarte a tomar una decisión clara, rápida
+                y confiable. Ya sea una pickup para trabajo, una SUV o una van
+                para negocio, te acompaño en todo el proceso.
+              </p>
+
+              <div className="asesorPuntos">
+                <div className="point">Seguimiento personalizado</div>
+                <div className="point">Atención por WhatsApp</div>
+                <div className="point">Cotizaciones claras</div>
+                <div className="point">Enfoque profesional</div>
+              </div>
+
+              <a
+                href={linkWhatsappGeneral}
+                target="_blank"
+                rel="noreferrer"
+                className="btnPrimary"
+              >
+                Contactar a {negocio.asesorNombre}
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section id="contacto" className="contacto">
+          <div className="container contactoBox">
+            <div>
+              <span className="eyebrow">Contacto</span>
+              <h2>¿Listo para cotizar tu próxima Ford?</h2>
+              <p>
+                Escríbeme y te ayudo a revisar opciones, versiones, precio y la
+                unidad ideal según tu necesidad.
+              </p>
+            </div>
+
+            <div className="contactActions">
+              <a
+                href={linkWhatsappGeneral}
+                target="_blank"
+                rel="noreferrer"
+                className="btnPrimary"
+              >
+                WhatsApp: {negocio.telefono}
+              </a>
+              <a href="/admin" className="btnSecondary">
+                Ir al panel admin
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <footer className="footer">
+          <div className="container footerInner">
+            <div>
+              <strong>{negocio.asesorNombre}</strong>
+              <p>{negocio.slogan}</p>
+            </div>
+
+            <div className="footerLinks">
+              <a href="#inventario">Inventario</a>
+              <a href="#asesor">Asesor</a>
+              <a href="/admin">Admin</a>
+            </div>
+          </div>
+        </footer>
+
+        <a
+          href={linkWhatsappGeneral}
+          target="_blank"
+          rel="noreferrer"
+          className="whatsappFloat"
+          aria-label="WhatsApp"
+        >
+          WA
+        </a>
       </div>
 
-      <a
-        href={`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(
-          "Hola Diego, quiero información sobre un vehículo Ford."
-        )}`}
-        style={floatingWhatsapp}
-      >
-        WhatsApp
-      </a>
-    </div>
+      <style jsx>{`
+        :global(html) {
+          scroll-behavior: smooth;
+        }
+
+        :global(body) {
+          margin: 0;
+          font-family: Arial, Helvetica, sans-serif;
+          background: #07111f;
+          color: #ffffff;
+        }
+
+        :global(*) {
+          box-sizing: border-box;
+        }
+
+        :global(a) {
+          text-decoration: none;
+        }
+
+        .app {
+          min-height: 100vh;
+          background:
+            radial-gradient(circle at top right, rgba(0, 118, 255, 0.22), transparent 30%),
+            linear-gradient(180deg, #07111f 0%, #0c1a2d 40%, #07111f 100%);
+        }
+
+        .container {
+          width: min(1200px, calc(100% - 32px));
+          margin: 0 auto;
+        }
+
+        .topbar {
+          position: sticky;
+          top: 0;
+          z-index: 100;
+          backdrop-filter: blur(12px);
+          background: rgba(7, 17, 31, 0.82);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .topbarInner {
+          min-height: 78px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 20px;
+        }
+
+        .brand {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+        }
+
+        .logo {
+          width: 48px;
+          height: 48px;
+          border-radius: 14px;
+          display: grid;
+          place-items: center;
+          font-size: 22px;
+          font-weight: 800;
+          background: linear-gradient(135deg, #1570ef, #3ea6ff);
+          box-shadow: 0 12px 30px rgba(21, 112, 239, 0.35);
+        }
+
+        .brandMini {
+          margin: 0 0 4px;
+          color: #7fc0ff;
+          font-size: 12px;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+        }
+
+        .brand h1 {
+          margin: 0;
+          font-size: 20px;
+        }
+
+        .nav {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          flex-wrap: wrap;
+        }
+
+        .nav a {
+          color: #d8e6f7;
+          font-size: 14px;
+        }
+
+        .adminLink {
+          padding: 10px 14px;
+          border-radius: 12px;
+          background: rgba(255, 255, 255, 0.08);
+        }
+
+        .hero {
+          padding: 56px 0 36px;
+        }
+
+        .heroGrid {
+          display: grid;
+          grid-template-columns: 1.2fr 0.8fr;
+          gap: 28px;
+          align-items: center;
+        }
+
+        .eyebrow {
+          display: inline-block;
+          margin-bottom: 14px;
+          color: #7fc0ff;
+          font-size: 12px;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+          font-weight: 700;
+        }
+
+        .heroText h2 {
+          margin: 0 0 14px;
+          font-size: clamp(32px, 5vw, 56px);
+          line-height: 1.05;
+        }
+
+        .heroText p {
+          margin: 0;
+          color: #dbe9f8;
+          line-height: 1.7;
+          font-size: 17px;
+        }
+
+        .heroButtons {
+          display: flex;
+          gap: 14px;
+          flex-wrap: wrap;
+          margin-top: 24px;
+        }
+
+        .btnPrimary,
+        .btnSecondary {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 48px;
+          padding: 0 18px;
+          border-radius: 14px;
+          font-weight: 700;
+          transition: 0.25s ease;
+        }
+
+        .btnPrimary {
+          color: #fff;
+          background: linear-gradient(135deg, #1570ef, #3ea6ff);
+          box-shadow: 0 14px 35px rgba(21, 112, 239, 0.28);
+        }
+
+        .btnPrimary:hover {
+          transform: translateY(-2px);
+        }
+
+        .btnSecondary {
+          color: #fff;
+          border: 1px solid rgba(255, 255, 255, 0.16);
+          background: rgba(255, 255, 255, 0.03);
+        }
+
+        .beneficios {
+          margin-top: 22px;
+          display: flex;
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+
+        .beneficios span {
+          padding: 10px 14px;
+          border-radius: 999px;
+          font-size: 13px;
+          color: #dbe9f8;
+          background: rgba(255, 255, 255, 0.06);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .heroCard {
+          overflow: hidden;
+          border-radius: 24px;
+          background: rgba(255, 255, 255, 0.06);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+        }
+
+        .asesorHeroImg {
+          width: 100%;
+          height: 380px;
+          object-fit: cover;
+          display: block;
+        }
+
+        .heroCardInfo {
+          padding: 22px;
+        }
+
+        .heroCardInfo h3 {
+          margin: 0 0 8px;
+          font-size: 26px;
+        }
+
+        .heroCardInfo p {
+          color: #dbe9f8;
+          margin: 0 0 8px;
+        }
+
+        .miniLabel {
+          color: #7fc0ff !important;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          font-size: 12px;
+          font-weight: 700;
+        }
+
+        .full {
+          width: 100%;
+          margin-top: 12px;
+        }
+
+        .stats {
+          padding: 12px 0 20px;
+        }
+
+        .statsGrid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 18px;
+        }
+
+        .statCard {
+          padding: 22px;
+          border-radius: 20px;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .statCard strong {
+          display: block;
+          margin-bottom: 8px;
+          font-size: 18px;
+        }
+
+        .statCard span {
+          color: #dbe9f8;
+          line-height: 1.6;
+        }
+
+        .inventario {
+          padding: 52px 0;
+        }
+
+        .sectionHead {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+          gap: 20px;
+          margin-bottom: 24px;
+        }
+
+        .sectionHead h2 {
+          margin: 0 0 10px;
+          font-size: 34px;
+        }
+
+        .sectionHead p {
+          margin: 0;
+          color: #dbe9f8;
+          max-width: 700px;
+          line-height: 1.7;
+        }
+
+        .filtros {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+
+        .filtro {
+          border: none;
+          cursor: pointer;
+          min-height: 42px;
+          padding: 0 14px;
+          border-radius: 999px;
+          color: #fff;
+          background: rgba(255, 255, 255, 0.07);
+        }
+
+        .filtro.active {
+          background: linear-gradient(135deg, #1570ef, #3ea6ff);
+        }
+
+        .gridVehiculos {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 22px;
+        }
+
+        .cardVehiculo {
+          overflow: hidden;
+          border-radius: 24px;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.22);
+        }
+
+        .imgWrap {
+          position: relative;
+          height: 280px;
+          overflow: hidden;
+          background: #081522;
+        }
+
+        .imgWrap img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+          transition: transform 0.35s ease;
+        }
+
+        .cardVehiculo:hover .imgWrap img {
+          transform: scale(1.04);
+        }
+
+        .badge {
+          position: absolute;
+          top: 16px;
+          left: 16px;
+          display: inline-flex;
+          align-items: center;
+          min-height: 34px;
+          padding: 0 12px;
+          border-radius: 999px;
+          font-size: 12px;
+          font-weight: 700;
+          color: #fff;
+          background: rgba(0, 0, 0, 0.55);
+          backdrop-filter: blur(8px);
+        }
+
+        .cardContent {
+          padding: 22px;
+        }
+
+        .categoria {
+          margin: 0 0 8px;
+          color: #7fc0ff;
+          font-size: 13px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+        }
+
+        .cardContent h3 {
+          margin: 0 0 10px;
+          font-size: 28px;
+        }
+
+        .descripcion {
+          color: #dbe9f8;
+          line-height: 1.7;
+          margin: 0 0 18px;
+        }
+
+        .precioBox {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 14px;
+          margin-bottom: 18px;
+        }
+
+        .precioBox > div {
+          padding: 14px;
+          border-radius: 16px;
+          background: rgba(255, 255, 255, 0.05);
+        }
+
+        .label {
+          display: block;
+          color: #95b7db;
+          font-size: 12px;
+          margin-bottom: 6px;
+          text-transform: uppercase;
+          letter-spacing: 0.8px;
+        }
+
+        .precioBox strong {
+          font-size: 22px;
+        }
+
+        .features {
+          margin: 0 0 22px;
+          padding-left: 18px;
+          color: #dbe9f8;
+          line-height: 1.9;
+        }
+
+        .acciones {
+          display: flex;
+          gap: 12px;
+          flex-wrap: wrap;
+        }
+
+        .ventajas {
+          padding: 0 0 52px;
+        }
+
+        .ventajasGrid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 18px;
+        }
+
+        .ventajaCard {
+          padding: 22px;
+          border-radius: 20px;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .ventajaCard h3 {
+          margin: 0 0 10px;
+          font-size: 22px;
+        }
+
+        .ventajaCard p {
+          margin: 0;
+          color: #dbe9f8;
+          line-height: 1.7;
+        }
+
+        .asesorSection {
+          padding: 30px 0 52px;
+        }
+
+        .asesorGrid {
+          display: grid;
+          grid-template-columns: 0.8fr 1.2fr;
+          gap: 26px;
+          align-items: center;
+        }
+
+        .asesorFotoBox {
+          border-radius: 24px;
+          overflow: hidden;
+          background: rgba(255, 255, 255, 0.06);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .asesorFoto {
+          width: 100%;
+          height: 100%;
+          min-height: 420px;
+          object-fit: cover;
+          display: block;
+        }
+
+        .asesorInfo {
+          padding: 10px 0;
+        }
+
+        .asesorInfo h2 {
+          margin: 0 0 8px;
+          font-size: 40px;
+        }
+
+        .asesorSub {
+          color: #7fc0ff;
+          font-weight: 700;
+          margin: 0 0 14px;
+        }
+
+        .asesorInfo p {
+          color: #dbe9f8;
+          line-height: 1.8;
+          font-size: 17px;
+        }
+
+        .asesorPuntos {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 12px;
+          margin: 22px 0;
+        }
+
+        .point {
+          padding: 14px 16px;
+          border-radius: 16px;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .contacto {
+          padding: 10px 0 60px;
+        }
+
+        .contactoBox {
+          padding: 28px;
+          border-radius: 26px;
+          background: linear-gradient(135deg, rgba(21, 112, 239, 0.18), rgba(62, 166, 255, 0.08));
+          border: 1px solid rgba(127, 192, 255, 0.16);
+          display: flex;
+          justify-content: space-between;
+          gap: 20px;
+          align-items: center;
+        }
+
+        .contactoBox h2 {
+          margin: 0 0 10px;
+          font-size: 34px;
+        }
+
+        .contactoBox p {
+          margin: 0;
+          color: #dbe9f8;
+          line-height: 1.7;
+          max-width: 720px;
+        }
+
+        .contactActions {
+          display: flex;
+          gap: 12px;
+          flex-wrap: wrap;
+        }
+
+        .footer {
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          padding: 22px 0 28px;
+        }
+
+        .footerInner {
+          display: flex;
+          justify-content: space-between;
+          gap: 20px;
+          align-items: center;
+        }
+
+        .footerInner p {
+          margin: 6px 0 0;
+          color: #dbe9f8;
+        }
+
+        .footerLinks {
+          display: flex;
+          gap: 14px;
+          flex-wrap: wrap;
+        }
+
+        .footerLinks a {
+          color: #dbe9f8;
+        }
+
+        .whatsappFloat {
+          position: fixed;
+          right: 18px;
+          bottom: 18px;
+          width: 62px;
+          height: 62px;
+          border-radius: 999px;
+          display: grid;
+          place-items: center;
+          font-weight: 800;
+          color: #fff;
+          background: linear-gradient(135deg, #11b857, #36d97d);
+          box-shadow: 0 18px 35px rgba(17, 184, 87, 0.35);
+          z-index: 50;
+        }
+
+        @media (max-width: 980px) {
+          .heroGrid,
+          .asesorGrid,
+          .gridVehiculos,
+          .statsGrid,
+          .ventajasGrid,
+          .contactoBox {
+            grid-template-columns: 1fr;
+          }
+
+          .sectionHead,
+          .footerInner,
+          .topbarInner {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+
+          .nav {
+            width: 100%;
+          }
+
+          .contactoBox {
+            align-items: flex-start;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .hero {
+            padding-top: 34px;
+          }
+
+          .heroText h2,
+          .asesorInfo h2,
+          .sectionHead h2,
+          .contactoBox h2 {
+            font-size: 30px;
+          }
+
+          .imgWrap {
+            height: 220px;
+          }
+
+          .asesorPuntos {
+            grid-template-columns: 1fr;
+          }
+
+          .asesorHeroImg {
+            height: 280px;
+          }
+
+          .asesorFoto {
+            min-height: 300px;
+          }
+        }
+      `}</style>
+    </>
   );
 }
-
-const heroBadge = {
-  background: "rgba(255,255,255,0.12)",
-  padding: "10px 14px",
-  borderRadius: 999,
-  fontSize: 14,
-  fontWeight: 700
-};
-
-const inputStyle = {
-  width: "100%",
-  padding: "14px 16px",
-  borderRadius: 14,
-  border: "1px solid #d1d5db",
-  fontSize: 16,
-  outline: "none",
-  boxSizing: "border-box"
-};
-
-const selectStyle = {
-  width: "100%",
-  padding: "12px 14px",
-  borderRadius: 12,
-  border: "1px solid #d1d5db",
-  fontSize: 15,
-  outline: "none",
-  background: "#fff",
-  boxSizing: "border-box"
-};
-
-const chipButton = {
-  padding: "11px 15px",
-  borderRadius: 999,
-  fontSize: 14,
-  fontWeight: 700,
-  cursor: "pointer"
-};
-
-const typeBadge = {
-  display: "inline-block",
-  padding: "6px 12px",
-  borderRadius: 999,
-  background: "#eff6ff",
-  color: "#1d4ed8",
-  fontSize: 12,
-  fontWeight: 800
-};
-
-const primaryButton = {
-  marginTop: 16,
-  background: "linear-gradient(135deg, #111827, #000000)",
-  color: "white",
-  border: "none",
-  borderRadius: 14,
-  padding: "14px 24px",
-  fontSize: 17,
-  fontWeight: 800,
-  cursor: "pointer",
-  boxShadow: "0 12px 24px rgba(0,0,0,0.18)"
-};
-
-const secondaryButton = {
-  background: "#111827",
-  color: "white",
-  border: "none",
-  borderRadius: 12,
-  padding: "12px 14px",
-  fontSize: 15,
-  fontWeight: 800,
-  cursor: "pointer"
-};
-
-const secondaryButtonLight = {
-  marginTop: 16,
-  background: "#f3f4f6",
-  color: "#111827",
-  border: "1px solid #d1d5db",
-  borderRadius: 14,
-  padding: "14px 24px",
-  fontSize: 17,
-  fontWeight: 800,
-  cursor: "pointer"
-};
-
-const whatsButton = {
-  background: "#15803d",
-  color: "white",
-  border: "none",
-  borderRadius: 12,
-  padding: "12px 14px",
-  fontSize: 15,
-  fontWeight: 800,
-  cursor: "pointer"
-};
-
-const floatingWhatsapp = {
-  position: "fixed",
-  right: 20,
-  bottom: 20,
-  background: "#16a34a",
-  color: "white",
-  textDecoration: "none",
-  padding: "15px 20px",
-  borderRadius: 999,
-  fontWeight: 800,
-  boxShadow: "0 14px 28px rgba(0,0,0,0.18)",
-  zIndex: 1000
-};
