@@ -2,107 +2,103 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const loginForm = document.getElementById("loginForm");
 const logoutBtn = document.getElementById("logoutBtn");
+
 const loginBox = document.getElementById("loginBox");
 const panelBox = document.getElementById("panelBox");
-const estadoLogin = document.getElementById("estadoLogin");
+
 const tablaBody = document.getElementById("tablaProspectos");
+
 const totalProspectos = document.getElementById("totalProspectos");
+const prospectosHoy = document.getElementById("prospectosHoy");
+const vehiculoTop = document.getElementById("vehiculoTop");
 
-function mostrarLogin() {
-loginBox.style.display = "block";
-panelBox.style.display = "none";
+function mostrarLogin(){
+loginBox.style.display="block"
+panelBox.style.display="none"
 }
 
-function mostrarPanel() {
-loginBox.style.display = "none";
-panelBox.style.display = "block";
+function mostrarPanel(){
+loginBox.style.display="none"
+panelBox.style.display="block"
 }
 
-function escapeHtml(text) {
-const div = document.createElement("div");
-div.textContent = text || "";
-return div.innerHTML;
+function escapeHtml(text){
+const div=document.createElement("div")
+div.textContent=text||""
+return div.innerHTML
 }
 
-async function eliminarProspecto(id, nombre) {
+async function eliminarProspecto(id){
 
-const confirmar = confirm(`¿Eliminar el prospecto de ${nombre}?`);
-
-if (!confirmar) return;
-
-const { error } = await window.db
+await window.db
 .from("prospectos")
 .delete()
-.eq("id", id);
+.eq("id",id)
 
-if (error) {
-alert("No se pudo eliminar");
-return;
-}
-
-cargarProspectos();
+cargarProspectos()
 
 }
 
-async function marcarRevisado(id) {
+async function marcarRevisado(id){
 
-const { error } = await window.db
+await window.db
 .from("prospectos")
-.update({ revisado: true })
-.eq("id", id);
+.update({revisado:true})
+.eq("id",id)
 
-if (error) {
-alert("No se pudo actualizar");
-return;
-}
-
-cargarProspectos();
+cargarProspectos()
 
 }
 
-async function cargarProspectos() {
+async function cargarProspectos(){
 
-tablaBody.innerHTML = `
-<tr>
-<td colspan="6">Cargando prospectos...</td>
-</tr>
-`;
-
-const { data, error } = await window.db
+const {data,error}=await window.db
 .from("prospectos")
 .select("*")
-.order("created_at", { ascending: false });
+.order("created_at",{ascending:false})
 
-if (error) {
-tablaBody.innerHTML = `
-<tr>
-<td colspan="6">Error al cargar prospectos</td>
-</tr>
-`;
-return;
+if(error)return
+
+totalProspectos.textContent=data.length
+
+const hoy=new Date().toISOString().slice(0,10)
+
+const hoyCount=data.filter(p=>p.created_at?.slice(0,10)===hoy)
+
+prospectosHoy.textContent=hoyCount.length
+
+const conteoVehiculos={}
+
+data.forEach(p=>{
+
+if(!conteoVehiculos[p.vehiculo]){
+conteoVehiculos[p.vehiculo]=0
 }
 
-totalProspectos.textContent = data.length;
+conteoVehiculos[p.vehiculo]++
 
-if (!data.length) {
+})
 
-tablaBody.innerHTML = `
-<tr>
-<td colspan="6">No hay prospectos</td>
-</tr>
-`;
+let top="-"
+let max=0
 
-return;
+for(const v in conteoVehiculos){
+
+if(conteoVehiculos[v]>max){
+
+max=conteoVehiculos[v]
+top=v
 
 }
 
-tablaBody.innerHTML = data.map((p) => {
+}
 
-const fecha = p.created_at
-? new Date(p.created_at).toLocaleString("es-MX")
-: "";
+vehiculoTop.textContent=top
 
-return `
+tablaBody.innerHTML=data.map(p=>{
+
+return`
+
 <tr>
 
 <td>${escapeHtml(p.nombre)}</td>
@@ -113,107 +109,93 @@ return `
 
 <td>${escapeHtml(p.comentario)}</td>
 
-<td>
-
-${p.revisado ? "✅ Revisado" : "🟡 Nuevo"}
-
-</td>
+<td>${p.revisado?"✅ Revisado":"🟡 Nuevo"}</td>
 
 <td>
 
-<button class="btn btn-dark btn-revisado"
-data-id="${p.id}">
+<button class="btn btn-dark btn-revisado" data-id="${p.id}">
 Revisado
 </button>
 
-<button class="btn btn-danger btn-delete"
-data-id="${p.id}"
-data-nombre="${escapeHtml(p.nombre)}">
+<button class="btn btn-danger btn-delete" data-id="${p.id}">
 Eliminar
 </button>
 
 </td>
 
 </tr>
-`;
 
-}).join("");
+`
 
-document.querySelectorAll(".btn-delete").forEach((btn) => {
+}).join("")
 
-btn.addEventListener("click", () => {
+document.querySelectorAll(".btn-delete").forEach(btn=>{
 
-eliminarProspecto(
-btn.dataset.id,
-btn.dataset.nombre
-);
+btn.addEventListener("click",()=>{
 
-});
+eliminarProspecto(btn.dataset.id)
 
-});
+})
 
-document.querySelectorAll(".btn-revisado").forEach((btn) => {
+})
 
-btn.addEventListener("click", () => {
+document.querySelectorAll(".btn-revisado").forEach(btn=>{
 
-marcarRevisado(btn.dataset.id);
+btn.addEventListener("click",()=>{
 
-});
+marcarRevisado(btn.dataset.id)
 
-});
+})
+
+})
 
 }
 
-async function revisarSesion() {
+async function revisarSesion(){
 
-const { data } = await window.db.auth.getSession();
+const {data}=await window.db.auth.getSession()
 
-if (data?.session) {
-mostrarPanel();
-cargarProspectos();
-} else {
-mostrarLogin();
+if(data?.session){
+
+mostrarPanel()
+cargarProspectos()
+
+}else{
+
+mostrarLogin()
+
 }
 
 }
 
-if (loginForm) {
+loginForm?.addEventListener("submit",async(e)=>{
 
-loginForm.addEventListener("submit", async (e) => {
+e.preventDefault()
 
-e.preventDefault();
+const email=document.getElementById("adminEmail").value
+const password=document.getElementById("adminPassword").value
 
-const email = document.getElementById("adminEmail").value.trim();
-const password = document.getElementById("adminPassword").value.trim();
-
-const { error } = await window.db.auth.signInWithPassword({
+const {error}=await window.db.auth.signInWithPassword({
 email,
 password
-});
+})
 
-if (error) {
-estadoLogin.textContent = "Correo o contraseña incorrectos";
-return;
-}
+if(!error){
 
-mostrarPanel();
-cargarProspectos();
-
-});
+mostrarPanel()
+cargarProspectos()
 
 }
 
-if (logoutBtn) {
+})
 
-logoutBtn.addEventListener("click", async () => {
+logoutBtn?.addEventListener("click",async()=>{
 
-await window.db.auth.signOut();
-mostrarLogin();
+await window.db.auth.signOut()
+mostrarLogin()
 
-});
+})
 
-}
+revisarSesion()
 
-revisarSesion();
-
-});
+})
