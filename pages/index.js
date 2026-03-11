@@ -86,15 +86,11 @@ export default function Home() {
       <header className={styles.hero}>
         <div className={styles.heroOverlay}>
           <p className={styles.badge}>Asesor Profesional Ford</p>
-
           <h1>Diego Valenzuela</h1>
-
           <p className={styles.subtitle}>
             Atención profesional en Parral, Chihuahua y la región
           </p>
-
           <p className={styles.phone}>Teléfono: 6272850550</p>
-
           <p className={styles.heroText}>
             Encuentra tu próximo Ford con asesoría profesional, atención cercana
             y seguimiento real para trabajo, familia o negocio.
@@ -216,6 +212,14 @@ export default function Home() {
                 <h3>{v.nombre}</h3>
 
                 <p>{v.descripcion}</p>
+
+                <div className={styles.ficha}>
+                  <p><strong>Motor:</strong> {v.ficha.motor}</p>
+                  <p><strong>Transmisión:</strong> {v.ficha.transmision}</p>
+                  <p><strong>Potencia:</strong> {v.ficha.potencia}</p>
+                  <p><strong>Tracción:</strong> {v.ficha.traccion}</p>
+                  <p><strong>Uso ideal:</strong> {v.ficha.uso}</p>
+                </div>
 
                 <p className={styles.precio}>{v.precio}</p>
 
