@@ -391,3 +391,20 @@
     padding:22px;
   }
 }
+.ficha{
+  background:#f8fafc;
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  padding:12px;
+  margin:12px 0;
+}
+
+.ficha p{
+  margin:0 0 6px;
+  font-size:14px;
+  line-height:1.4;
+}
+
+.ficha p:last-child{
+  margin-bottom:0;
+}
