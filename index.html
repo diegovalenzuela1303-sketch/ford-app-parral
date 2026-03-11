@@ -3,10 +3,137 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Prueba Ford Parral</title>
+  <title>Ford Parral | Diego Valenzuela</title>
+  <meta name="description" content="Asesor profesional Ford en Parral, Chihuahua. Cotiza Ranger, Ranger Raptor, F-150, F-250, F-350, Territory, Bronco y Mustang." />
+  <link rel="stylesheet" href="/css/estilos.css" />
 </head>
 <body>
-  <h1>La página sí está cargando</h1>
-  <p>Proyecto Ford Parral funcionando.</p>
+  <div class="topbar">
+    <div class="container">
+      <div>Asesor profesional Ford en Parral, Chihuahua</div>
+      <div>Precios sujetos a cambio sin previo aviso</div>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <h1>Venta profesional de vehículos Ford en Parral</h1>
+        <p>
+          Atención personalizada con <strong class="asesor-nombre">Diego Valenzuela</strong>.
+          Te ayudo a encontrar la unidad ideal para trabajo, familia, campo o uso personal.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#catalogo" class="btn btn-primary">Ver catálogo</a>
+          <a href="#contacto" class="btn btn-outline">Solicitar información</a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <h3>Atención directa</h3>
+        <p><strong>Asesor:</strong> <span class="asesor-nombre">Diego Valenzuela</span></p>
+        <p><strong>Teléfono:</strong> <span class="asesor-telefono">627 285 0550</span></p>
+        <p><strong>Enfoque:</strong> Venta profesional Ford, seguimiento real y atención personalizada.</p>
+        <a class="btn btn-whatsapp wa-link" target="_blank" rel="noopener noreferrer" href="#">WhatsApp</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section" id="catalogo">
+      <div class="container">
+        <h2 class="section-title">Catálogo Ford</h2>
+        <p class="section-subtitle">
+          Modelos enfocados al mercado de Parral y la región, con opciones para trabajo, aventura, familia y clientes de perfil premium.
+        </p>
+        <div class="catalogo-grid" id="catalogo"></div>
+      </div>
+    </section>
+
+    <section class="section" id="contacto">
+      <div class="container contact-grid">
+        <div class="contact-card">
+          <h3>Solicita información</h3>
+          <p>
+            Déjame tus datos y te contacto para cotización, disponibilidad, planes y seguimiento.
+          </p>
+
+          <div class="contact-list">
+            <div class="contact-item">
+              <strong>Asesor:</strong> <span class="asesor-nombre">Diego Valenzuela</span>
+            </div>
+            <div class="contact-item">
+              <strong>Teléfono:</strong> <span class="asesor-telefono">627 285 0550</span>
+            </div>
+            <div class="contact-item">
+              <strong>Zona:</strong> Parral, Chihuahua y alrededores
+            </div>
+          </div>
+
+          <div class="contact-actions">
+            <a class="btn btn-whatsapp wa-link" target="_blank" rel="noopener noreferrer" href="#">Enviar WhatsApp</a>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <h3>Formulario de prospecto</h3>
+          <form id="formProspecto" class="form-grid">
+            <label>
+              Nombre completo *
+              <input type="text" id="nombre" placeholder="Escribe tu nombre" required />
+            </label>
+
+            <label>
+              Teléfono *
+              <input type="tel" id="telefono" placeholder="Escribe tu teléfono" required />
+            </label>
+
+            <label>
+              Vehículo de interés *
+              <select id="vehiculo" required>
+                <option value="Ford Ranger">Ford Ranger</option>
+                <option value="Ford Ranger Raptor">Ford Ranger Raptor</option>
+                <option value="Ford F-150">Ford F-150</option>
+                <option value="Ford F-250">Ford F-250</option>
+                <option value="Ford F-350">Ford F-350</option>
+                <option value="Ford Territory">Ford Territory</option>
+                <option value="Ford Bronco">Ford Bronco</option>
+                <option value="Ford Mustang">Ford Mustang</option>
+              </select>
+            </label>
+
+            <label>
+              Comentario
+              <textarea id="comentario" placeholder="Ejemplo: Me interesa cotización, mensualidades o disponibilidad."></textarea>
+            </label>
+
+            <button type="submit" class="btn btn-dark">Solicitar información</button>
+            <div id="mensajeEstado" class="mensaje"></div>
+          </form>
+
+          <p class="small-note">
+            Al enviar este formulario aceptas ser contactado únicamente con fines de atención comercial.
+            Precios sujetos a cambio sin previo aviso.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p><strong>Ford Parral | <span class="asesor-nombre">Diego Valenzuela</span></strong></p>
+      <p>Teléfono: <span class="asesor-telefono">627 285 0550</span></p>
+      <p>© <span id="year"></span> Todos los derechos reservados.</p>
+      <p>Precios sujetos a cambio sin previo aviso.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/config.js"></script>
+  <script src="/supabase-client.js"></script>
+  <script src="/js/vehiculos.js"></script>
+  <script src="/js/main.js"></script>
 </body>
 </html>
