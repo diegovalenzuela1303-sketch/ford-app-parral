@@ -2,34 +2,34 @@ window.VEHICULOS = [
   {
     id: "ranger",
     nombre: "Ford Ranger",
-    imagen: "/public/ranger.jpg",
-    descripcion: "Pickup mediana versátil, ideal para trabajo y uso diario con gran equilibrio entre fuerza, confort y tecnología.",
+    imagen: "public/ranger.jpg",
+    descripcion: "Pickup mediana versátil, ideal para trabajo y uso diario.",
     ficha: {
-      motor: "2.3L EcoBoost / versiones diésel según mercado",
+      motor: "2.3L EcoBoost",
       transmision: "Automática",
       traccion: "4x2 / 4x4",
-      enfoque: "Trabajo, familia y carretera"
+      enfoque: "Trabajo y uso diario"
     }
   },
   {
     id: "ranger-raptor",
     nombre: "Ford Ranger Raptor",
-    imagen: "/public/ranger-raptor.jpg",
-    descripcion: "Pickup de alto desempeño off-road con imagen agresiva, gran suspensión y enfoque total en aventura.",
+    imagen: "public/ranger-raptor.jpg",
+    descripcion: "Pickup de alto desempeño off-road con imagen agresiva.",
     ficha: {
       motor: "V6 3.0L EcoBoost",
       transmision: "Automática de 10 velocidades",
       traccion: "4x4",
-      enfoque: "Off-road, aventura y alto desempeño"
+      enfoque: "Aventura y alto desempeño"
     }
   },
   {
     id: "f150",
     nombre: "Ford F-150",
-    imagen: "/public/f150.jpg",
-    descripcion: "La pickup insignia para quien busca capacidad, presencia, comodidad y potencia para negocio o uso personal.",
+    imagen: "public/f150.jpg",
+    descripcion: "Pickup grande con potencia, presencia y gran capacidad.",
     ficha: {
-      motor: "Versiones EcoBoost / V8 según mercado",
+      motor: "EcoBoost / V8 según versión",
       transmision: "Automática",
       traccion: "4x2 / 4x4",
       enfoque: "Trabajo fuerte y uso premium"
@@ -38,10 +38,10 @@ window.VEHICULOS = [
   {
     id: "f250",
     nombre: "Ford F-250",
-    imagen: "/public/f250.jpg",
-    descripcion: "Pensada para trabajo pesado, arrastre y operación profesional con gran resistencia estructural.",
+    imagen: "public/f250.jpg",
+    descripcion: "Pensada para trabajo pesado y operación profesional.",
     ficha: {
-      motor: "Gasolina o diésel según versión",
+      motor: "Gasolina o diésel",
       transmision: "Automática",
       traccion: "4x4 disponible",
       enfoque: "Carga y operación intensiva"
@@ -50,49 +50,49 @@ window.VEHICULOS = [
   {
     id: "f350",
     nombre: "Ford F-350",
-    imagen: "/public/f350.jpg",
-    descripcion: "La solución para clientes que necesitan máxima capacidad de carga, remolque y durabilidad.",
+    imagen: "public/f350.jpg",
+    descripcion: "Máxima capacidad de carga, remolque y durabilidad.",
     ficha: {
-      motor: "Gasolina o Power Stroke diésel según versión",
+      motor: "Gasolina o Power Stroke diésel",
       transmision: "Automática",
       traccion: "4x4 disponible",
-      enfoque: "Trabajo extremo y flotillas"
+      enfoque: "Trabajo extremo"
     }
   },
   {
     id: "territory",
     nombre: "Ford Territory",
-    imagen: "/public/territory.jpg",
-    descripcion: "SUV moderna, cómoda y tecnológica para familias y clientes que quieren equipamiento y presencia.",
+    imagen: "public/territory.jpg",
+    descripcion: "SUV moderna, cómoda y tecnológica para familia.",
     ficha: {
       motor: "1.8L Turbo",
       transmision: "Automática",
       traccion: "Delantera",
-      enfoque: "Ciudad, familia y confort"
+      enfoque: "Ciudad y familia"
     }
   },
   {
     id: "bronco",
     nombre: "Ford Bronco",
-    imagen: "/public/bronco.jpg",
-    descripcion: "SUV icónica de aventura para quienes buscan imagen fuerte, capacidad todoterreno y estilo.",
+    imagen: "public/bronco.jpg",
+    descripcion: "SUV icónica de aventura con gran presencia.",
     ficha: {
-      motor: "Versiones turbo según mercado",
+      motor: "Turbo según versión",
       transmision: "Automática",
       traccion: "4x4",
-      enfoque: "Aventura, off-road y lifestyle"
+      enfoque: "Aventura y off-road"
     }
   },
   {
     id: "mustang",
     nombre: "Ford Mustang",
-    imagen: "/public/mustang.jpg",
-    descripcion: "Deportivo legendario para clientes que quieren diseño, potencia y experiencia de conducción emocional.",
+    imagen: "public/mustang.jpg",
+    descripcion: "Deportivo legendario con diseño agresivo y presencia premium.",
     ficha: {
       motor: "EcoBoost / V8 según versión",
-      transmision: "Automática / manual según versión",
+      transmision: "Automática / manual",
       traccion: "Trasera",
-      enfoque: "Deportivo y presencia premium"
+      enfoque: "Deportivo"
     }
   }
 ];
