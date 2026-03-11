@@ -1,10 +1,27 @@
 document.addEventListener("DOMContentLoaded", () => {
   const catalogo = document.getElementById("catalogo-lista");
   const yearEl = document.getElementById("year");
+  const form = document.getElementById("formProspecto");
+  const mensajeEstado = document.getElementById("mensajeEstado");
+  const vehiculoSelect = document.getElementById("vehiculo");
+  const nombreAsesorEls = document.querySelectorAll(".asesor-nombre");
+  const telefonoAsesorEls = document.querySelectorAll(".asesor-telefono");
+  const whatsappLinks = document.querySelectorAll(".wa-link");
+
+  const asesorNombre = window.APP_CONFIG?.ASESOR_NOMBRE || "Diego Valenzuela";
+  const asesorTelefono = window.APP_CONFIG?.ASESOR_TELEFONO || "627 285 0550";
+  const whatsappNumber = window.APP_CONFIG?.WHATSAPP_NUMBER || "526272850550";
 
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
   }
+
+  nombreAsesorEls.forEach((el) => (el.textContent = asesorNombre));
+  telefonoAsesorEls.forEach((el) => (el.textContent = asesorTelefono));
+
+  whatsappLinks.forEach((link) => {
+    link.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Hola Diego, quiero información de un vehículo Ford.")}`;
+  });
 
   if (!catalogo) {
     console.error("No se encontró el contenedor del catálogo.");
@@ -23,7 +40,6 @@ document.addEventListener("DOMContentLoaded", () => {
     "ranger-raptor": "Pickups",
     "ranger-wildtrak": "Pickups",
     "ranger-tremor": "Pickups",
-
     "f150-xl": "Pickups",
     "f150-xlt": "Pickups",
     "f150-lariat": "Pickups",
@@ -31,15 +47,12 @@ document.addEventListener("DOMContentLoaded", () => {
     "f150-tremor": "Pickups",
     "f150-raptor": "Pickups",
     "f150-lightning": "Pickups",
-
     "f250-xl": "Pickups",
     "f250-xlt": "Pickups",
     "f250-lariat": "Pickups",
-
     "f350-xl": "Pickups",
     "f350-xlt": "Pickups",
     "f350-lariat": "Pickups",
-
     "territory-trend": "SUV",
     "territory-titanium": "SUV",
     "escape": "SUV",
@@ -53,7 +66,6 @@ document.addEventListener("DOMContentLoaded", () => {
     "bronco-wildtrak": "SUV",
     "bronco-raptor": "SUV",
     "bronco-sport": "SUV",
-
     "mustang-ecoboost": "Deportivos",
     "mustang-gt": "Deportivos",
     "mustang-dark-horse": "Deportivos"
@@ -130,11 +142,18 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="card-actions">
             <a
               class="btn btn-whatsapp"
-              href="https://wa.me/526272850550?text=${whatsappText}"
+              href="https://wa.me/${whatsappNumber}?text=${whatsappText}"
               target="_blank"
               rel="noopener noreferrer"
             >
               WhatsApp
+            </a>
+            <a
+              class="btn btn-outline"
+              href="#contacto"
+              data-vehiculo="${vehiculo.nombre}"
+            >
+              Solicitar info
             </a>
           </div>
         </div>
@@ -176,6 +195,13 @@ document.addEventListener("DOMContentLoaded", () => {
         No encontramos unidades con ese filtro.
       </div>
     `;
+
+    document.querySelectorAll("[data-vehiculo]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const vehiculo = btn.getAttribute("data-vehiculo");
+        if (vehiculoSelect) vehiculoSelect.value = vehiculo;
+      });
+    });
   }
 
   const filtroHTML = `
@@ -241,10 +267,72 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!document.querySelector(".wa-float")) {
     const waFloat = document.createElement("a");
     waFloat.className = "wa-float";
-    waFloat.href = "https://wa.me/526272850550?text=Hola Diego, quiero información de un vehículo Ford.";
+    waFloat.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Hola Diego, quiero información de un vehículo Ford.")}`;
     waFloat.target = "_blank";
     waFloat.rel = "noopener noreferrer";
     waFloat.textContent = "WhatsApp";
     document.body.appendChild(waFloat);
+  }
+
+  async function guardarProspecto(payload) {
+    if (!window.db) {
+      throw new Error("Supabase no está inicializado.");
+    }
+
+    const { error } = await window.db.from("prospectos").insert([payload]);
+    if (error) throw error;
+  }
+
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const submitBtn = form.querySelector("button[type='submit']");
+      const nombre = document.getElementById("nombre")?.value.trim() || "";
+      const telefono = document.getElementById("telefono")?.value.trim() || "";
+      const vehiculo = document.getElementById("vehiculo")?.value.trim() || "";
+      const comentario = document.getElementById("comentario")?.value.trim() || "";
+
+      if (!nombre || !telefono || !vehiculo) {
+        if (mensajeEstado) {
+          mensajeEstado.textContent = "Completa los campos obligatorios.";
+          mensajeEstado.className = "mensaje error";
+        }
+        return;
+      }
+
+      try {
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Enviando...";
+        }
+
+        await guardarProspecto({
+          nombre,
+          telefono,
+          vehiculo,
+          comentario,
+          ciudad: window.APP_CONFIG?.CIUDAD_OBJETIVO || "Parral, Chihuahua"
+        });
+
+        if (mensajeEstado) {
+          mensajeEstado.textContent = "Gracias. Tu solicitud fue enviada correctamente.";
+          mensajeEstado.className = "mensaje success";
+        }
+
+        form.reset();
+      } catch (error) {
+        console.error(error);
+        if (mensajeEstado) {
+          mensajeEstado.textContent = "No se pudo guardar el prospecto. Revisa config.js, supabase-client.js y la tabla de Supabase.";
+          mensajeEstado.className = "mensaje error";
+        }
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Solicitar información";
+        }
+      }
+    });
   }
 });
