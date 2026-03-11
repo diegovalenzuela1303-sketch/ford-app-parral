@@ -1,1 +1,414 @@
+:root {
+  --ford-blue: #003478;
+  --ford-blue-dark: #02244f;
+  --bg: #f4f7fb;
+  --text: #16202a;
+  --muted: #5c6b7a;
+  --white: #ffffff;
+  --border: #dbe4ef;
+  --success: #0f8b4c;
+  --danger: #c62828;
+  --shadow: 0 18px 40px rgba(11, 31, 53, 0.08);
+  --radius: 18px;
+}
 
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+}
+
+.container {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.topbar {
+  background: var(--ford-blue-dark);
+  color: var(--white);
+  font-size: 14px;
+}
+
+.topbar .container {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 0;
+  flex-wrap: wrap;
+}
+
+.hero {
+  background:
+    linear-gradient(135deg, rgba(0, 52, 120, 0.92), rgba(2, 36, 79, 0.95)),
+    radial-gradient(circle at top right, rgba(255,255,255,0.12), transparent 30%);
+  color: var(--white);
+  padding: 72px 0 56px;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 32px;
+  align-items: center;
+}
+
+.hero h1 {
+  font-size: 46px;
+  line-height: 1.08;
+  margin: 0 0 18px;
+}
+
+.hero p {
+  font-size: 18px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.92);
+  margin: 0 0 20px;
+}
+
+.hero-card {
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+}
+
+.hero-card h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.hero-card p {
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+
+.hero-actions,
+.card-actions,
+.contact-actions,
+.admin-top {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  border: 0;
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary {
+  background: var(--white);
+  color: var(--ford-blue);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--white);
+  border: 1px solid rgba(255,255,255,0.45);
+}
+
+.btn-whatsapp {
+  background: #18a957;
+  color: var(--white);
+}
+
+.btn-dark {
+  background: var(--ford-blue);
+  color: var(--white);
+}
+
+.section {
+  padding: 56px 0;
+}
+
+.section-title {
+  text-align: center;
+  margin: 0 0 10px;
+  font-size: 34px;
+}
+
+.section-subtitle {
+  text-align: center;
+  color: var(--muted);
+  max-width: 760px;
+  margin: 0 auto 30px;
+  line-height: 1.6;
+}
+
+.catalogo-grid {
+  display: grid;
+  gap: 24px;
+}
+
+.vehiculo-card {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 22px;
+  background: var(--white);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.vehiculo-img-wrap {
+  background: #edf3fb;
+  min-height: 100%;
+}
+
+.vehiculo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.vehiculo-info {
+  padding: 24px;
+}
+
+.vehiculo-info h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 28px;
+}
+
+.vehiculo-desc {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.ficha-tecnica {
+  margin: 18px 0 22px;
+  padding: 18px;
+  border-radius: 14px;
+  background: #f7fafd;
+  border: 1px solid var(--border);
+}
+
+.ficha-tecnica h4 {
+  margin: 0 0 10px;
+}
+
+.ficha-tecnica ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.ficha-tecnica li {
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.contact-card,
+.form-card,
+.admin-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 28px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.contact-card h3,
+.form-card h3,
+.admin-card h3 {
+  margin-top: 0;
+}
+
+.contact-list {
+  display: grid;
+  gap: 12px;
+  margin: 18px 0 24px;
+}
+
+.contact-item {
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: #f7fafd;
+  border: 1px solid var(--border);
+}
+
+.form-grid {
+  display: grid;
+  gap: 14px;
+}
+
+label {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  margin-top: 6px;
+  padding: 14px;
+  border: 1px solid #c9d7e6;
+  border-radius: 12px;
+  font: inherit;
+  background: #fff;
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.small-note {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.mensaje {
+  margin-top: 14px;
+  font-weight: 700;
+}
+
+.mensaje.success {
+  color: var(--success);
+}
+
+.mensaje.error {
+  color: var(--danger);
+}
+
+.footer {
+  background: #091728;
+  color: rgba(255,255,255,0.88);
+  padding: 28px 0;
+  margin-top: 20px;
+}
+
+.footer p {
+  margin: 6px 0;
+  text-align: center;
+}
+
+.admin-page {
+  padding: 40px 0 70px;
+}
+
+.admin-header {
+  margin-bottom: 24px;
+}
+
+.admin-header h1 {
+  margin-bottom: 8px;
+}
+
+.login-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.estado-login {
+  color: var(--danger);
+  font-weight: 700;
+  margin-top: 12px;
+}
+
+.stats-box {
+  background: #f7fafd;
+  border: 1px solid var(--border);
+  padding: 16px;
+  border-radius: 14px;
+  margin-bottom: 18px;
+  font-weight: 700;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 760px;
+}
+
+th,
+td {
+  padding: 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+th {
+  background: #f7fafd;
+}
+
+.loading-cell {
+  text-align: center;
+  color: var(--muted);
+  padding: 24px;
+}
+
+@media (max-width: 980px) {
+  .hero-grid,
+  .contact-grid,
+  .vehiculo-card {
+    grid-template-columns: 1fr;
+  }
+
+  .hero h1 {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding: 54px 0 44px;
+  }
+
+  .hero h1 {
+    font-size: 30px;
+  }
+
+  .section-title {
+    font-size: 28px;
+  }
+
+  .vehiculo-info h3 {
+    font-size: 24px;
+  }
+
+  .container {
+    width: min(100% - 20px, 1180px);
+  }
+}
