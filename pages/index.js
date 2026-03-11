@@ -1,261 +1,367 @@
-import { useState } from 'react';
-import vehicles from '../data/vehicles';
-import { supabase } from '../lib/supabaseClient';
-import styles from '../styles/Home.module.css';
+import { useState } from 'react'
+import vehicles from '../data/vehicles'
+import { supabase } from '../lib/supabaseClient'
+import styles from '../styles/Home.module.css'
 
 export default function Home() {
-  const [form, setForm] = useState({
-    nombre: '',
-    telefono: '',
-    ciudad: '',
-    vehiculo: '',
-    tipo_cliente: '',
-    uso_principal: '',
-    mensaje: '',
-    consentimiento: false
-  });
 
-  const [enviando, setEnviando] = useState(false);
-  const [mensajeEstado, setMensajeEstado] = useState('');
-  const [filtro, setFiltro] = useState('Todos');
+const [form,setForm]=useState({
+nombre:'',
+telefono:'',
+ciudad:'',
+vehiculo:'',
+tipo_cliente:'',
+uso_principal:'',
+mensaje:'',
+consentimiento:false
+})
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setForm((prev) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }));
-  };
+const [estado,setEstado]=useState('')
+const [filtro,setFiltro]=useState('Todos')
 
-  const seleccionarVehiculo = (nombreVehiculo) => {
-    setForm((prev) => ({ ...prev, vehiculo: nombreVehiculo }));
-    const formulario = document.getElementById('formulario-contacto');
-    if (formulario) {
-      formulario.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+const handleChange=(e)=>{
+const{name,value,type,checked}=e.target
+setForm({
+...form,
+[name]:type==='checkbox'?checked:value
+})
+}
 
-  const vehiculosFiltrados =
-    filtro === 'Todos'
-      ? vehicles
-      : vehicles.filter((v) => v.categoria === filtro);
+const seleccionarVehiculo=(vehiculo)=>{
+setForm({...form,vehiculo})
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setMensajeEstado('');
+document.getElementById('formulario-contacto').scrollIntoView({
+behavior:'smooth'
+})
+}
 
-    if (!form.nombre || !form.telefono || !form.vehiculo || !form.consentimiento) {
-      setMensajeEstado('Completa nombre, teléfono, vehículo y acepta el aviso.');
-      return;
-    }
+const vehiculosFiltrados=
+filtro==='Todos'
+?vehicles
+:vehicles.filter(v=>v.categoria===filtro)
 
-    setEnviando(true);
+const handleSubmit=async(e)=>{
+e.preventDefault()
 
-    try {
-      const payload = {
-        nombre: form.nombre,
-        telefono: form.telefono,
-        ciudad: form.ciudad || '',
-        vehiculo: form.vehiculo,
-        tipo_cliente: form.tipo_cliente || '',
-        uso_principal: form.uso_principal || '',
-        mensaje: form.mensaje || '',
-        consentimiento: form.consentimiento
-      };
+if(!form.nombre||!form.telefono||!form.vehiculo){
+setEstado('Completa los campos obligatorios')
+return
+}
 
-      const { data, error } = await supabase
-        .from('prospectos')
-        .insert([payload])
-        .select();
+const payload={
+nombre:form.nombre,
+telefono:form.telefono,
+ciudad:form.ciudad,
+vehiculo:form.vehiculo,
+tipo_cliente:form.tipo_cliente,
+uso_principal:form.uso_principal,
+mensaje:form.mensaje,
+consentimiento:form.consentimiento
+}
 
-      if (error) {
-        console.error('ERROR SUPABASE:', error);
-        setMensajeEstado(`Error real: ${error.message}`);
-      } else {
-        console.log('INSERT OK:', data);
-        setMensajeEstado('Solicitud enviada correctamente.');
+const{error}=await supabase
+.from('prospectos')
+.insert([payload])
 
-        setForm({
-          nombre: '',
-          telefono: '',
-          ciudad: '',
-          vehiculo: '',
-          tipo_cliente: '',
-          uso_principal: '',
-          mensaje: '',
-          consentimiento: false
-        });
-      }
-    } catch (err) {
-      console.error('ERROR GENERAL:', err);
-      setMensajeEstado(`Error general: ${err.message}`);
-    }
+if(error){
+setEstado('Error al enviar solicitud')
+}else{
+setEstado('Solicitud enviada correctamente')
 
-    setEnviando(false);
-  };
+setForm({
+nombre:'',
+telefono:'',
+ciudad:'',
+vehiculo:'',
+tipo_cliente:'',
+uso_principal:'',
+mensaje:'',
+consentimiento:false
+})
+}
+}
 
-  return (
-    <div className={styles.container}>
-      <header className={styles.hero}>
-        <div className={styles.heroOverlay}>
-          <p className={styles.badge}>Asesor Profesional Ford</p>
-          <h1>Diego Valenzuela</h1>
-          <p className={styles.subtitle}>Parral, Chihuahua</p>
-          <p className={styles.phone}>Teléfono: 6272850550</p>
+return(
 
-          <div className={styles.botonesHero}>
-            <a href="https://wa.me/526272850550" target="_blank" rel="noreferrer">
-              WhatsApp
-            </a>
-            <a href="tel:6272850550">Llamar</a>
-            <a href="#catalogo">Ver catálogo</a>
-          </div>
-        </div>
-      </header>
+<div className={styles.container}>
 
-      <section className={styles.legal}>
-        <p>
-          Precios sujetos a cambio sin previo aviso. Imágenes ilustrativas.
-          Disponibilidad sujeta a inventario. Las especificaciones pueden variar según versión.
-        </p>
-      </section>
+<header className={styles.hero}>
 
-      <section className={styles.presentacion}>
-        <div className={styles.presentacionCard}>
-          <h2>Tu asesor de confianza en Ford</h2>
-          <p>
-            Te ayudo a encontrar la unidad ideal para trabajo, familia, negocio,
-            uso personal o aventura, con atención profesional en Parral y la región.
-          </p>
-        </div>
-      </section>
+<p className={styles.badge}>
+Asesor Profesional Ford
+</p>
 
-      <section id="catalogo" className={styles.catalogo}>
-        <div className={styles.catalogoHeader}>
-          <h2>Catálogo Ford</h2>
-          <div className={styles.filtros}>
-            <button onClick={() => setFiltro('Todos')} className={filtro === 'Todos' ? styles.activo : ''}>Todos</button>
-            <button onClick={() => setFiltro('Pickup')} className={filtro === 'Pickup' ? styles.activo : ''}>Pickups</button>
-            <button onClick={() => setFiltro('SUV')} className={filtro === 'SUV' ? styles.activo : ''}>SUVs</button>
-            <button onClick={() => setFiltro('Deportivo')} className={filtro === 'Deportivo' ? styles.activo : ''}>Deportivos</button>
-          </div>
-        </div>
+<h1>
+Diego Valenzuela
+</h1>
 
-        <div className={styles.grid}>
-          {vehiculosFiltrados.map((v) => (
-            <article className={styles.card} key={v.id}>
-              <img src={v.imagen} alt={v.nombre} className={styles.imagen} />
-              <div className={styles.cardBody}>
-                <span className={styles.categoria}>{v.categoria}</span>
-                <h3>{v.nombre}</h3>
-                <p>{v.descripcion}</p>
-                <p className={styles.precio}>{v.precio}</p>
+<p className={styles.subtitle}>
+Parral Chihuahua
+</p>
 
-                <div className={styles.cardActions}>
-                  <button onClick={() => seleccionarVehiculo(v.nombre)}>
-                    Solicitar información
-                  </button>
-                  <a
-                    href={`https://wa.me/526272850550?text=Hola,%20me%20interesa%20${encodeURIComponent(v.nombre)}`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    WhatsApp
-                  </a>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
+<p className={styles.phone}>
+Teléfono 6272850550
+</p>
 
-      <section id="formulario-contacto" className={styles.formSection}>
-        <div className={styles.formWrap}>
-          <h2>Solicita información</h2>
-          <p className={styles.formText}>
-            Déjame tus datos y te contacto con atención profesional.
-          </p>
+<div className={styles.botonesHero}>
 
-          <form className={styles.form} onSubmit={handleSubmit}>
-            <input
-              name="nombre"
-              placeholder="Nombre completo *"
-              value={form.nombre}
-              onChange={handleChange}
-            />
+<a
+href="https://wa.me/526272850550"
+target="_blank"
+>
+WhatsApp
+</a>
 
-            <input
-              name="telefono"
-              placeholder="Teléfono *"
-              value={form.telefono}
-              onChange={handleChange}
-            />
+<a
+href="tel:6272850550"
+>
+Llamar
+</a>
 
-            <input
-              name="ciudad"
-              placeholder="Ciudad"
-              value={form.ciudad}
-              onChange={handleChange}
-            />
+</div>
 
-            <select name="vehiculo" value={form.vehiculo} onChange={handleChange}>
-              <option value="">Selecciona un vehículo *</option>
-              {vehicles.map((v) => (
-                <option key={v.id} value={v.nombre}>
-                  {v.nombre}
-                </option>
-              ))}
-            </select>
+</header>
 
-            <select name="tipo_cliente" value={form.tipo_cliente} onChange={handleChange}>
-              <option value="">Tipo de cliente</option>
-              <option value="Frío">Frío</option>
-              <option value="Templado">Templado</option>
-              <option value="Caliente">Caliente</option>
-            </select>
+<section className={styles.legal}>
 
-            <select name="uso_principal" value={form.uso_principal} onChange={handleChange}>
-              <option value="">Uso principal</option>
-              <option value="Trabajo">Trabajo</option>
-              <option value="Familia">Familia</option>
-              <option value="Negocio">Negocio</option>
-              <option value="Personal">Personal</option>
-              <option value="Aventura">Aventura</option>
-            </select>
+Precios sujetos a cambio sin previo aviso.
+Imágenes ilustrativas.
+Disponibilidad sujeta a inventario.
 
-            <textarea
-              name="mensaje"
-              placeholder="Mensaje"
-              value={form.mensaje}
-              onChange={handleChange}
-            />
+</section>
 
-            <label className={styles.check}>
-              <input
-                type="checkbox"
-                name="consentimiento"
-                checked={form.consentimiento}
-                onChange={handleChange}
-              />
-              <span>
-                Acepto el aviso de privacidad y autorizo el contacto comercial.
-              </span>
-            </label>
+<section className={styles.presentacion}>
 
-            <button type="submit" disabled={enviando}>
-              {enviando ? 'Enviando...' : 'Enviar solicitud'}
-            </button>
+<div className={styles.presentacionCard}>
 
-            {mensajeEstado && <p className={styles.estado}>{mensajeEstado}</p>}
-          </form>
-        </div>
-      </section>
+<h2>
+Tu asesor Ford
+</h2>
 
-      <footer className={styles.footer}>
-        <p>Diego Valenzuela | Asesor Profesional Ford | Parral, Chihuahua</p>
-        <p>Teléfono: 6272850550</p>
-        <p>Precios sujetos a cambio sin previo aviso.</p>
-      </footer>
-    </div>
-  );
+<p>
+Te ayudo a encontrar la unidad ideal
+para trabajo, familia o negocio.
+</p>
+
+</div>
+
+</section>
+
+<section id="catalogo" className={styles.catalogo}>
+
+<div className={styles.catalogoHeader}>
+
+<h2>Catálogo Ford</h2>
+
+<div className={styles.filtros}>
+
+<button
+onClick={()=>setFiltro('Todos')}
+className={filtro==='Todos'?styles.activo:''}
+>
+Todos
+</button>
+
+<button
+onClick={()=>setFiltro('Pickup')}
+className={filtro==='Pickup'?styles.activo:''}
+>
+Pickups
+</button>
+
+<button
+onClick={()=>setFiltro('SUV')}
+className={filtro==='SUV'?styles.activo:''}
+>
+SUV
+</button>
+
+<button
+onClick={()=>setFiltro('Deportivo')}
+className={filtro==='Deportivo'?styles.activo:''}
+>
+Deportivos
+</button>
+
+</div>
+
+</div>
+
+<div className={styles.grid}>
+
+{vehiculosFiltrados.map(v=>(
+
+<div className={styles.card} key={v.id}>
+
+<img
+src={v.imagen}
+alt={v.nombre}
+className={styles.imagen}
+onError={(e)=>{
+e.currentTarget.src='/img/placeholder.jpg'
+}}
+/>
+
+<div className={styles.cardBody}>
+
+<span className={styles.categoria}>
+{v.categoria}
+</span>
+
+<h3>
+{v.nombre}
+</h3>
+
+<p>
+{v.descripcion}
+</p>
+
+<p className={styles.precio}>
+{v.precio}
+</p>
+
+<div className={styles.cardActions}>
+
+<button
+onClick={()=>seleccionarVehiculo(v.nombre)}
+>
+Solicitar info
+</button>
+
+<a
+href={`https://wa.me/526272850550?text=Hola Diego me interesa ${v.nombre}`}
+target="_blank"
+>
+WhatsApp
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+))}
+
+</div>
+
+</section>
+
+<section
+id="formulario-contacto"
+className={styles.formSection}
+>
+
+<div className={styles.formWrap}>
+
+<h2>Solicitar información</h2>
+
+<form className={styles.form} onSubmit={handleSubmit}>
+
+<input
+name="nombre"
+placeholder="Nombre"
+value={form.nombre}
+onChange={handleChange}
+/>
+
+<input
+name="telefono"
+placeholder="Teléfono"
+value={form.telefono}
+onChange={handleChange}
+/>
+
+<input
+name="ciudad"
+placeholder="Ciudad"
+value={form.ciudad}
+onChange={handleChange}
+/>
+
+<select
+name="vehiculo"
+value={form.vehiculo}
+onChange={handleChange}
+>
+
+<option value="">Selecciona vehículo</option>
+
+{vehicles.map(v=>(
+<option key={v.id} value={v.nombre}>
+{v.nombre}
+</option>
+))}
+
+</select>
+
+<select
+name="tipo_cliente"
+value={form.tipo_cliente}
+onChange={handleChange}
+>
+
+<option value="">Tipo cliente</option>
+<option>Frío</option>
+<option>Templado</option>
+<option>Caliente</option>
+
+</select>
+
+<select
+name="uso_principal"
+value={form.uso_principal}
+onChange={handleChange}
+>
+
+<option value="">Uso</option>
+<option>Trabajo</option>
+<option>Familia</option>
+<option>Negocio</option>
+<option>Personal</option>
+
+</select>
+
+<textarea
+name="mensaje"
+placeholder="Mensaje"
+value={form.mensaje}
+onChange={handleChange}
+/>
+
+<label className={styles.check}>
+
+<input
+type="checkbox"
+name="consentimiento"
+checked={form.consentimiento}
+onChange={handleChange}
+/>
+
+Acepto aviso de privacidad
+
+</label>
+
+<button type="submit">
+Enviar solicitud
+</button>
+
+{estado && <p className={styles.estado}>{estado}</p>}
+
+</form>
+
+</div>
+
+</section>
+
+<footer className={styles.footer}>
+
+Diego Valenzuela  
+Asesor Ford Parral  
+
+</footer>
+
+</div>
+
+)
 }
