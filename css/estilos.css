@@ -541,3 +541,14 @@ th {
 .btn-danger:hover {
   opacity: 0.92;
 }
+.stats-box{
+display:flex;
+gap:20px;
+margin:20px 0;
+font-weight:600;
+}
+
+.btn-danger{
+background:#c62828;
+color:white;
+}
