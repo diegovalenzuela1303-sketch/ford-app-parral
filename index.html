@@ -1,10 +1,14 @@
+index.html
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ford Parral | Diego Valenzuela</title>
-  <meta name="description" content="Asesor profesional Ford en Parral, Chihuahua. Cotiza Ranger, Ranger Raptor, F-150, F-250, F-350, Territory, Bronco y Mustang." />
+  <meta
+    name="description"
+    content="Asesor profesional Ford en Parral, Chihuahua. Cotiza pickups, SUVs y deportivos Ford con Diego Valenzuela."
+  />
   <link rel="stylesheet" href="css/estilos.css" />
 </head>
 <body>
@@ -20,33 +24,36 @@
       <div>
         <h1>Venta profesional de vehículos Ford en Parral</h1>
         <p>
-          Atención personalizada con <strong class="asesor-nombre">Diego Valenzuela</strong>.
-          Te ayudo a encontrar la unidad ideal para trabajo, familia, campo o uso personal.
+          Atención personalizada con
+          <strong class="asesor-nombre">Diego Valenzuela</strong>.
+          Te ayudo a encontrar la unidad ideal para trabajo, familia, aventura o uso personal.
         </p>
 
         <div class="hero-actions">
-          <a href="#catalogo" class="btn btn-primary">Ver catálogo</a>
+          <a href="#catalogo-seccion" class="btn btn-primary">Ver catálogo</a>
           <a href="#contacto" class="btn btn-outline">Solicitar información</a>
         </div>
-    
       </div>
-<div class="hero-card">
-  <img src="public/diego.jpg" alt="Diego Valenzuela" class="asesor-foto" />
-  <h3>Atención directa</h3>
-  <p><strong>Asesor:</strong> <span class="asesor-nombre">Diego Valenzuela</span></p>
-  <p><strong>Teléfono:</strong> <span class="asesor-telefono">627 285 0550</span></p>
-  <p><strong>Enfoque:</strong> Venta profesional Ford, seguimiento real y atención personalizada.</p>
-  <a class="btn btn-whatsapp wa-link" target="_blank" rel="noopener noreferrer" href="#">WhatsApp</a>
-</div>
+
+      <div class="hero-card">
+        <img src="public/diego.jpg" alt="Diego Valenzuela" class="asesor-foto" />
+        <h3>Atención directa</h3>
+        <p><strong>Asesor:</strong> <span class="asesor-nombre">Diego Valenzuela</span></p>
+        <p><strong>Teléfono:</strong> <span class="asesor-telefono">627 285 0550</span></p>
+        <p><strong>Enfoque:</strong> Venta profesional Ford, seguimiento real y atención personalizada.</p>
+        <a class="btn btn-whatsapp wa-link" target="_blank" rel="noopener noreferrer" href="#">WhatsApp</a>
+      </div>
+    </div>
+  </header>
 
   <main>
-    <section class="section">
+    <section class="section" id="catalogo-seccion">
       <div class="container">
         <h2 class="section-title">Catálogo Ford</h2>
         <p class="section-subtitle">
           Modelos enfocados al mercado de Parral y la región, con opciones para trabajo, aventura, familia y clientes de perfil premium.
         </p>
-        <div class="catalogo-grid" id="catalogo"></div>
+        <div class="catalogo-grid" id="catalogo-lista"></div>
       </div>
     </section>
 
@@ -54,7 +61,9 @@
       <div class="container contact-grid">
         <div class="contact-card">
           <h3>Solicita información</h3>
-          <p>Déjame tus datos y te contacto para cotización, disponibilidad, planes y seguimiento.</p>
+          <p>
+            Déjame tus datos y te contacto para cotización, disponibilidad, planes y seguimiento.
+          </p>
 
           <div class="contact-list">
             <div class="contact-item">
@@ -89,14 +98,47 @@
             <label>
               Vehículo de interés *
               <select id="vehiculo" required>
-                <option value="Ford Ranger">Ford Ranger</option>
+                <option value="Ford Ranger XL">Ford Ranger XL</option>
+                <option value="Ford Ranger XLT">Ford Ranger XLT</option>
+                <option value="Ford Ranger Lariat">Ford Ranger Lariat</option>
                 <option value="Ford Ranger Raptor">Ford Ranger Raptor</option>
-                <option value="Ford F-150">Ford F-150</option>
-                <option value="Ford F-250">Ford F-250</option>
-                <option value="Ford F-350">Ford F-350</option>
-                <option value="Ford Territory">Ford Territory</option>
-                <option value="Ford Bronco">Ford Bronco</option>
-                <option value="Ford Mustang">Ford Mustang</option>
+                <option value="Ford Ranger Wildtrak">Ford Ranger Wildtrak</option>
+                <option value="Ford Ranger Tremor">Ford Ranger Tremor</option>
+
+                <option value="Ford F-150 XL">Ford F-150 XL</option>
+                <option value="Ford F-150 XLT">Ford F-150 XLT</option>
+                <option value="Ford F-150 Lariat">Ford F-150 Lariat</option>
+                <option value="Ford F-150 Platinum">Ford F-150 Platinum</option>
+                <option value="Ford F-150 Tremor">Ford F-150 Tremor</option>
+                <option value="Ford F-150 Raptor">Ford F-150 Raptor</option>
+                <option value="Ford F-150 Lightning">Ford F-150 Lightning</option>
+
+                <option value="Ford F-250 XL">Ford F-250 XL</option>
+                <option value="Ford F-250 XLT">Ford F-250 XLT</option>
+                <option value="Ford F-250 Lariat">Ford F-250 Lariat</option>
+
+                <option value="Ford F-350 XL">Ford F-350 XL</option>
+                <option value="Ford F-350 XLT">Ford F-350 XLT</option>
+                <option value="Ford F-350 Lariat">Ford F-350 Lariat</option>
+
+                <option value="Ford Territory Trend">Ford Territory Trend</option>
+                <option value="Ford Territory Titanium">Ford Territory Titanium</option>
+                <option value="Ford Escape">Ford Escape</option>
+                <option value="Ford Edge ST">Ford Edge ST</option>
+                <option value="Ford Explorer XLT">Ford Explorer XLT</option>
+                <option value="Ford Explorer Limited">Ford Explorer Limited</option>
+                <option value="Ford Explorer ST">Ford Explorer ST</option>
+                <option value="Ford Expedition Limited">Ford Expedition Limited</option>
+                <option value="Ford Expedition Platinum">Ford Expedition Platinum</option>
+
+                <option value="Ford Bronco Big Bend">Ford Bronco Big Bend</option>
+                <option value="Ford Bronco Wildtrak">Ford Bronco Wildtrak</option>
+                <option value="Ford Bronco Raptor">Ford Bronco Raptor</option>
+                <option value="Ford Bronco Sport">Ford Bronco Sport</option>
+
+                <option value="Ford Mustang EcoBoost">Ford Mustang EcoBoost</option>
+                <option value="Ford Mustang GT">Ford Mustang GT</option>
+                <option value="Ford Mustang Dark Horse">Ford Mustang Dark Horse</option>
               </select>
             </label>
 
