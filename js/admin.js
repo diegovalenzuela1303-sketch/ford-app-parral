@@ -7,22 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const tablaBody = document.getElementById("tablaProspectos");
   const totalProspectos = document.getElementById("totalProspectos");
 
-  async function revisarSesion() {
-    const { data, error } = await window.db.auth.getSession();
-    if (error) {
-      console.error(error);
-      mostrarLogin();
-      return;
-    }
-
-    if (data?.session) {
-      mostrarPanel();
-      cargarProspectos();
-    } else {
-      mostrarLogin();
-    }
-  }
-
   function mostrarLogin() {
     loginBox.style.display = "block";
     panelBox.style.display = "none";
@@ -33,10 +17,35 @@ document.addEventListener("DOMContentLoaded", () => {
     panelBox.style.display = "block";
   }
 
+  function escapeHtml(text) {
+    const div = document.createElement("div");
+    div.textContent = text || "";
+    return div.innerHTML;
+  }
+
+  async function eliminarProspecto(id, nombre) {
+    const confirmar = confirm(`¿Eliminar el prospecto de ${nombre}?`);
+    if (!confirmar) return;
+
+    try {
+      const { error } = await window.db
+        .from("prospectos")
+        .delete()
+        .eq("id", id);
+
+      if (error) throw error;
+
+      await cargarProspectos();
+    } catch (error) {
+      console.error(error);
+      alert("No se pudo eliminar el prospecto.");
+    }
+  }
+
   async function cargarProspectos() {
     tablaBody.innerHTML = `
       <tr>
-        <td colspan="5" class="loading-cell">Cargando prospectos...</td>
+        <td colspan="6" class="loading-cell">Cargando prospectos...</td>
       </tr>
     `;
 
@@ -53,40 +62,64 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!data.length) {
         tablaBody.innerHTML = `
           <tr>
-            <td colspan="5" class="loading-cell">Aún no hay prospectos registrados.</td>
+            <td colspan="6" class="loading-cell">Aún no hay prospectos registrados.</td>
           </tr>
         `;
         return;
       }
 
-      tablaBody.innerHTML = data
-        .map((p) => {
-          const fecha = new Date(p.created_at).toLocaleString("es-MX");
-          return `
-            <tr>
-              <td>${escapeHtml(p.nombre || "")}</td>
-              <td>${escapeHtml(p.telefono || "")}</td>
-              <td>${escapeHtml(p.vehiculo || "")}</td>
-              <td>${escapeHtml(p.comentario || "")}</td>
-              <td>${fecha}</td>
-            </tr>
-          `;
-        })
-        .join("");
+      tablaBody.innerHTML = data.map((p) => {
+        const fecha = p.created_at
+          ? new Date(p.created_at).toLocaleString("es-MX")
+          : "";
+
+        return `
+          <tr>
+            <td>${escapeHtml(p.nombre)}</td>
+            <td>${escapeHtml(p.telefono)}</td>
+            <td>${escapeHtml(p.vehiculo)}</td>
+            <td>${escapeHtml(p.comentario)}</td>
+            <td>${fecha}</td>
+            <td>
+              <button class="btn btn-danger btn-delete" data-id="${p.id}" data-nombre="${escapeHtml(p.nombre)}">
+                Eliminar
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+
+      document.querySelectorAll(".btn-delete").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          eliminarProspecto(btn.dataset.id, btn.dataset.nombre);
+        });
+      });
+
     } catch (error) {
       console.error(error);
       tablaBody.innerHTML = `
         <tr>
-          <td colspan="5" class="loading-cell">Error al cargar prospectos.</td>
+          <td colspan="6" class="loading-cell">Error al cargar prospectos.</td>
         </tr>
       `;
     }
   }
 
-  function escapeHtml(text) {
-    const div = document.createElement("div");
-    div.textContent = text;
-    return div.innerHTML;
+  async function revisarSesion() {
+    try {
+      const { data, error } = await window.db.auth.getSession();
+      if (error) throw error;
+
+      if (data?.session) {
+        mostrarPanel();
+        cargarProspectos();
+      } else {
+        mostrarLogin();
+      }
+    } catch (error) {
+      console.error(error);
+      mostrarLogin();
+    }
   }
 
   if (loginForm) {
