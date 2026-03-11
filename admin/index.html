@@ -1,1 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin | Ford Parral</title>
+  <link rel="stylesheet" href="/css/estilos.css" />
+</head>
+<body>
+  <main class="admin-page">
+    <div class="container">
+      <div class="admin-header">
+        <h1>Panel de administración</h1>
+        <p>Acceso para revisar prospectos registrados.</p>
+      </div>
 
+      <section class="admin-card" id="loginBox">
+        <h3>Ingreso administrador</h3>
+        <form id="loginForm" class="login-grid">
+          <label>
+            Correo admin
+            <input type="email" id="adminEmail" placeholder="correo@dominio.com" required />
+          </label>
+
+          <label>
+            Contraseña
+            <input type="password" id="adminPassword" placeholder="Contraseña" required />
+          </label>
+
+          <button type="submit" class="btn btn-dark">Ingresar</button>
+        </form>
+        <div class="estado-login" id="estadoLogin"></div>
+      </section>
+
+      <section class="admin-card" id="panelBox" style="display:none;">
+        <div class="admin-top">
+          <button class="btn btn-dark" id="logoutBtn">Cerrar sesión</button>
+        </div>
+
+        <div class="stats-box">
+          Total de prospectos: <span id="totalProspectos">0</span>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Teléfono</th>
+                <th>Vehículo</th>
+                <th>Comentario</th>
+                <th>Fecha</th>
+              </tr>
+            </thead>
+            <tbody id="tablaProspectos"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/config.js"></script>
+  <script src="/supabase-client.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>
