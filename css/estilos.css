@@ -533,3 +533,11 @@ th {
     padding: 12px 16px;
   }
 }
+.btn-danger {
+  background: #c62828;
+  color: #ffffff;
+}
+
+.btn-danger:hover {
+  opacity: 0.92;
+}
