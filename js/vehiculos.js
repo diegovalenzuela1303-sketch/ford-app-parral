@@ -1,4 +1,3 @@
-js/vehiculos.js
 window.VEHICULOS = [
   {
     id: "ranger-xl",
