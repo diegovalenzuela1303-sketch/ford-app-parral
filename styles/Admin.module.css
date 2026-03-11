@@ -16,7 +16,7 @@
 
 .admin{
   padding:40px;
-  font-family:Arial;
+  font-family:Arial, Helvetica, sans-serif;
 }
 
 .topbar{
@@ -25,6 +25,10 @@
   margin-bottom:20px;
   gap:12px;
   flex-wrap:wrap;
+}
+
+.tableWrap{
+  overflow-x:auto;
 }
 
 .table{
@@ -51,10 +55,6 @@
   padding:6px 10px;
   border-radius:4px;
   cursor:pointer;
-}
-
-.tableWrap{
-  overflow-x:auto;
 }
 
 select{
