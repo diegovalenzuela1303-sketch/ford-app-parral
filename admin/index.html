@@ -10,6 +10,62 @@
       background: #071a36;
     }
 
+    .hidden {
+      display: none !important;
+    }
+
+    .login-shell {
+      width: min(460px, calc(100% - 24px));
+      margin: 80px auto;
+      background: linear-gradient(180deg, rgba(8, 27, 58, 0.94), rgba(8, 20, 43, 0.98));
+      border: 1px solid rgba(77, 132, 255, 0.18);
+      border-radius: 24px;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.30);
+      padding: 28px;
+    }
+
+    .login-shell h1 {
+      margin: 0 0 10px;
+      color: #fff;
+      font-size: 2rem;
+    }
+
+    .login-shell p {
+      margin: 0 0 18px;
+      color: #d8e3f6;
+      line-height: 1.6;
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .login-form input {
+      width: 100%;
+      min-height: 54px;
+      padding: 0 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .login-form input:focus {
+      border-color: rgba(59,130,246,0.45);
+      box-shadow: 0 0 0 4px rgba(59,130,246,0.10);
+    }
+
+    .login-error {
+      min-height: 22px;
+      color: #fecaca;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
     .admin-wrap {
       width: min(1200px, calc(100% - 24px));
       margin: 32px auto;
@@ -65,6 +121,13 @@
 
     .admin-btn-primary:hover {
       transform: translateY(-1px);
+    }
+
+    .admin-user {
+      color: #cfe0ff;
+      font-size: 0.92rem;
+      font-weight: 700;
+      margin-top: 6px;
     }
 
     .admin-panel {
@@ -165,62 +228,6 @@
       line-height: 1.45;
     }
 
-    .login-shell {
-      width: min(460px, calc(100% - 24px));
-      margin: 80px auto;
-      background: linear-gradient(180deg, rgba(8, 27, 58, 0.94), rgba(8, 20, 43, 0.98));
-      border: 1px solid rgba(77, 132, 255, 0.18);
-      border-radius: 24px;
-      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.30);
-      padding: 28px;
-    }
-
-    .login-shell h1 {
-      margin: 0 0 10px;
-      color: #fff;
-      font-size: 2rem;
-    }
-
-    .login-shell p {
-      margin: 0 0 18px;
-      color: #d8e3f6;
-      line-height: 1.6;
-    }
-
-    .login-form {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .login-form input {
-      width: 100%;
-      min-height: 54px;
-      padding: 0 16px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.06);
-      color: #fff;
-      font-size: 1rem;
-      outline: none;
-    }
-
-    .login-form input:focus {
-      border-color: rgba(59,130,246,0.45);
-      box-shadow: 0 0 0 4px rgba(59,130,246,0.10);
-    }
-
-    .login-error {
-      min-height: 22px;
-      color: #fecaca;
-      font-weight: 700;
-      font-size: 0.9rem;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
     @media (max-width: 640px) {
       .admin-title {
         font-size: 1.6rem;
@@ -241,19 +248,26 @@
   </style>
 </head>
 <body>
-  <div id="loginView" class="login-shell">
+  <div id="loginView" class="login-shell hidden">
     <h1>Acceso admin</h1>
-    <p>Ingresa la clave para ver los prospectos de Ford Parral.</p>
+    <p>Ingresa con tu correo y contraseña de Supabase para ver los prospectos.</p>
 
     <form id="loginForm" class="login-form">
       <input
+        type="email"
+        id="adminEmail"
+        placeholder="Correo"
+        autocomplete="username"
+        required
+      >
+      <input
         type="password"
         id="adminPassword"
-        placeholder="Clave de acceso"
+        placeholder="Contraseña"
         autocomplete="current-password"
         required
       >
-      <button type="submit" class="admin-btn admin-btn-primary">Entrar</button>
+      <button type="submit" class="admin-btn admin-btn-primary">Iniciar sesión</button>
       <div id="loginError" class="login-error"></div>
     </form>
   </div>
@@ -261,7 +275,10 @@
   <div id="adminView" class="hidden">
     <div class="admin-wrap">
       <div class="admin-topbar">
-        <h1 class="admin-title">Prospectos Ford Parral</h1>
+        <div>
+          <h1 class="admin-title">Prospectos Ford Parral</h1>
+          <div id="adminUser" class="admin-user">—</div>
+        </div>
 
         <div class="admin-actions">
           <button id="btnRecargar" class="admin-btn">Recargar</button>
@@ -311,12 +328,10 @@
   <script src="../supabase-client.js"></script>
 
   <script>
-    const CLAVE_ADMIN = "FordParral2026";
-    const STORAGE_KEY = "ford_parral_admin_ok";
-
     const loginView = document.getElementById("loginView");
     const adminView = document.getElementById("adminView");
     const loginForm = document.getElementById("loginForm");
+    const adminEmail = document.getElementById("adminEmail");
     const adminPassword = document.getElementById("adminPassword");
     const loginError = document.getElementById("loginError");
 
@@ -327,25 +342,19 @@
     const btnDescargarCSV = document.getElementById("btnDescargarCSV");
     const btnRecargar = document.getElementById("btnRecargar");
     const btnCerrarSesion = document.getElementById("btnCerrarSesion");
+    const adminUser = document.getElementById("adminUser");
 
     let prospectosActuales = [];
 
-    function accesoActivo() {
-      return localStorage.getItem(STORAGE_KEY) === "1";
-    }
-
-    function activarAdmin() {
-      loginView.classList.add("hidden");
-      adminView.classList.remove("hidden");
-      cargarProspectos();
-    }
-
-    function cerrarSesion() {
-      localStorage.removeItem(STORAGE_KEY);
+    function mostrarLogin() {
       adminView.classList.add("hidden");
       loginView.classList.remove("hidden");
-      loginForm.reset();
-      loginError.textContent = "";
+    }
+
+    function mostrarAdmin(email) {
+      loginView.classList.add("hidden");
+      adminView.classList.remove("hidden");
+      adminUser.textContent = email ? `Sesión activa: ${email}` : "Sesión activa";
     }
 
     function escaparCSV(valor) {
@@ -446,27 +455,67 @@
       }
     }
 
-    loginForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const valor = adminPassword.value.trim();
+    async function revisarSesion() {
+      const { data, error } = await window.db.auth.getSession();
 
-      if (valor !== CLAVE_ADMIN) {
-        loginError.textContent = "Clave incorrecta.";
+      if (error) {
+        console.error(error);
+        mostrarLogin();
         return;
       }
 
-      localStorage.setItem(STORAGE_KEY, "1");
+      const sesion = data?.session;
+      if (!sesion) {
+        mostrarLogin();
+        return;
+      }
+
+      const email = sesion.user?.email || "";
+      mostrarAdmin(email);
+      cargarProspectos();
+    }
+
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
       loginError.textContent = "";
-      activarAdmin();
+
+      const email = adminEmail.value.trim();
+      const password = adminPassword.value;
+
+      try {
+        const { error } = await window.db.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        if (error) throw error;
+
+        mostrarAdmin(email);
+        cargarProspectos();
+      } catch (error) {
+        console.error(error);
+        loginError.textContent = "Correo o contraseña incorrectos.";
+      }
     });
 
     btnDescargarCSV.addEventListener("click", descargarCSV);
     btnRecargar.addEventListener("click", cargarProspectos);
-    btnCerrarSesion.addEventListener("click", cerrarSesion);
 
-    if (accesoActivo()) {
-      activarAdmin();
-    }
+    btnCerrarSesion.addEventListener("click", async () => {
+      await window.db.auth.signOut();
+      loginForm.reset();
+      mostrarLogin();
+    });
+
+    window.db.auth.onAuthStateChange((_event, session) => {
+      if (session?.user?.email) {
+        mostrarAdmin(session.user.email);
+      } else {
+        mostrarLogin();
+      }
+    });
+
+    revisarSesion();
   </script>
 </body>
 </html>
