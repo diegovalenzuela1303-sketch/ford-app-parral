@@ -1165,3 +1165,261 @@ button.mini-pill {
     font-size: 1rem;
   }
 }
+/* =========================================================
+   FASE 1 - QUIEN SOY / CTA FINAL / AVISO LEGAL
+   ========================================================= */
+
+.hero-legal-row {
+  margin-top: 16px;
+}
+
+.hero-legal-btn,
+.legal-inline-btn {
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.05);
+  color: var(--text-soft);
+  font-size: 0.95rem;
+  font-weight: 700;
+  transition: var(--transition);
+}
+
+.hero-legal-btn:hover,
+.legal-inline-btn:hover {
+  background: rgba(59,130,246,0.12);
+  border-color: rgba(59,130,246,0.28);
+  color: #fff;
+}
+
+.about-pro-section {
+  padding: 10px 0 70px;
+}
+
+.about-pro-shell {
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  gap: 24px;
+  align-items: stretch;
+}
+
+.about-photo-card,
+.about-copy-card {
+  background: linear-gradient(180deg, rgba(8, 27, 58, 0.92), rgba(8, 20, 43, 0.97));
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  box-shadow: var(--shadow-md);
+}
+
+.about-photo-card {
+  padding: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-photo {
+  width: 100%;
+  max-width: 280px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 999px;
+  border: 4px solid rgba(59,130,246,0.30);
+  box-shadow: 0 18px 28px rgba(0,0,0,0.24);
+}
+
+.about-copy-card {
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section-title-row-small {
+  margin-bottom: 6px;
+}
+
+.about-name {
+  margin: 0;
+  font-size: clamp(1.9rem, 2.5vw, 2.5rem);
+  line-height: 1;
+  color: #fff;
+}
+
+.about-role {
+  margin: 0;
+  color: #8eb7ff;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.about-text {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 1.02rem;
+  line-height: 1.7;
+}
+
+.about-points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.about-point {
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.06);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.about-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.contact-copy-actions {
+  margin-top: 18px;
+}
+
+.cta-final-section {
+  padding: 0 0 80px;
+}
+
+.cta-final-card {
+  background:
+    linear-gradient(135deg, rgba(10, 37, 76, 0.98), rgba(8, 25, 52, 0.98));
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  padding: 30px;
+  box-shadow: var(--shadow-lg);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: center;
+}
+
+.cta-final-copy h2 {
+  margin: 0 0 10px;
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  color: #fff;
+}
+
+.cta-final-copy p {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  max-width: 760px;
+}
+
+.cta-final-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+/* Modal aviso legal */
+.modal-aviso {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(2, 10, 22, 0.72);
+  backdrop-filter: blur(8px);
+}
+
+.modal-aviso.open {
+  display: flex;
+}
+
+.modal-aviso-dialog {
+  width: min(720px, 100%);
+  background: linear-gradient(180deg, rgba(9, 28, 57, 0.98), rgba(7, 20, 43, 0.99));
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 26px;
+  box-shadow: 0 28px 60px rgba(0,0,0,0.38);
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-aviso-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.modal-aviso-body {
+  padding: 32px 28px 28px;
+}
+
+.modal-aviso-body h3 {
+  margin: 0 0 18px;
+  font-size: 2rem;
+  color: #fff;
+}
+
+.modal-aviso-body p {
+  margin: 0 0 14px;
+  color: var(--text-soft);
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+.modal-aviso-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+@media (max-width: 980px) {
+  .about-pro-shell,
+  .cta-final-card {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-final-actions {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  .about-copy-card,
+  .about-photo-card,
+  .cta-final-card,
+  .modal-aviso-body {
+    padding: 20px;
+  }
+
+  .about-actions,
+  .cta-final-actions,
+  .modal-aviso-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .about-actions .btn,
+  .cta-final-actions .btn,
+  .modal-aviso-actions .btn {
+    width: 100%;
+  }
+}
