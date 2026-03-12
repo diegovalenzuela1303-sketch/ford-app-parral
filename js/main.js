@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const contenedor = document.getElementById("catalogo-lista");
+  const modelosResumen = document.getElementById("modelos-resumen");
+  const catalogoPrincipal = document.getElementById("catalogo-principal");
+  const buscadorModelos = document.getElementById("buscadorModelos");
   const form = document.getElementById("formProspecto");
   const mensajeEstado = document.getElementById("mensajeEstado");
   const vehiculoSelect = document.getElementById("vehiculo");
@@ -8,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const whatsappNumber = window.APP_CONFIG?.WHATSAPP_NUMBER || "526272850550";
   const asesorTelefono = window.APP_CONFIG?.ASESOR_TELEFONO || "627 285 0550";
+  const catalogo = window.CATALOGO_FORD || [];
 
   telefonoAsesorEls.forEach((el) => {
     el.textContent = asesorTelefono;
@@ -19,8 +22,17 @@ document.addEventListener("DOMContentLoaded", () => {
     )}`;
   });
 
-  if (!contenedor) return;
-  if (!window.CATALOGO_FORD || !Array.isArray(window.CATALOGO_FORD)) return;
+  if (!catalogo.length) return;
+
+  function poblarSelectVehiculos() {
+    if (!vehiculoSelect) return;
+    const opciones = catalogo
+      .flatMap((modelo) => modelo.versiones.map((v) => v.nombre))
+      .map((nombre) => `<option value="${nombre}">${nombre}</option>`)
+      .join("");
+
+    vehiculoSelect.innerHTML = `<option value="">Vehículo de interés</option>${opciones}`;
+  }
 
   function placeholder(texto, color = "Color") {
     const svg = `
@@ -52,199 +64,188 @@ document.addEventListener("DOMContentLoaded", () => {
     return placeholder(version.nombre, colorObj?.nombre || "Color");
   }
 
-  function crearModelo(modelo, indexModelo) {
-    const versionInicial = modelo.versiones[0];
-    const colorInicial = versionInicial.colores[0];
+  let modeloActivo = 0;
+  let versionActiva = 0;
+  let textoBusqueda = "";
 
-    return `
-      <article class="modelo-card" data-modelo="${indexModelo}">
-        <div class="modelo-top">
-          <div>
-            <div class="vehiculo-badge">${modelo.categoria}</div>
-            <h3 class="modelo-title">${modelo.nombre}</h3>
-            <p class="modelo-desc">${modelo.descripcion}</p>
-          </div>
+  function crearResumenModelos(lista) {
+    if (!modelosResumen) return;
+    modelosResumen.innerHTML = lista
+      .map((modelo, index) => {
+        const primeraVersion = modelo.versiones[0];
+        const primeraImagen = imagenDeVersion(primeraVersion, primeraVersion.colores[0]);
 
-          <button class="modelo-toggle btn btn-secondary" data-toggle="${indexModelo}">
-            Ver versiones
-          </button>
-        </div>
+        return `
+          <article class="model-summary-card ${index === modeloActivo ? "active" : ""}" data-modelo-index="${index}">
+            <h3>${modelo.nombre}</h3>
+            <img src="${primeraImagen}" alt="${modelo.nombre}" />
+            <span>• ${modelo.versiones.length} Versiones</span>
+          </article>
+        `;
+      })
+      .join("");
 
-        <div class="modelo-body" id="modelo-body-${indexModelo}">
-          <div class="modelo-visual">
-            <img
-              src="${imagenDeVersion(versionInicial, colorInicial)}"
-              alt="${versionInicial.nombre}"
-              class="modelo-img"
-              id="modelo-img-${indexModelo}"
-            />
-          </div>
-
-          <div class="modelo-config">
-            <div class="version-tabs" id="version-tabs-${indexModelo}">
-              ${modelo.versiones
-                .map(
-                  (version, i) => `
-                  <button
-                    class="version-tab ${i === 0 ? "active" : ""}"
-                    data-modelo="${indexModelo}"
-                    data-version="${i}"
-                  >
-                    ${version.nombre}
-                  </button>
-                `
-                )
-                .join("")}
-            </div>
-
-            <div class="version-panel" id="version-panel-${indexModelo}">
-              ${crearVersionPanel(modelo, 0)}
-            </div>
-          </div>
-        </div>
-      </article>
-    `;
+    document.querySelectorAll(".model-summary-card").forEach((card) => {
+      card.addEventListener("click", () => {
+        modeloActivo = Number(card.getAttribute("data-modelo-index"));
+        versionActiva = 0;
+        renderTodo();
+        document.getElementById("catalogo-seccion")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
   }
 
-  function crearVersionPanel(modelo, indexVersion) {
-    const version = modelo.versiones[indexVersion];
-    const colorInicial = version.colores[0];
+  function crearVersionTabs(modelo) {
+    return modelo.versiones
+      .map(
+        (version, index) => `
+        <button class="version-tab ${index === versionActiva ? "active" : ""}" data-version-index="${index}">
+          ${version.nombre.replace(modelo.nombre + " ", "")}
+        </button>
+      `
+      )
+      .join("");
+  }
 
+  function crearColores(modelo, version) {
     return `
-      <div class="version-header">
-        <h4>${version.nombre}</h4>
-        <p>${version.descripcion}</p>
-      </div>
-
       <div class="color-row">
         <span class="color-label">Colores disponibles</span>
         <div class="color-swatches">
           ${version.colores
             .map(
-              (color, i) => `
+              (color, index) => `
               <button
-                class="color-swatch ${i === 0 ? "active" : ""}"
-                style="background:${color.codigo};"
+                class="color-swatch ${index === 0 ? "active" : ""}"
+                style="background:${color.codigo}"
+                data-color-index="${index}"
                 title="${color.nombre}"
-                data-color-nombre="${color.nombre}"
-                data-color-img="${color.imagen || ""}"
-                data-modelo-color="${modelo.id}"
-                data-version-color="${version.id}"
               ></button>
             `
             )
             .join("")}
         </div>
-        <div class="color-name" id="color-name-${modelo.id}-${version.id}">${colorInicial.nombre}</div>
-      </div>
-
-      <div class="ficha-tecnica">
-        <h4>Ficha técnica</h4>
-        <ul>
-          <li><strong>Motor:</strong> ${version.ficha.motor}</li>
-          <li><strong>Transmisión:</strong> ${version.ficha.transmision}</li>
-          <li><strong>Tracción:</strong> ${version.ficha.traccion}</li>
-          <li><strong>Enfoque:</strong> ${version.ficha.enfoque}</li>
-        </ul>
-      </div>
-
-      <div class="card-actions">
-        <a
-          href="#contacto"
-          class="btn btn-primary btn-cotizar-version"
-          data-version-nombre="${version.nombre}"
-        >
-          Cotizar esta versión
-        </a>
-
-        <a
-          class="btn btn-whatsapp"
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-            `Hola Diego, me interesa ${version.nombre}. Quiero información, disponibilidad y cotización.`
-          )}"
-        >
-          WhatsApp directo
-        </a>
+        <div class="color-name" id="color-name">${version.colores[0]?.nombre || ""}</div>
       </div>
     `;
   }
 
-  contenedor.innerHTML = `
-    <div class="modelos-grid">
-      ${window.CATALOGO_FORD.map((modelo, i) => crearModelo(modelo, i)).join("")}
-    </div>
-  `;
-
-  document.querySelectorAll(".modelo-toggle").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const idx = btn.getAttribute("data-toggle");
-      const body = document.getElementById(`modelo-body-${idx}`);
-      const abierto = body.classList.contains("open");
-
-      document.querySelectorAll(".modelo-body").forEach((el) => el.classList.remove("open"));
-      document.querySelectorAll(".modelo-toggle").forEach((el) => (el.textContent = "Ver versiones"));
-
-      if (!abierto) {
-        body.classList.add("open");
-        btn.textContent = "Ocultar versiones";
-      }
-    });
-  });
-
-  document.querySelectorAll(".version-tab").forEach((tab) => {
-    tab.addEventListener("click", () => {
-      const indexModelo = Number(tab.getAttribute("data-modelo"));
-      const indexVersion = Number(tab.getAttribute("data-version"));
-      const modelo = window.CATALOGO_FORD[indexModelo];
-
-      document
-        .querySelectorAll(`#version-tabs-${indexModelo} .version-tab`)
-        .forEach((el) => el.classList.remove("active"));
-
-      tab.classList.add("active");
-
-      document.getElementById(`version-panel-${indexModelo}`).innerHTML = crearVersionPanel(
-        modelo,
-        indexVersion
-      );
-
-      const version = modelo.versiones[indexVersion];
-      const colorInicial = version.colores[0];
-      const img = document.getElementById(`modelo-img-${indexModelo}`);
-      img.src = imagenDeVersion(version, colorInicial);
-
-      activarEventosColor(indexModelo, indexVersion);
-      activarEventosCotizar();
-    });
-  });
-
-  function activarEventosColor(indexModelo, indexVersion) {
-    const modelo = window.CATALOGO_FORD[indexModelo];
-    const version = modelo.versiones[indexVersion];
-    const img = document.getElementById(`modelo-img-${indexModelo}`);
-    const colorName = document.getElementById(`color-name-${modelo.id}-${version.id}`);
-
-    document.querySelectorAll(`[data-modelo-color="${modelo.id}"][data-version-color="${version.id}"]`).forEach((btn) => {
-      btn.addEventListener("click", () => {
-        document
-          .querySelectorAll(`[data-modelo-color="${modelo.id}"][data-version-color="${version.id}"]`)
-          .forEach((b) => b.classList.remove("active"));
-
-        btn.classList.add("active");
-
-        const nombreColor = btn.getAttribute("data-color-nombre");
-        const colorImg = btn.getAttribute("data-color-img");
-        const colorObj = { nombre: nombreColor, imagen: colorImg };
-
-        img.src = imagenDeVersion(version, colorObj);
-        if (colorName) colorName.textContent = nombreColor;
-      });
-    });
+  function crearFicha(version) {
+    return `
+      <div class="ficha-grid">
+        <div class="ficha-item">
+          <span class="ficha-label">Motor</span>
+          <span class="ficha-value">${version.ficha.motor}</span>
+        </div>
+        <div class="ficha-item">
+          <span class="ficha-label">Transmisión</span>
+          <span class="ficha-value">${version.ficha.transmision}</span>
+        </div>
+        <div class="ficha-item">
+          <span class="ficha-label">Tracción</span>
+          <span class="ficha-value">${version.ficha.traccion}</span>
+        </div>
+        <div class="ficha-item">
+          <span class="ficha-label">Enfoque</span>
+          <span class="ficha-value">${version.ficha.enfoque}</span>
+        </div>
+      </div>
+    `;
   }
 
-  function activarEventosCotizar() {
+  function renderConfigurador(lista) {
+    if (!catalogoPrincipal || !lista.length) {
+      if (catalogoPrincipal) {
+        catalogoPrincipal.innerHTML = `<div class="admin-panel-card"><p class="mensaje error">No encontramos modelos con esa búsqueda.</p></div>`;
+      }
+      return;
+    }
+
+    const modelo = lista[modeloActivo] || lista[0];
+    if (!modelo) return;
+    if (modeloActivo >= lista.length) modeloActivo = 0;
+
+    const version = modelo.versiones[versionActiva] || modelo.versiones[0];
+    const colorInicial = version.colores[0];
+    const imagen = imagenDeVersion(version, colorInicial);
+
+    catalogoPrincipal.innerHTML = `
+      <section class="configurator-shell">
+        <div class="config-left">
+          <div class="config-title-row">
+            <h3>${modelo.nombre}</h3>
+            <div class="config-small-line"></div>
+          </div>
+
+          <div class="config-visual">
+            <img id="imagenConfigurador" src="${imagen}" alt="${version.nombre}" />
+          </div>
+        </div>
+
+        <div class="config-right">
+          <div class="config-actions-top">
+            <div class="mini-pill">Ficha Técnica</div>
+            <div class="mini-pill">Configurar</div>
+          </div>
+
+          <div class="version-tabs" id="versionTabs">
+            ${crearVersionTabs(modelo)}
+          </div>
+
+          <div class="version-header">
+            <h4>${version.nombre}</h4>
+            <p>${version.descripcion}</p>
+          </div>
+
+          ${crearColores(modelo, version)}
+          ${crearFicha(version)}
+
+          <div class="config-bottom-actions">
+            <a
+              href="#contacto"
+              class="btn btn-primary btn-cotizar-version"
+              data-version-nombre="${version.nombre}"
+            >
+              Cotizar esta versión
+            </a>
+
+            <a
+              class="btn btn-whatsapp"
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+                `Hola Diego, me interesa ${version.nombre}. Quiero información, disponibilidad y cotización.`
+              )}"
+            >
+              WhatsApp directo
+            </a>
+          </div>
+        </div>
+      </section>
+    `;
+
+    document.querySelectorAll(".version-tab").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        versionActiva = Number(tab.getAttribute("data-version-index"));
+        renderConfigurador(lista);
+      });
+    });
+
+    document.querySelectorAll(".color-swatch").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const colorIndex = Number(btn.getAttribute("data-color-index"));
+        const color = version.colores[colorIndex];
+        const img = document.getElementById("imagenConfigurador");
+        const colorName = document.getElementById("color-name");
+
+        document.querySelectorAll(".color-swatch").forEach((el) => el.classList.remove("active"));
+        btn.classList.add("active");
+
+        if (img) img.src = imagenDeVersion(version, color);
+        if (colorName) colorName.textContent = color.nombre;
+      });
+    });
+
     document.querySelectorAll(".btn-cotizar-version").forEach((btn) => {
       btn.addEventListener("click", () => {
         const versionNombre = btn.getAttribute("data-version-nombre");
@@ -258,16 +259,37 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // abrir el primero por defecto
-  const primerBody = document.getElementById("modelo-body-0");
-  const primerBtn = document.querySelector(`[data-toggle="0"]`);
-  if (primerBody && primerBtn) {
-    primerBody.classList.add("open");
-    primerBtn.textContent = "Ocultar versiones";
-    activarEventosColor(0, 0);
+  function filtrarModelos() {
+    if (!textoBusqueda.trim()) return catalogo;
+    return catalogo.filter((modelo) => {
+      const base = [
+        modelo.nombre,
+        modelo.categoria,
+        modelo.descripcion,
+        ...modelo.versiones.map((v) => v.nombre)
+      ]
+        .join(" ")
+        .toLowerCase();
+
+      return base.includes(textoBusqueda.toLowerCase());
+    });
   }
 
-  activarEventosCotizar();
+  function renderTodo() {
+    const lista = filtrarModelos();
+    if (modeloActivo >= lista.length) modeloActivo = 0;
+    crearResumenModelos(lista);
+    renderConfigurador(lista);
+  }
+
+  if (buscadorModelos) {
+    buscadorModelos.addEventListener("input", (e) => {
+      textoBusqueda = e.target.value || "";
+      modeloActivo = 0;
+      versionActiva = 0;
+      renderTodo();
+    });
+  }
 
   if (!document.querySelector(".wa-float")) {
     const waFloat = document.createElement("a");
@@ -340,4 +362,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+  poblarSelectVehiculos();
+  renderTodo();
 });
