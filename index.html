@@ -33,9 +33,12 @@
           <a href="#contacto" class="nav-link">Cotiza</a>
           <a href="tel:6272850550" class="nav-link">Contactar</a>
           <a href="#quien-soy" class="nav-link">Quién soy</a>
+          <button type="button" class="nav-link nav-link-button" id="abrirAvisoTop">
+            Aviso legal
+          </button>
         </nav>
 
-        <a class="top-wa" href="#" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        <a class="top-wa wa-link" href="#" target="_blank" rel="noopener noreferrer">WhatsApp</a>
       </div>
     </div>
   </header>
@@ -60,7 +63,7 @@
 
             <div class="hero-cta-row">
               <a href="#catalogo-seccion" class="btn btn-primary btn-lg">Ver Catálogo</a>
-              <a href="#contacto" class="btn btn-secondary btn-lg wa-link" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+              <a href="#contacto" class="btn btn-secondary btn-lg">Solicitar información</a>
             </div>
           </div>
 
@@ -69,6 +72,10 @@
               <img src="public/ranger-xlt.jpg" alt="Ford destacado 1" class="hero-stage-img hero-stage-left" onerror="this.style.display='none'">
               <img src="public/f150-xlt.jpg" alt="Ford destacado 2" class="hero-stage-img hero-stage-main" onerror="this.style.display='none'">
               <img src="public/territory-titanium.jpg" alt="Ford destacado 3" class="hero-stage-img hero-stage-right" onerror="this.style.display='none'">
+            </div>
+
+            <div class="ia-note">
+              Imágenes de referencia generadas con IA
             </div>
           </div>
 
@@ -142,6 +149,10 @@
               <div>Ficha técnica clara</div>
               <div>Seguimiento directo</div>
             </div>
+
+            <button type="button" class="btn btn-secondary btn-legal" id="abrirAvisoContacto">
+              Ver aviso legal
+            </button>
           </div>
 
           <div class="contact-form-card">
@@ -162,6 +173,10 @@
 
               <div id="mensajeEstado" class="mensaje"></div>
             </form>
+
+            <p class="legal-inline-note">
+              Imágenes ilustrativas generadas con IA. Colores, equipamiento y disponibilidad pueden variar según versión, año modelo e inventario.
+            </p>
           </div>
         </div>
       </div>
@@ -188,6 +203,44 @@
   </footer>
 
   <a class="float-call" href="tel:6272850550">Llamar</a>
+
+  <!-- MODAL / CUADRO DE DIÁLOGO LEGAL -->
+  <div class="modal-overlay" id="modalAviso" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="tituloAviso">
+      <div class="modal-header">
+        <h3 id="tituloAviso">Aviso importante</h3>
+        <button type="button" class="modal-close" id="cerrarAviso" aria-label="Cerrar aviso">×</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-pill-row">
+          <span class="modal-pill">Imágenes de referencia</span>
+          <span class="modal-pill">Transparencia comercial</span>
+          <span class="modal-pill">Condiciones legales</span>
+        </div>
+
+        <ul class="modal-list">
+          <li>Las imágenes mostradas en esta página son ilustrativas y de referencia.</li>
+          <li>Algunas imágenes del catálogo han sido generadas con IA con fines visuales y comerciales.</li>
+          <li>Los colores presentados son colores de referencia y pueden variar según versión, año modelo, región e inventario disponible.</li>
+          <li>El equipamiento, acabados, rines, interiores y detalles visuales pueden cambiar según la versión seleccionada.</li>
+          <li>La disponibilidad real de unidades está sujeta a existencia en agencia, asignación y cambios sin previo aviso.</li>
+          <li>Los precios, promociones, bonos, condiciones comerciales y tiempos de entrega pueden cambiar sin previo aviso.</li>
+          <li>Para confirmar colores, versiones, inventario y condiciones comerciales, consulta directamente con tu asesor.</li>
+        </ul>
+
+        <div class="modal-advisor-box">
+          <strong>Asesor:</strong> Diego Valenzuela<br />
+          <strong>Teléfono:</strong> 627 285 0550
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" id="cerrarAvisoSecundario">Cerrar</button>
+        <button type="button" class="btn btn-primary" id="aceptarAviso">Entendido</button>
+      </div>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js"></script>
