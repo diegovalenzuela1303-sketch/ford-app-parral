@@ -8,6 +8,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const telefonoAsesorEls = document.querySelectorAll(".asesor-telefono");
   const whatsappLinks = document.querySelectorAll(".wa-link");
 
+  const modalAviso = document.getElementById("modalAviso");
+  const abrirAvisoTop = document.getElementById("abrirAvisoTop");
+  const abrirAvisoContacto = document.getElementById("abrirAvisoContacto");
+  const cerrarAviso = document.getElementById("cerrarAviso");
+  const cerrarAvisoSecundario = document.getElementById("cerrarAvisoSecundario");
+  const aceptarAviso = document.getElementById("aceptarAviso");
+
   const whatsappNumber = window.APP_CONFIG?.WHATSAPP_NUMBER || "526272850550";
   const asesorTelefono = window.APP_CONFIG?.ASESOR_TELEFONO || "627 285 0550";
   const catalogo = window.CATALOGO_FORD || [];
@@ -20,6 +27,34 @@ document.addEventListener("DOMContentLoaded", () => {
     link.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
       "Hola Diego, quiero información de un vehículo Ford."
     )}`;
+  });
+
+  function abrirModalAviso() {
+    if (!modalAviso) return;
+    modalAviso.classList.add("open");
+    modalAviso.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+
+  function cerrarModalAviso() {
+    if (!modalAviso) return;
+    modalAviso.classList.remove("open");
+    modalAviso.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+
+  abrirAvisoTop?.addEventListener("click", abrirModalAviso);
+  abrirAvisoContacto?.addEventListener("click", abrirModalAviso);
+  cerrarAviso?.addEventListener("click", cerrarModalAviso);
+  cerrarAvisoSecundario?.addEventListener("click", cerrarModalAviso);
+  aceptarAviso?.addEventListener("click", cerrarModalAviso);
+
+  modalAviso?.addEventListener("click", (e) => {
+    if (e.target === modalAviso) cerrarModalAviso();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") cerrarModalAviso();
   });
 
   if (!catalogo.length) return;
@@ -45,14 +80,17 @@ document.addEventListener("DOMContentLoaded", () => {
         </defs>
         <rect width="1200" height="700" fill="url(#bg)"/>
         <rect x="35" y="35" width="1130" height="630" rx="24" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.16)" />
-        <text x="600" y="300" text-anchor="middle" fill="#ffffff" font-size="52" font-family="Arial, sans-serif" font-weight="700">
+        <text x="600" y="280" text-anchor="middle" fill="#ffffff" font-size="52" font-family="Arial, sans-serif" font-weight="700">
           ${texto}
         </text>
-        <text x="600" y="380" text-anchor="middle" fill="#dbe7f5" font-size="28" font-family="Arial, sans-serif">
+        <text x="600" y="350" text-anchor="middle" fill="#dbe7f5" font-size="28" font-family="Arial, sans-serif">
           ${color}
         </text>
-        <text x="600" y="440" text-anchor="middle" fill="#9eb4d3" font-size="20" font-family="Arial, sans-serif">
-          Ford Parral · Diego Valenzuela
+        <text x="600" y="405" text-anchor="middle" fill="#9eb4d3" font-size="18" font-family="Arial, sans-serif">
+          Imagen de referencia
+        </text>
+        <text x="600" y="450" text-anchor="middle" fill="#8fa7c7" font-size="16" font-family="Arial, sans-serif">
+          Generada con IA · Ford Parral · Diego Valenzuela
         </text>
       </svg>
     `;
@@ -70,6 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function crearResumenModelos(lista) {
     if (!modelosResumen) return;
+
     modelosResumen.innerHTML = lista
       .map((modelo, index) => {
         const primeraVersion = modelo.versiones[0];
@@ -78,8 +117,8 @@ document.addEventListener("DOMContentLoaded", () => {
         return `
           <article class="model-summary-card ${index === modeloActivo ? "active" : ""}" data-modelo-index="${index}">
             <h3>${modelo.nombre}</h3>
-            <img src="${primeraImagen}" alt="${modelo.nombre}" />
-            <span>• ${modelo.versiones.length} Versiones</span>
+            <img src="${primeraImagen}" alt="${modelo.nombre}" onerror="this.onerror=null;this.src='${placeholder(modelo.nombre)}'">
+            <span>• ${modelo.versiones.length} versiones</span>
           </article>
         `;
       })
@@ -99,29 +138,29 @@ document.addEventListener("DOMContentLoaded", () => {
     return modelo.versiones
       .map(
         (version, index) => `
-        <button class="version-tab ${index === versionActiva ? "active" : ""}" data-version-index="${index}">
-          ${version.nombre.replace(modelo.nombre + " ", "")}
-        </button>
-      `
+          <button class="version-tab ${index === versionActiva ? "active" : ""}" data-version-index="${index}">
+            ${version.nombre.replace(modelo.nombre + " ", "")}
+          </button>
+        `
       )
       .join("");
   }
 
-  function crearColores(modelo, version) {
+  function crearColores(version) {
     return `
       <div class="color-row">
-        <span class="color-label">Colores disponibles</span>
+        <span class="color-label">Colores de referencia</span>
         <div class="color-swatches">
           ${version.colores
             .map(
               (color, index) => `
-              <button
-                class="color-swatch ${index === 0 ? "active" : ""}"
-                style="background:${color.codigo}"
-                data-color-index="${index}"
-                title="${color.nombre}"
-              ></button>
-            `
+                <button
+                  class="color-swatch ${index === 0 ? "active" : ""}"
+                  style="background:${color.codigo}"
+                  data-color-index="${index}"
+                  title="${color.nombre}"
+                ></button>
+              `
             )
             .join("")}
         </div>
@@ -156,7 +195,11 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderConfigurador(lista) {
     if (!catalogoPrincipal || !lista.length) {
       if (catalogoPrincipal) {
-        catalogoPrincipal.innerHTML = `<div class="admin-panel-card"><p class="mensaje error">No encontramos modelos con esa búsqueda.</p></div>`;
+        catalogoPrincipal.innerHTML = `
+          <div class="admin-panel-card">
+            <p class="mensaje error">No encontramos modelos con esa búsqueda.</p>
+          </div>
+        `;
       }
       return;
     }
@@ -178,14 +221,19 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
 
           <div class="config-visual">
-            <img id="imagenConfigurador" src="${imagen}" alt="${version.nombre}" />
+            <img id="imagenConfigurador" src="${imagen}" alt="${version.nombre}" onerror="this.onerror=null;this.src='${placeholder(version.nombre, colorInicial?.nombre || "Color")}'" />
+          </div>
+
+          <div class="ia-note ia-note-config">
+            Imágenes de referencia generadas con IA
           </div>
         </div>
 
         <div class="config-right">
           <div class="config-actions-top">
-            <div class="mini-pill">Ficha Técnica</div>
+            <div class="mini-pill">Ficha técnica</div>
             <div class="mini-pill">Configurar</div>
+            <button type="button" class="mini-pill" id="abrirAvisoConfigurador">Aviso legal</button>
           </div>
 
           <div class="version-tabs" id="versionTabs">
@@ -197,7 +245,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <p>${version.descripcion}</p>
           </div>
 
-          ${crearColores(modelo, version)}
+          ${crearColores(version)}
           ${crearFicha(version)}
 
           <div class="config-bottom-actions">
@@ -223,6 +271,8 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       </section>
     `;
+
+    document.getElementById("abrirAvisoConfigurador")?.addEventListener("click", abrirModalAviso);
 
     document.querySelectorAll(".version-tab").forEach((tab) => {
       tab.addEventListener("click", () => {
@@ -265,7 +315,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const base = [
         modelo.nombre,
         modelo.categoria,
-        modelo.descripcion,
         ...modelo.versiones.map((v) => v.nombre)
       ]
         .join(" ")
