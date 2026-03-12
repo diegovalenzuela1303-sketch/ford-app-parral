@@ -19,6 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const asesorTelefono = window.APP_CONFIG?.ASESOR_TELEFONO || "627 285 0550";
   const catalogo = window.CATALOGO_FORD || [];
 
+  let waFloat = null;
+
   telefonoAsesorEls.forEach((el) => {
     el.textContent = asesorTelefono;
   });
@@ -61,6 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function poblarSelectVehiculos() {
     if (!vehiculoSelect) return;
+
     const opciones = catalogo
       .flatMap((modelo) => modelo.versiones.map((v) => v.nombre))
       .map((nombre) => `<option value="${nombre}">${nombre}</option>`)
@@ -102,6 +105,36 @@ document.addEventListener("DOMContentLoaded", () => {
     return placeholder(version.nombre, colorObj?.nombre || "Color");
   }
 
+  function mensajeWhatsAppVersion(versionNombre) {
+    return `Hola Diego, me interesa ${versionNombre}. Quiero información, disponibilidad y cotización.`;
+  }
+
+  function crearBotonFlotante() {
+    let boton = document.querySelector(".wa-float");
+
+    if (!boton) {
+      boton = document.createElement("a");
+      boton.className = "wa-float";
+      boton.target = "_blank";
+      boton.rel = "noopener noreferrer";
+      document.body.appendChild(boton);
+    }
+
+    waFloat = boton;
+    return boton;
+  }
+
+  function actualizarBotonFlotante(versionNombre) {
+    const boton = waFloat || crearBotonFlotante();
+
+    boton.textContent = "Cotizar versión";
+    boton.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+      mensajeWhatsAppVersion(versionNombre)
+    )}`;
+    boton.setAttribute("aria-label", `Cotizar ${versionNombre} por WhatsApp`);
+    boton.setAttribute("title", `Cotizar ${versionNombre}`);
+  }
+
   let modeloActivo = 0;
   let versionActiva = 0;
   let textoBusqueda = "";
@@ -129,7 +162,10 @@ document.addEventListener("DOMContentLoaded", () => {
         modeloActivo = Number(card.getAttribute("data-modelo-index"));
         versionActiva = 0;
         renderTodo();
-        document.getElementById("catalogo-seccion")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        document.getElementById("catalogo-seccion")?.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
       });
     });
   }
@@ -159,6 +195,8 @@ document.addEventListener("DOMContentLoaded", () => {
                   style="background:${color.codigo}"
                   data-color-index="${index}"
                   title="${color.nombre}"
+                  aria-label="${color.nombre}"
+                  type="button"
                 ></button>
               `
             )
@@ -204,9 +242,10 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    if (modeloActivo >= lista.length) modeloActivo = 0;
+
     const modelo = lista[modeloActivo] || lista[0];
     if (!modelo) return;
-    if (modeloActivo >= lista.length) modeloActivo = 0;
 
     const version = modelo.versiones[versionActiva] || modelo.versiones[0];
     const colorInicial = version.colores[0];
@@ -221,7 +260,12 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
 
           <div class="config-visual">
-            <img id="imagenConfigurador" src="${imagen}" alt="${version.nombre}" onerror="this.onerror=null;this.src='${placeholder(version.nombre, colorInicial?.nombre || "Color")}'" />
+            <img
+              id="imagenConfigurador"
+              src="${imagen}"
+              alt="${version.nombre}"
+              onerror="this.onerror=null;this.src='${placeholder(version.nombre, colorInicial?.nombre || "Color")}'"
+            />
           </div>
 
           <div class="ia-note ia-note-config">
@@ -262,7 +306,7 @@ document.addEventListener("DOMContentLoaded", () => {
               target="_blank"
               rel="noopener noreferrer"
               href="https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-                `Hola Diego, me interesa ${version.nombre}. Quiero información, disponibilidad y cotización.`
+                mensajeWhatsAppVersion(version.nombre)
               )}"
             >
               WhatsApp directo
@@ -271,6 +315,8 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       </section>
     `;
+
+    actualizarBotonFlotante(version.nombre);
 
     document.getElementById("abrirAvisoConfigurador")?.addEventListener("click", abrirModalAviso);
 
@@ -288,11 +334,15 @@ document.addEventListener("DOMContentLoaded", () => {
         const img = document.getElementById("imagenConfigurador");
         const colorName = document.getElementById("color-name");
 
-        document.querySelectorAll(".color-swatch").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".color-swatch").forEach((el) => {
+          el.classList.remove("active");
+        });
         btn.classList.add("active");
 
         if (img) img.src = imagenDeVersion(version, color);
         if (colorName) colorName.textContent = color.nombre;
+
+        actualizarBotonFlotante(version.nombre);
       });
     });
 
@@ -311,6 +361,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function filtrarModelos() {
     if (!textoBusqueda.trim()) return catalogo;
+
     return catalogo.filter((modelo) => {
       const base = [
         modelo.nombre,
@@ -326,7 +377,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderTodo() {
     const lista = filtrarModelos();
+
     if (modeloActivo >= lista.length) modeloActivo = 0;
+
     crearResumenModelos(lista);
     renderConfigurador(lista);
   }
@@ -340,17 +393,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  if (!document.querySelector(".wa-float")) {
-    const waFloat = document.createElement("a");
-    waFloat.className = "wa-float";
-    waFloat.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-      "Hola Diego, quiero información de un vehículo Ford."
-    )}`;
-    waFloat.target = "_blank";
-    waFloat.rel = "noopener noreferrer";
-    waFloat.textContent = "WhatsApp";
-    document.body.appendChild(waFloat);
-  }
+  crearBotonFlotante();
 
   async function guardarProspecto(payload) {
     if (!window.db) throw new Error("Supabase no está inicializado.");
