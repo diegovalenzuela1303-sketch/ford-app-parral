@@ -16,9 +16,9 @@ window.CATALOGO_FORD = [
           enfoque: "Trabajo y productividad"
         },
         colores: [
-          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "" },
-          { nombre: "Negro", codigo: "#111827", imagen: "" },
-          { nombre: "Plata", codigo: "#94a3b8", imagen: "" }
+          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "public/ranger-xl.jpg" },
+          { nombre: "Negro", codigo: "#111827", imagen: "public/ranger-xl.jpg" },
+          { nombre: "Plata", codigo: "#94a3b8", imagen: "public/ranger-xl.jpg" }
         ]
       },
       {
@@ -32,9 +32,9 @@ window.CATALOGO_FORD = [
           enfoque: "Trabajo y confort"
         },
         colores: [
-          { nombre: "Azul", codigo: "#2563eb", imagen: "" },
-          { nombre: "Gris", codigo: "#6b7280", imagen: "" },
-          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "" }
+          { nombre: "Azul", codigo: "#2563eb", imagen: "public/ranger-xlt.jpg" },
+          { nombre: "Gris", codigo: "#6b7280", imagen: "public/ranger-xlt.jpg" },
+          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "public/ranger-xlt.jpg" }
         ]
       },
       {
@@ -48,9 +48,9 @@ window.CATALOGO_FORD = [
           enfoque: "Premium y versatilidad"
         },
         colores: [
-          { nombre: "Rojo", codigo: "#b91c1c", imagen: "" },
-          { nombre: "Negro", codigo: "#111827", imagen: "" },
-          { nombre: "Gris", codigo: "#6b7280", imagen: "" }
+          { nombre: "Rojo", codigo: "#b91c1c", imagen: "public/ranger-lariat.jpg" },
+          { nombre: "Negro", codigo: "#111827", imagen: "public/ranger-lariat.jpg" },
+          { nombre: "Gris", codigo: "#6b7280", imagen: "public/ranger-lariat.jpg" }
         ]
       },
       {
@@ -64,9 +64,9 @@ window.CATALOGO_FORD = [
           enfoque: "Alto desempeño"
         },
         colores: [
-          { nombre: "Azul", codigo: "#1d4ed8", imagen: "" },
-          { nombre: "Negro", codigo: "#111827", imagen: "" },
-          { nombre: "Gris", codigo: "#6b7280", imagen: "" }
+          { nombre: "Azul", codigo: "#1d4ed8", imagen: "public/ranger-raptor.jpg" },
+          { nombre: "Negro", codigo: "#111827", imagen: "public/ranger-raptor.jpg" },
+          { nombre: "Gris", codigo: "#6b7280", imagen: "public/ranger-raptor.jpg" }
         ]
       }
     ]
@@ -89,8 +89,8 @@ window.CATALOGO_FORD = [
           enfoque: "Trabajo"
         },
         colores: [
-          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "" },
-          { nombre: "Plata", codigo: "#94a3b8", imagen: "" }
+          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "public/f150-xl.jpg" },
+          { nombre: "Plata", codigo: "#94a3b8", imagen: "public/f150-xl.jpg" }
         ]
       },
       {
@@ -104,9 +104,9 @@ window.CATALOGO_FORD = [
           enfoque: "Trabajo y confort"
         },
         colores: [
-          { nombre: "Azul", codigo: "#2563eb", imagen: "" },
-          { nombre: "Negro", codigo: "#111827", imagen: "" },
-          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "" }
+          { nombre: "Azul", codigo: "#2563eb", imagen: "public/f150-xlt.jpg" },
+          { nombre: "Negro", codigo: "#111827", imagen: "public/f150-xlt.jpg" },
+          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "public/f150-xlt.jpg" }
         ]
       },
       {
@@ -120,9 +120,9 @@ window.CATALOGO_FORD = [
           enfoque: "Premium"
         },
         colores: [
-          { nombre: "Negro", codigo: "#111827", imagen: "" },
-          { nombre: "Gris", codigo: "#6b7280", imagen: "" },
-          { nombre: "Rojo", codigo: "#b91c1c", imagen: "" }
+          { nombre: "Negro", codigo: "#111827", imagen: "public/f150-lariat.jpg" },
+          { nombre: "Gris", codigo: "#6b7280", imagen: "public/f150-lariat.jpg" },
+          { nombre: "Rojo", codigo: "#b91c1c", imagen: "public/f150-lariat.jpg" }
         ]
       },
       {
@@ -136,63 +136,9 @@ window.CATALOGO_FORD = [
           enfoque: "Performance"
         },
         colores: [
-          { nombre: "Naranja", codigo: "#ea580c", imagen: "" },
-          { nombre: "Negro", codigo: "#111827", imagen: "" },
-          { nombre: "Azul", codigo: "#1d4ed8", imagen: "" }
-        ]
-      }
-    ]
-  },
-
-  {
-    id: "super-duty",
-    nombre: "Ford Super Duty",
-    categoria: "Pickups",
-    descripcion: "Línea heavy duty para carga, remolque y operación profesional.",
-    versiones: [
-      {
-        id: "f250-xl",
-        nombre: "F-250 XL",
-        descripcion: "Heavy duty para trabajo pesado y operación comercial.",
-        ficha: {
-          motor: "Gasolina o diésel",
-          transmision: "Automática",
-          traccion: "4x4",
-          enfoque: "Trabajo pesado"
-        },
-        colores: [
-          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "" },
-          { nombre: "Plata", codigo: "#94a3b8", imagen: "" }
-        ]
-      },
-      {
-        id: "f250-lariat",
-        nombre: "F-250 Lariat",
-        descripcion: "Capacidad de trabajo con imagen más premium.",
-        ficha: {
-          motor: "Gasolina / diésel",
-          transmision: "Automática",
-          traccion: "4x4",
-          enfoque: "Trabajo premium"
-        },
-        colores: [
-          { nombre: "Negro", codigo: "#111827", imagen: "" },
-          { nombre: "Gris", codigo: "#6b7280", imagen: "" }
-        ]
-      },
-      {
-        id: "f350-xl",
-        nombre: "F-350 XL",
-        descripcion: "Mayor capacidad de carga para clientes exigentes.",
-        ficha: {
-          motor: "Gasolina / diésel",
-          transmision: "Automática",
-          traccion: "4x4",
-          enfoque: "Carga extrema"
-        },
-        colores: [
-          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "" },
-          { nombre: "Negro", codigo: "#111827", imagen: "" }
+          { nombre: "Naranja", codigo: "#ea580c", imagen: "public/f150-raptor.jpg" },
+          { nombre: "Negro", codigo: "#111827", imagen: "public/f150-raptor.jpg" },
+          { nombre: "Azul", codigo: "#1d4ed8", imagen: "public/f150-raptor.jpg" }
         ]
       }
     ]
@@ -215,9 +161,9 @@ window.CATALOGO_FORD = [
           enfoque: "Ciudad y familia"
         },
         colores: [
-          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "" },
-          { nombre: "Azul", codigo: "#2563eb", imagen: "" },
-          { nombre: "Gris", codigo: "#6b7280", imagen: "" }
+          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "public/territory-trend.jpg" },
+          { nombre: "Azul", codigo: "#2563eb", imagen: "public/territory-trend.jpg" },
+          { nombre: "Gris", codigo: "#6b7280", imagen: "public/territory-trend.jpg" }
         ]
       },
       {
@@ -231,9 +177,9 @@ window.CATALOGO_FORD = [
           enfoque: "Familia y equipamiento"
         },
         colores: [
-          { nombre: "Negro", codigo: "#111827", imagen: "" },
-          { nombre: "Rojo", codigo: "#b91c1c", imagen: "" },
-          { nombre: "Gris", codigo: "#6b7280", imagen: "" }
+          { nombre: "Negro", codigo: "#111827", imagen: "public/territory-titanium.jpg" },
+          { nombre: "Rojo", codigo: "#b91c1c", imagen: "public/territory-titanium.jpg" },
+          { nombre: "Gris", codigo: "#6b7280", imagen: "public/territory-titanium.jpg" }
         ]
       }
     ]
@@ -246,8 +192,8 @@ window.CATALOGO_FORD = [
     descripcion: "Línea aventurera, off-road y de fuerte presencia visual.",
     versiones: [
       {
-        id: "bronco-big-bend",
-        nombre: "Bronco Big Bend",
+        id: "bronco-base",
+        nombre: "Bronco Base",
         descripcion: "Entrada ideal al mundo Bronco con enfoque de aventura.",
         ficha: {
           motor: "Turbo",
@@ -256,14 +202,14 @@ window.CATALOGO_FORD = [
           enfoque: "Aventura"
         },
         colores: [
-          { nombre: "Arena", codigo: "#bfa47a", imagen: "" },
-          { nombre: "Negro", codigo: "#111827", imagen: "" },
-          { nombre: "Azul", codigo: "#1d4ed8", imagen: "" }
+          { nombre: "Arena", codigo: "#bfa47a", imagen: "public/bronco-base.jpg" },
+          { nombre: "Negro", codigo: "#111827", imagen: "public/bronco-base.jpg" },
+          { nombre: "Azul", codigo: "#1d4ed8", imagen: "public/bronco-base.jpg" }
         ]
       },
       {
-        id: "bronco-wildtrak",
-        nombre: "Bronco Wildtrak",
+        id: "bronco-badlands",
+        nombre: "Bronco Badlands",
         descripcion: "Mayor capacidad off-road y estilo más agresivo.",
         ficha: {
           motor: "Turbo",
@@ -272,118 +218,9 @@ window.CATALOGO_FORD = [
           enfoque: "Off-road"
         },
         colores: [
-          { nombre: "Gris", codigo: "#6b7280", imagen: "" },
-          { nombre: "Naranja", codigo: "#ea580c", imagen: "" },
-          { nombre: "Negro", codigo: "#111827", imagen: "" }
-        ]
-      },
-      {
-        id: "bronco-raptor",
-        nombre: "Bronco Raptor",
-        descripcion: "La variante más radical de la línea Bronco.",
-        ficha: {
-          motor: "V6 Turbo",
-          transmision: "Automática",
-          traccion: "4x4",
-          enfoque: "Performance extremo"
-        },
-        colores: [
-          { nombre: "Azul", codigo: "#1d4ed8", imagen: "" },
-          { nombre: "Negro", codigo: "#111827", imagen: "" },
-          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "" }
-        ]
-      }
-    ]
-  },
-
-  {
-    id: "explorer",
-    nombre: "Ford Explorer",
-    categoria: "SUV",
-    descripcion: "SUV amplia para viajes, familia y uso premium.",
-    versiones: [
-      {
-        id: "explorer-xlt",
-        nombre: "Explorer XLT",
-        descripcion: "Espacio y versatilidad para uso familiar.",
-        ficha: {
-          motor: "Turbo",
-          transmision: "Automática",
-          traccion: "AWD",
-          enfoque: "Familia"
-        },
-        colores: [
-          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "" },
-          { nombre: "Gris", codigo: "#6b7280", imagen: "" }
-        ]
-      },
-      {
-        id: "explorer-limited",
-        nombre: "Explorer Limited",
-        descripcion: "Confort superior para carretera y ciudad.",
-        ficha: {
-          motor: "Turbo",
-          transmision: "Automática",
-          traccion: "AWD",
-          enfoque: "Confort"
-        },
-        colores: [
-          { nombre: "Negro", codigo: "#111827", imagen: "" },
-          { nombre: "Rojo", codigo: "#b91c1c", imagen: "" }
-        ]
-      },
-      {
-        id: "explorer-st",
-        nombre: "Explorer ST",
-        descripcion: "Versión deportiva con mayor empuje visual y dinámico.",
-        ficha: {
-          motor: "V6 Turbo",
-          transmision: "Automática",
-          traccion: "AWD",
-          enfoque: "Performance"
-        },
-        colores: [
-          { nombre: "Azul", codigo: "#1d4ed8", imagen: "" },
-          { nombre: "Negro", codigo: "#111827", imagen: "" }
-        ]
-      }
-    ]
-  },
-
-  {
-    id: "expedition",
-    nombre: "Ford Expedition",
-    categoria: "SUV",
-    descripcion: "SUV full size para familias grandes y cliente premium.",
-    versiones: [
-      {
-        id: "expedition-limited",
-        nombre: "Expedition Limited",
-        descripcion: "Gran espacio y tecnología para uso familiar premium.",
-        ficha: {
-          motor: "3.5L EcoBoost",
-          transmision: "Automática",
-          traccion: "4x4",
-          enfoque: "Amplitud y confort"
-        },
-        colores: [
-          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "" },
-          { nombre: "Negro", codigo: "#111827", imagen: "" }
-        ]
-      },
-      {
-        id: "expedition-platinum",
-        nombre: "Expedition Platinum",
-        descripcion: "Máximo lujo dentro de las SUV grandes Ford.",
-        ficha: {
-          motor: "3.5L EcoBoost",
-          transmision: "Automática",
-          traccion: "4x4",
-          enfoque: "Lujo"
-        },
-        colores: [
-          { nombre: "Gris", codigo: "#6b7280", imagen: "" },
-          { nombre: "Negro", codigo: "#111827", imagen: "" }
+          { nombre: "Gris", codigo: "#6b7280", imagen: "public/bronco-badlands.jpg" },
+          { nombre: "Naranja", codigo: "#ea580c", imagen: "public/bronco-badlands.jpg" },
+          { nombre: "Negro", codigo: "#111827", imagen: "public/bronco-badlands.jpg" }
         ]
       }
     ]
@@ -406,9 +243,9 @@ window.CATALOGO_FORD = [
           enfoque: "Deportivo"
         },
         colores: [
-          { nombre: "Rojo", codigo: "#b91c1c", imagen: "" },
-          { nombre: "Azul", codigo: "#1d4ed8", imagen: "" },
-          { nombre: "Negro", codigo: "#111827", imagen: "" }
+          { nombre: "Rojo", codigo: "#b91c1c", imagen: "public/mustang-ecoboost.jpg" },
+          { nombre: "Azul", codigo: "#1d4ed8", imagen: "public/mustang-ecoboost.jpg" },
+          { nombre: "Negro", codigo: "#111827", imagen: "public/mustang-ecoboost.jpg" }
         ]
       },
       {
@@ -422,66 +259,11 @@ window.CATALOGO_FORD = [
           enfoque: "Potencia"
         },
         colores: [
-          { nombre: "Amarillo", codigo: "#eab308", imagen: "" },
-          { nombre: "Rojo", codigo: "#b91c1c", imagen: "" },
-          { nombre: "Negro", codigo: "#111827", imagen: "" }
-        ]
-      },
-      {
-        id: "mustang-dark-horse",
-        nombre: "Mustang Dark Horse",
-        descripcion: "Versión radical para cliente performance.",
-        ficha: {
-          motor: "V8 5.0L",
-          transmision: "Automática / manual",
-          traccion: "Trasera",
-          enfoque: "Performance"
-        },
-        colores: [
-          { nombre: "Azul", codigo: "#1e40af", imagen: "" },
-          { nombre: "Negro", codigo: "#111827", imagen: "" },
-          { nombre: "Gris", codigo: "#6b7280", imagen: "" }
-        ]
-      }
-    ]
-  },
-
-  {
-    id: "transit",
-    nombre: "Ford Transit",
-    categoria: "Comerciales",
-    descripcion: "Solución comercial y de carga para negocio y operación.",
-    versiones: [
-      {
-        id: "transit-cargo",
-        nombre: "Transit Cargo",
-        descripcion: "Van enfocada en transporte de carga y negocio.",
-        ficha: {
-          motor: "Gasolina / diésel según versión",
-          transmision: "Automática",
-          traccion: "Trasera",
-          enfoque: "Carga y logística"
-        },
-        colores: [
-          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "" },
-          { nombre: "Plata", codigo: "#94a3b8", imagen: "" }
-        ]
-      },
-      {
-        id: "transit-pasajeros",
-        nombre: "Transit Pasajeros",
-        descripcion: "Transporte de personas con enfoque comercial.",
-        ficha: {
-          motor: "Gasolina / diésel según versión",
-          transmision: "Automática",
-          traccion: "Trasera",
-          enfoque: "Pasajeros y servicio"
-        },
-        colores: [
-          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "" },
-          { nombre: "Negro", codigo: "#111827", imagen: "" }
+          { nombre: "Amarillo", codigo: "#eab308", imagen: "public/mustang-gt.jpg" },
+          { nombre: "Rojo", codigo: "#b91c1c", imagen: "public/mustang-gt.jpg" },
+          { nombre: "Negro", codigo: "#111827", imagen: "public/mustang-gt.jpg" }
         ]
       }
     ]
   }
-];
+];;
