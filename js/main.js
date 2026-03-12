@@ -1,27 +1,28 @@
 document.addEventListener("DOMContentLoaded", () => {
   const catalogo = document.getElementById("catalogo-lista");
-  const yearEl = document.getElementById("year");
   const form = document.getElementById("formProspecto");
   const mensajeEstado = document.getElementById("mensajeEstado");
   const vehiculoSelect = document.getElementById("vehiculo");
-  const nombreAsesorEls = document.querySelectorAll(".asesor-nombre");
+  const yearEl = document.getElementById("year");
   const telefonoAsesorEls = document.querySelectorAll(".asesor-telefono");
   const whatsappLinks = document.querySelectorAll(".wa-link");
 
-  const asesorNombre = window.APP_CONFIG?.ASESOR_NOMBRE || "Diego Valenzuela";
-  const asesorTelefono = window.APP_CONFIG?.ASESOR_TELEFONO || "627 285 0550";
   const whatsappNumber = window.APP_CONFIG?.WHATSAPP_NUMBER || "526272850550";
+  const asesorTelefono = window.APP_CONFIG?.ASESOR_TELEFONO || "627 285 0550";
+
+  telefonoAsesorEls.forEach((el) => {
+    el.textContent = asesorTelefono;
+  });
+
+  whatsappLinks.forEach((link) => {
+    link.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+      "Hola Diego, quiero información de un vehículo Ford."
+    )}`;
+  });
 
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
   }
-
-  nombreAsesorEls.forEach((el) => (el.textContent = asesorNombre));
-  telefonoAsesorEls.forEach((el) => (el.textContent = asesorTelefono));
-
-  whatsappLinks.forEach((link) => {
-    link.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Hola Diego, quiero información de un vehículo Ford.")}`;
-  });
 
   if (!catalogo) {
     console.error("No se encontró el contenedor del catálogo.");
@@ -40,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     "ranger-raptor": "Pickups",
     "ranger-wildtrak": "Pickups",
     "ranger-tremor": "Pickups",
+
     "f150-xl": "Pickups",
     "f150-xlt": "Pickups",
     "f150-lariat": "Pickups",
@@ -47,12 +49,15 @@ document.addEventListener("DOMContentLoaded", () => {
     "f150-tremor": "Pickups",
     "f150-raptor": "Pickups",
     "f150-lightning": "Pickups",
+
     "f250-xl": "Pickups",
     "f250-xlt": "Pickups",
     "f250-lariat": "Pickups",
+
     "f350-xl": "Pickups",
     "f350-xlt": "Pickups",
     "f350-lariat": "Pickups",
+
     "territory-trend": "SUV",
     "territory-titanium": "SUV",
     "escape": "SUV",
@@ -66,6 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
     "bronco-wildtrak": "SUV",
     "bronco-raptor": "SUV",
     "bronco-sport": "SUV",
+
     "mustang-ecoboost": "Deportivos",
     "mustang-gt": "Deportivos",
     "mustang-dark-horse": "Deportivos"
@@ -110,10 +116,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function crearCard(vehiculo) {
     const imagenFinal = getImagen(vehiculo);
-    const whatsappText = encodeURIComponent(`Hola Diego, me interesa ${vehiculo.nombre}. Quiero más información.`);
+    const whatsappText = encodeURIComponent(
+      `Hola Diego, me interesa ${vehiculo.nombre}. Quiero cotización, disponibilidad y opciones.`
+    );
 
     return `
-      <article class="vehiculo-card">
+      <article class="vehiculo-card" id="${vehiculo.id}">
         <div class="vehiculo-img-wrap">
           <img
             src="${imagenFinal}"
@@ -141,19 +149,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
           <div class="card-actions">
             <a
+              class="btn btn-primary btn-cotizar"
+              href="#contacto"
+              data-vehiculo="${vehiculo.nombre}"
+            >
+              Cotizar este vehículo
+            </a>
+
+            <a
               class="btn btn-whatsapp"
               href="https://wa.me/${whatsappNumber}?text=${whatsappText}"
               target="_blank"
               rel="noopener noreferrer"
             >
-              WhatsApp
-            </a>
-            <a
-              class="btn btn-outline"
-              href="#contacto"
-              data-vehiculo="${vehiculo.nombre}"
-            >
-              Solicitar info
+              WhatsApp directo
             </a>
           </div>
         </div>
@@ -168,6 +177,22 @@ document.addEventListener("DOMContentLoaded", () => {
       Deportivos: lista.filter((v) => v.categoria === "Deportivos"),
       Otros: lista.filter((v) => v.categoria === "Otros")
     };
+  }
+
+  function activarBotonesCotizar() {
+    document.querySelectorAll(".btn-cotizar").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const vehiculo = btn.getAttribute("data-vehiculo");
+        if (vehiculoSelect) {
+          vehiculoSelect.value = vehiculo;
+        }
+
+        const comentario = document.getElementById("comentario");
+        if (comentario && !comentario.value.trim()) {
+          comentario.value = `Me interesa ${vehiculo}. Quiero cotización y disponibilidad.`;
+        }
+      });
+    });
   }
 
   function renderCatalogo(lista) {
@@ -190,23 +215,25 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .join("");
 
-    catalogo.innerHTML = bloques || `
+    catalogo.innerHTML =
+      bloques ||
+      `
       <div class="sin-resultados">
         No encontramos unidades con ese filtro.
       </div>
     `;
 
-    document.querySelectorAll("[data-vehiculo]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const vehiculo = btn.getAttribute("data-vehiculo");
-        if (vehiculoSelect) vehiculoSelect.value = vehiculo;
-      });
-    });
+    activarBotonesCotizar();
   }
 
   const filtroHTML = `
     <div class="catalogo-toolbar">
-      <input type="text" id="buscadorVehiculos" class="catalogo-search" placeholder="Buscar por nombre, motor o enfoque..." />
+      <input
+        type="text"
+        id="buscadorVehiculos"
+        class="catalogo-search"
+        placeholder="Buscar por nombre, motor o enfoque..."
+      />
       <div class="catalogo-filtros">
         <button class="filtro-btn active" data-categoria="Todos">Todos</button>
         <button class="filtro-btn" data-categoria="Pickups">Pickups</button>
@@ -267,7 +294,9 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!document.querySelector(".wa-float")) {
     const waFloat = document.createElement("a");
     waFloat.className = "wa-float";
-    waFloat.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Hola Diego, quiero información de un vehículo Ford.")}`;
+    waFloat.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+      "Hola Diego, quiero información de un vehículo Ford."
+    )}`;
     waFloat.target = "_blank";
     waFloat.rel = "noopener noreferrer";
     waFloat.textContent = "WhatsApp";
@@ -324,7 +353,8 @@ document.addEventListener("DOMContentLoaded", () => {
       } catch (error) {
         console.error(error);
         if (mensajeEstado) {
-          mensajeEstado.textContent = "No se pudo guardar el prospecto. Revisa config.js, supabase-client.js y la tabla de Supabase.";
+          mensajeEstado.textContent =
+            "No se pudo guardar el prospecto. Revisa config.js, supabase-client.js y la tabla de Supabase.";
           mensajeEstado.className = "mensaje error";
         }
       } finally {
@@ -335,4 +365,4 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-});
+});;
