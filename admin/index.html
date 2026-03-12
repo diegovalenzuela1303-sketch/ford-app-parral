@@ -7,39 +7,88 @@
   <link rel="stylesheet" href="../css/estilos.css" />
 </head>
 <body>
+  <div class="site-bg"></div>
+
   <main class="admin-page">
     <div class="container">
-      <h1>Panel de administración</h1>
+      <section class="admin-hero">
+        <div class="admin-hero-copy">
+          <span class="hero-pill">Panel privado Ford Parral</span>
+          <h1>Administración de prospectos</h1>
+          <p>
+            Revisa, filtra y da seguimiento a los clientes potenciales desde un panel
+            más limpio, visual y profesional.
+          </p>
 
-      <section id="loginBox">
-        <h3>Ingreso administrador</h3>
+          <div class="hero-badges">
+            <span>📊 CRM básico activo</span>
+            <span>🔔 Prospectos en tiempo real</span>
+            <span>📁 Exportación CSV</span>
+          </div>
+        </div>
 
-        <form id="loginForm">
+        <div class="admin-hero-side">
+          <div class="admin-mini-card">
+            <strong>Ford Parral</strong>
+            <span>Diego Valenzuela · Panel Admin</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="loginBox" class="admin-panel-card">
+        <div class="admin-card-header">
+          <div>
+            <span class="section-tag">Acceso privado</span>
+            <h2>Ingreso administrador</h2>
+            <p>Entra con tu correo y contraseña de Supabase Auth.</p>
+          </div>
+        </div>
+
+        <form id="loginForm" class="admin-login-form">
           <input type="email" id="adminEmail" placeholder="Correo" required />
           <input type="password" id="adminPassword" placeholder="Contraseña" required />
-          <button type="submit" class="btn btn-dark">Ingresar</button>
+          <button type="submit" class="btn btn-primary">Ingresar</button>
         </form>
 
         <div id="estadoLogin"></div>
       </section>
 
-      <section id="panelBox" style="display:none;">
-        <div class="admin-top">
-          <button class="btn btn-dark" id="logoutBtn">Cerrar sesión</button>
-          <button class="btn btn-dark" id="exportCsvBtn">Exportar CSV</button>
+      <section id="panelBox" class="admin-panel-card" style="display:none;">
+        <div class="admin-card-header admin-card-header-split">
+          <div>
+            <span class="section-tag">Gestión</span>
+            <h2>Prospectos registrados</h2>
+            <p>Consulta el estado, exporta y da seguimiento a cada lead.</p>
+          </div>
+
+          <div class="admin-top">
+            <button class="btn btn-secondary" id="logoutBtn">Cerrar sesión</button>
+            <button class="btn btn-primary" id="exportCsvBtn">Exportar CSV</button>
+          </div>
         </div>
 
         <div id="alertaProspecto" class="alerta-prospecto" style="display:none;">
           🚨 Nuevo prospecto recibido
         </div>
 
-        <div class="stats-box">
-          <div>Prospectos totales: <b id="totalProspectos">0</b></div>
-          <div>Prospectos hoy: <b id="prospectosHoy">0</b></div>
-          <div>Vehículo más solicitado: <b id="vehiculoTop">-</b></div>
+        <div class="stats-box admin-stats-box">
+          <div class="stat-card">
+            <small>Prospectos totales</small>
+            <strong id="totalProspectos">0</strong>
+          </div>
+
+          <div class="stat-card">
+            <small>Prospectos hoy</small>
+            <strong id="prospectosHoy">0</strong>
+          </div>
+
+          <div class="stat-card">
+            <small>Vehículo más solicitado</small>
+            <strong id="vehiculoTop">-</strong>
+          </div>
         </div>
 
-        <div class="table-wrap">
+        <div class="table-wrap admin-table-wrap">
           <table>
             <thead>
               <tr>
