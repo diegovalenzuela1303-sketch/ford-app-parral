@@ -29,7 +29,6 @@
           <a href="#catalogo-seccion" class="nav-link active">Catálogo</a>
           <a href="#contacto" class="nav-link">Cotiza</a>
           <a href="tel:6272850550" class="nav-link">Contactar</a>
-          <a href="#quien-soy" class="nav-link">Quién soy</a>
         </nav>
 
         <a class="top-wa wa-link" href="#">WhatsApp</a>
@@ -146,9 +145,18 @@
 
           <div class="contact-form-card">
             <form id="formProspecto" class="contact-form-grid">
+
               <input type="text" id="nombre" placeholder="Nombre" required>
+
               <input type="tel" id="telefono" placeholder="Teléfono" required>
-              <select id="vehiculo"></select>
+
+              <select id="vehiculo" class="vehiculo-hidden" aria-hidden="true" tabindex="-1"></select>
+
+              <div class="vehiculo-auto-box">
+                <span class="vehiculo-auto-label">Vehículo seleccionado</span>
+                <strong id="vehiculoSeleccionadoTexto">Se asigna automáticamente desde la versión elegida</strong>
+              </div>
+
               <textarea id="comentario" placeholder="Comentario"></textarea>
 
               <button type="submit" class="btn btn-primary btn-full">
@@ -157,36 +165,6 @@
 
               <div id="mensajeEstado"></div>
             </form>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <section id="quien-soy" class="advisor-mini-section">
-      <div class="container">
-        <div class="advisor-mini-card">
-
-          <img src="public/diego.jpg" alt="Diego Valenzuela" class="advisor-mini-photo">
-
-          <div class="advisor-mini-info">
-            <strong>Diego Valenzuela</strong>
-            <span>Asesor de ventas Ford · Parral, Chihuahua</span>
-
-            <p>
-              Atención personalizada para encontrar la versión Ford
-              que mejor se adapte a tus necesidades.
-            </p>
-
-            <div class="advisor-mini-actions">
-              <a href="tel:6272850550" class="btn btn-secondary">
-                Llamar
-              </a>
-
-              <a href="#" class="btn btn-primary wa-link">
-                WhatsApp
-              </a>
-            </div>
           </div>
 
         </div>
