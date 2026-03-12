@@ -1,283 +1,487 @@
-window.VEHICULOS = [
+window.CATALOGO_FORD = [
+  {
+    id: "ranger",
+    nombre: "Ford Ranger",
+    categoria: "Pickups",
+    descripcion: "Pickup mediana versátil para trabajo, ciudad y aventura.",
+    versiones: [
+      {
+        id: "ranger-xl",
+        nombre: "Ranger XL",
+        descripcion: "Versión enfocada en trabajo diario y operación comercial.",
+        ficha: {
+          motor: "2.3L EcoBoost",
+          transmision: "Automática",
+          traccion: "4x2 / 4x4",
+          enfoque: "Trabajo y productividad"
+        },
+        colores: [
+          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "" },
+          { nombre: "Negro", codigo: "#111827", imagen: "" },
+          { nombre: "Plata", codigo: "#94a3b8", imagen: "" }
+        ]
+      },
+      {
+        id: "ranger-xlt",
+        nombre: "Ranger XLT",
+        descripcion: "Más equipamiento, tecnología y mejor presencia comercial.",
+        ficha: {
+          motor: "2.3L EcoBoost",
+          transmision: "Automática",
+          traccion: "4x2 / 4x4",
+          enfoque: "Trabajo y confort"
+        },
+        colores: [
+          { nombre: "Azul", codigo: "#2563eb", imagen: "" },
+          { nombre: "Gris", codigo: "#6b7280", imagen: "" },
+          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "" }
+        ]
+      },
+      {
+        id: "ranger-lariat",
+        nombre: "Ranger Lariat",
+        descripcion: "Acabado más premium para clientes que buscan imagen y equipamiento.",
+        ficha: {
+          motor: "2.3L EcoBoost",
+          transmision: "Automática",
+          traccion: "4x4",
+          enfoque: "Premium y versatilidad"
+        },
+        colores: [
+          { nombre: "Rojo", codigo: "#b91c1c", imagen: "" },
+          { nombre: "Negro", codigo: "#111827", imagen: "" },
+          { nombre: "Gris", codigo: "#6b7280", imagen: "" }
+        ]
+      },
+      {
+        id: "ranger-raptor",
+        nombre: "Ranger Raptor",
+        descripcion: "Desempeño off-road, presencia agresiva y enfoque emocional.",
+        ficha: {
+          motor: "V6 3.0L EcoBoost",
+          transmision: "Automática 10 velocidades",
+          traccion: "4x4",
+          enfoque: "Alto desempeño"
+        },
+        colores: [
+          { nombre: "Azul", codigo: "#1d4ed8", imagen: "" },
+          { nombre: "Negro", codigo: "#111827", imagen: "" },
+          { nombre: "Gris", codigo: "#6b7280", imagen: "" }
+        ]
+      }
+    ]
+  },
 
-{
-id:"ranger-xl",
-nombre:"Ford Ranger XL",
-imagen:"",
-descripcion:"Pickup versátil ideal para trabajo diario con gran equilibrio entre capacidad y eficiencia.",
-ficha:{motor:"2.3L EcoBoost",transmision:"Automática",traccion:"4x2 / 4x4",enfoque:"Trabajo"}
-},
+  {
+    id: "f150",
+    nombre: "Ford F-150",
+    categoria: "Pickups",
+    descripcion: "Pickup full size para trabajo, presencia y clientes premium.",
+    versiones: [
+      {
+        id: "f150-xl",
+        nombre: "F-150 XL",
+        descripcion: "Configuración base para operación, negocio y trabajo fuerte.",
+        ficha: {
+          motor: "EcoBoost / V8",
+          transmision: "Automática",
+          traccion: "4x2 / 4x4",
+          enfoque: "Trabajo"
+        },
+        colores: [
+          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "" },
+          { nombre: "Plata", codigo: "#94a3b8", imagen: "" }
+        ]
+      },
+      {
+        id: "f150-xlt",
+        nombre: "F-150 XLT",
+        descripcion: "Mayor balance entre imagen, confort y capacidad.",
+        ficha: {
+          motor: "EcoBoost / V8",
+          transmision: "Automática",
+          traccion: "4x4",
+          enfoque: "Trabajo y confort"
+        },
+        colores: [
+          { nombre: "Azul", codigo: "#2563eb", imagen: "" },
+          { nombre: "Negro", codigo: "#111827", imagen: "" },
+          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "" }
+        ]
+      },
+      {
+        id: "f150-lariat",
+        nombre: "F-150 Lariat",
+        descripcion: "Versión premium con mejor presencia y equipamiento.",
+        ficha: {
+          motor: "EcoBoost / V8",
+          transmision: "Automática",
+          traccion: "4x4",
+          enfoque: "Premium"
+        },
+        colores: [
+          { nombre: "Negro", codigo: "#111827", imagen: "" },
+          { nombre: "Gris", codigo: "#6b7280", imagen: "" },
+          { nombre: "Rojo", codigo: "#b91c1c", imagen: "" }
+        ]
+      },
+      {
+        id: "f150-raptor",
+        nombre: "F-150 Raptor",
+        descripcion: "La línea más agresiva para clientes de alto desempeño.",
+        ficha: {
+          motor: "V6 High Output",
+          transmision: "Automática 10 velocidades",
+          traccion: "4x4",
+          enfoque: "Performance"
+        },
+        colores: [
+          { nombre: "Naranja", codigo: "#ea580c", imagen: "" },
+          { nombre: "Negro", codigo: "#111827", imagen: "" },
+          { nombre: "Azul", codigo: "#1d4ed8", imagen: "" }
+        ]
+      }
+    ]
+  },
 
-{
-id:"ranger-xlt",
-nombre:"Ford Ranger XLT",
-imagen:"",
-descripcion:"Versión equipada con mayor confort y conectividad para uso diario y trabajo.",
-ficha:{motor:"2.3L EcoBoost",transmision:"Automática",traccion:"4x2 / 4x4",enfoque:"Trabajo y confort"}
-},
+  {
+    id: "super-duty",
+    nombre: "Ford Super Duty",
+    categoria: "Pickups",
+    descripcion: "Línea heavy duty para carga, remolque y operación profesional.",
+    versiones: [
+      {
+        id: "f250-xl",
+        nombre: "F-250 XL",
+        descripcion: "Heavy duty para trabajo pesado y operación comercial.",
+        ficha: {
+          motor: "Gasolina o diésel",
+          transmision: "Automática",
+          traccion: "4x4",
+          enfoque: "Trabajo pesado"
+        },
+        colores: [
+          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "" },
+          { nombre: "Plata", codigo: "#94a3b8", imagen: "" }
+        ]
+      },
+      {
+        id: "f250-lariat",
+        nombre: "F-250 Lariat",
+        descripcion: "Capacidad de trabajo con imagen más premium.",
+        ficha: {
+          motor: "Gasolina / diésel",
+          transmision: "Automática",
+          traccion: "4x4",
+          enfoque: "Trabajo premium"
+        },
+        colores: [
+          { nombre: "Negro", codigo: "#111827", imagen: "" },
+          { nombre: "Gris", codigo: "#6b7280", imagen: "" }
+        ]
+      },
+      {
+        id: "f350-xl",
+        nombre: "F-350 XL",
+        descripcion: "Mayor capacidad de carga para clientes exigentes.",
+        ficha: {
+          motor: "Gasolina / diésel",
+          transmision: "Automática",
+          traccion: "4x4",
+          enfoque: "Carga extrema"
+        },
+        colores: [
+          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "" },
+          { nombre: "Negro", codigo: "#111827", imagen: "" }
+        ]
+      }
+    ]
+  },
 
-{
-id:"ranger-lariat",
-nombre:"Ford Ranger Lariat",
-imagen:"",
-descripcion:"Pickup mediana con enfoque premium para clientes que buscan equipamiento superior.",
-ficha:{motor:"2.3L EcoBoost",transmision:"Automática",traccion:"4x4",enfoque:"Premium"}
-},
+  {
+    id: "territory",
+    nombre: "Ford Territory",
+    categoria: "SUV",
+    descripcion: "SUV moderna orientada a familia, ciudad y confort.",
+    versiones: [
+      {
+        id: "territory-trend",
+        nombre: "Territory Trend",
+        descripcion: "Versión enfocada en espacio, ciudad y funcionalidad.",
+        ficha: {
+          motor: "1.8L Turbo",
+          transmision: "Automática",
+          traccion: "Delantera",
+          enfoque: "Ciudad y familia"
+        },
+        colores: [
+          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "" },
+          { nombre: "Azul", codigo: "#2563eb", imagen: "" },
+          { nombre: "Gris", codigo: "#6b7280", imagen: "" }
+        ]
+      },
+      {
+        id: "territory-titanium",
+        nombre: "Territory Titanium",
+        descripcion: "Mayor equipamiento y presencia para cliente familiar premium.",
+        ficha: {
+          motor: "1.8L Turbo",
+          transmision: "Automática",
+          traccion: "Delantera",
+          enfoque: "Familia y equipamiento"
+        },
+        colores: [
+          { nombre: "Negro", codigo: "#111827", imagen: "" },
+          { nombre: "Rojo", codigo: "#b91c1c", imagen: "" },
+          { nombre: "Gris", codigo: "#6b7280", imagen: "" }
+        ]
+      }
+    ]
+  },
 
-{
-id:"ranger-raptor",
-nombre:"Ford Ranger Raptor",
-imagen:"",
-descripcion:"Pickup de alto desempeño off-road con suspensión especializada.",
-ficha:{motor:"V6 3.0L EcoBoost",transmision:"Automática 10 velocidades",traccion:"4x4",enfoque:"Off-road"}
-},
+  {
+    id: "bronco",
+    nombre: "Ford Bronco",
+    categoria: "SUV",
+    descripcion: "Línea aventurera, off-road y de fuerte presencia visual.",
+    versiones: [
+      {
+        id: "bronco-big-bend",
+        nombre: "Bronco Big Bend",
+        descripcion: "Entrada ideal al mundo Bronco con enfoque de aventura.",
+        ficha: {
+          motor: "Turbo",
+          transmision: "Automática",
+          traccion: "4x4",
+          enfoque: "Aventura"
+        },
+        colores: [
+          { nombre: "Arena", codigo: "#bfa47a", imagen: "" },
+          { nombre: "Negro", codigo: "#111827", imagen: "" },
+          { nombre: "Azul", codigo: "#1d4ed8", imagen: "" }
+        ]
+      },
+      {
+        id: "bronco-wildtrak",
+        nombre: "Bronco Wildtrak",
+        descripcion: "Mayor capacidad off-road y estilo más agresivo.",
+        ficha: {
+          motor: "Turbo",
+          transmision: "Automática",
+          traccion: "4x4",
+          enfoque: "Off-road"
+        },
+        colores: [
+          { nombre: "Gris", codigo: "#6b7280", imagen: "" },
+          { nombre: "Naranja", codigo: "#ea580c", imagen: "" },
+          { nombre: "Negro", codigo: "#111827", imagen: "" }
+        ]
+      },
+      {
+        id: "bronco-raptor",
+        nombre: "Bronco Raptor",
+        descripcion: "La variante más radical de la línea Bronco.",
+        ficha: {
+          motor: "V6 Turbo",
+          transmision: "Automática",
+          traccion: "4x4",
+          enfoque: "Performance extremo"
+        },
+        colores: [
+          { nombre: "Azul", codigo: "#1d4ed8", imagen: "" },
+          { nombre: "Negro", codigo: "#111827", imagen: "" },
+          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "" }
+        ]
+      }
+    ]
+  },
 
-{
-id:"ranger-wildtrak",
-nombre:"Ford Ranger Wildtrak",
-imagen:"",
-descripcion:"Configuración con diseño agresivo y enfoque aventurero.",
-ficha:{motor:"2.3L Turbo",transmision:"Automática",traccion:"4x4",enfoque:"Aventura"}
-},
+  {
+    id: "explorer",
+    nombre: "Ford Explorer",
+    categoria: "SUV",
+    descripcion: "SUV amplia para viajes, familia y uso premium.",
+    versiones: [
+      {
+        id: "explorer-xlt",
+        nombre: "Explorer XLT",
+        descripcion: "Espacio y versatilidad para uso familiar.",
+        ficha: {
+          motor: "Turbo",
+          transmision: "Automática",
+          traccion: "AWD",
+          enfoque: "Familia"
+        },
+        colores: [
+          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "" },
+          { nombre: "Gris", codigo: "#6b7280", imagen: "" }
+        ]
+      },
+      {
+        id: "explorer-limited",
+        nombre: "Explorer Limited",
+        descripcion: "Confort superior para carretera y ciudad.",
+        ficha: {
+          motor: "Turbo",
+          transmision: "Automática",
+          traccion: "AWD",
+          enfoque: "Confort"
+        },
+        colores: [
+          { nombre: "Negro", codigo: "#111827", imagen: "" },
+          { nombre: "Rojo", codigo: "#b91c1c", imagen: "" }
+        ]
+      },
+      {
+        id: "explorer-st",
+        nombre: "Explorer ST",
+        descripcion: "Versión deportiva con mayor empuje visual y dinámico.",
+        ficha: {
+          motor: "V6 Turbo",
+          transmision: "Automática",
+          traccion: "AWD",
+          enfoque: "Performance"
+        },
+        colores: [
+          { nombre: "Azul", codigo: "#1d4ed8", imagen: "" },
+          { nombre: "Negro", codigo: "#111827", imagen: "" }
+        ]
+      }
+    ]
+  },
 
-{
-id:"ranger-tremor",
-nombre:"Ford Ranger Tremor",
-imagen:"",
-descripcion:"Pickup preparada para terrenos difíciles con aspecto robusto.",
-ficha:{motor:"2.3L Turbo",transmision:"Automática",traccion:"4x4",enfoque:"Off-road"}
-},
+  {
+    id: "expedition",
+    nombre: "Ford Expedition",
+    categoria: "SUV",
+    descripcion: "SUV full size para familias grandes y cliente premium.",
+    versiones: [
+      {
+        id: "expedition-limited",
+        nombre: "Expedition Limited",
+        descripcion: "Gran espacio y tecnología para uso familiar premium.",
+        ficha: {
+          motor: "3.5L EcoBoost",
+          transmision: "Automática",
+          traccion: "4x4",
+          enfoque: "Amplitud y confort"
+        },
+        colores: [
+          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "" },
+          { nombre: "Negro", codigo: "#111827", imagen: "" }
+        ]
+      },
+      {
+        id: "expedition-platinum",
+        nombre: "Expedition Platinum",
+        descripcion: "Máximo lujo dentro de las SUV grandes Ford.",
+        ficha: {
+          motor: "3.5L EcoBoost",
+          transmision: "Automática",
+          traccion: "4x4",
+          enfoque: "Lujo"
+        },
+        colores: [
+          { nombre: "Gris", codigo: "#6b7280", imagen: "" },
+          { nombre: "Negro", codigo: "#111827", imagen: "" }
+        ]
+      }
+    ]
+  },
 
-{
-id:"f150-xl",
-nombre:"Ford F-150 XL",
-imagen:"",
-descripcion:"Pickup full size ideal para flotillas y trabajo pesado.",
-ficha:{motor:"EcoBoost / V8",transmision:"Automática",traccion:"4x2 / 4x4",enfoque:"Trabajo"}
-},
+  {
+    id: "mustang",
+    nombre: "Ford Mustang",
+    categoria: "Deportivos",
+    descripcion: "Línea deportiva con diseño icónico y enfoque emocional.",
+    versiones: [
+      {
+        id: "mustang-ecoboost",
+        nombre: "Mustang EcoBoost",
+        descripcion: "Entrada al mundo Mustang con gran diseño y carácter.",
+        ficha: {
+          motor: "2.3L EcoBoost",
+          transmision: "Automática / manual",
+          traccion: "Trasera",
+          enfoque: "Deportivo"
+        },
+        colores: [
+          { nombre: "Rojo", codigo: "#b91c1c", imagen: "" },
+          { nombre: "Azul", codigo: "#1d4ed8", imagen: "" },
+          { nombre: "Negro", codigo: "#111827", imagen: "" }
+        ]
+      },
+      {
+        id: "mustang-gt",
+        nombre: "Mustang GT",
+        descripcion: "Muscle car con motor V8 y alta presencia.",
+        ficha: {
+          motor: "V8 5.0L",
+          transmision: "Automática / manual",
+          traccion: "Trasera",
+          enfoque: "Potencia"
+        },
+        colores: [
+          { nombre: "Amarillo", codigo: "#eab308", imagen: "" },
+          { nombre: "Rojo", codigo: "#b91c1c", imagen: "" },
+          { nombre: "Negro", codigo: "#111827", imagen: "" }
+        ]
+      },
+      {
+        id: "mustang-dark-horse",
+        nombre: "Mustang Dark Horse",
+        descripcion: "Versión radical para cliente performance.",
+        ficha: {
+          motor: "V8 5.0L",
+          transmision: "Automática / manual",
+          traccion: "Trasera",
+          enfoque: "Performance"
+        },
+        colores: [
+          { nombre: "Azul", codigo: "#1e40af", imagen: "" },
+          { nombre: "Negro", codigo: "#111827", imagen: "" },
+          { nombre: "Gris", codigo: "#6b7280", imagen: "" }
+        ]
+      }
+    ]
+  },
 
-{
-id:"f150-xlt",
-nombre:"Ford F-150 XLT",
-imagen:"",
-descripcion:"Gran capacidad con mejor equipamiento y tecnología.",
-ficha:{motor:"EcoBoost / V8",transmision:"Automática",traccion:"4x4",enfoque:"Trabajo y confort"}
-},
-
-{
-id:"f150-lariat",
-nombre:"Ford F-150 Lariat",
-imagen:"",
-descripcion:"Versión premium de la pickup más vendida del mundo.",
-ficha:{motor:"EcoBoost / V8",transmision:"Automática",traccion:"4x4",enfoque:"Premium"}
-},
-
-{
-id:"f150-platinum",
-nombre:"Ford F-150 Platinum",
-imagen:"",
-descripcion:"Pickup de lujo con acabados premium y gran presencia.",
-ficha:{motor:"EcoBoost / V8",transmision:"Automática",traccion:"4x4",enfoque:"Lujo"}
-},
-
-{
-id:"f150-tremor",
-nombre:"Ford F-150 Tremor",
-imagen:"",
-descripcion:"Versión enfocada en aventura con capacidades off-road.",
-ficha:{motor:"EcoBoost",transmision:"Automática",traccion:"4x4",enfoque:"Aventura"}
-},
-
-{
-id:"f150-raptor",
-nombre:"Ford F-150 Raptor",
-imagen:"",
-descripcion:"Alta potencia, suspensión especializada y desempeño extremo.",
-ficha:{motor:"V6 High Output",transmision:"Automática 10 velocidades",traccion:"4x4",enfoque:"Performance"}
-},
-
-{
-id:"f150-lightning",
-nombre:"Ford F-150 Lightning",
-imagen:"",
-descripcion:"Pickup eléctrica con gran tecnología y potencia instantánea.",
-ficha:{motor:"Eléctrico",transmision:"Automática",traccion:"AWD",enfoque:"Tecnología"}
-},
-
-{
-id:"f250-xl",
-nombre:"Ford F-250 XL",
-imagen:"",
-descripcion:"Pickup heavy duty diseñada para carga intensa.",
-ficha:{motor:"Gasolina o diésel",transmision:"Automática",traccion:"4x4",enfoque:"Trabajo pesado"}
-},
-
-{
-id:"f250-xlt",
-nombre:"Ford F-250 XLT",
-imagen:"",
-descripcion:"Más equipamiento sin perder su fortaleza.",
-ficha:{motor:"Gasolina / diésel",transmision:"Automática",traccion:"4x4",enfoque:"Trabajo"}
-},
-
-{
-id:"f250-lariat",
-nombre:"Ford F-250 Lariat",
-imagen:"",
-descripcion:"Versión premium de la heavy duty para clientes exigentes.",
-ficha:{motor:"Gasolina / diésel",transmision:"Automática",traccion:"4x4",enfoque:"Premium"}
-},
-
-{
-id:"f350-xl",
-nombre:"Ford F-350 XL",
-imagen:"",
-descripcion:"Máxima capacidad de carga para operaciones pesadas.",
-ficha:{motor:"Gasolina / diésel",transmision:"Automática",traccion:"4x4",enfoque:"Carga"}
-},
-
-{
-id:"f350-xlt",
-nombre:"Ford F-350 XLT",
-imagen:"",
-descripcion:"Configuración balanceada entre fuerza y equipamiento.",
-ficha:{motor:"Gasolina / diésel",transmision:"Automática",traccion:"4x4",enfoque:"Trabajo"}
-},
-
-{
-id:"f350-lariat",
-nombre:"Ford F-350 Lariat",
-imagen:"",
-descripcion:"Heavy duty premium para clientes profesionales.",
-ficha:{motor:"Gasolina / diésel",transmision:"Automática",traccion:"4x4",enfoque:"Premium"}
-},
-
-{
-id:"territory-trend",
-nombre:"Ford Territory Trend",
-imagen:"",
-descripcion:"SUV moderna para ciudad con excelente espacio interior.",
-ficha:{motor:"1.8L Turbo",transmision:"Automática",traccion:"FWD",enfoque:"Ciudad"}
-},
-
-{
-id:"territory-titanium",
-nombre:"Ford Territory Titanium",
-imagen:"",
-descripcion:"SUV familiar con mayor equipamiento y tecnología.",
-ficha:{motor:"1.8L Turbo",transmision:"Automática",traccion:"FWD",enfoque:"Familia"}
-},
-
-{
-id:"escape",
-nombre:"Ford Escape",
-imagen:"",
-descripcion:"SUV compacta versátil para estilo de vida urbano.",
-ficha:{motor:"Turbo",transmision:"Automática",traccion:"AWD",enfoque:"Versatilidad"}
-},
-
-{
-id:"edge-st",
-nombre:"Ford Edge ST",
-imagen:"",
-descripcion:"SUV con enfoque deportivo y manejo dinámico.",
-ficha:{motor:"Turbo",transmision:"Automática",traccion:"AWD",enfoque:"Deportivo"}
-},
-
-{
-id:"explorer-xlt",
-nombre:"Ford Explorer XLT",
-imagen:"",
-descripcion:"SUV grande para familia y viajes largos.",
-ficha:{motor:"Turbo",transmision:"Automática",traccion:"AWD",enfoque:"Familia"}
-},
-
-{
-id:"explorer-limited",
-nombre:"Ford Explorer Limited",
-imagen:"",
-descripcion:"Más equipamiento y confort para uso familiar.",
-ficha:{motor:"Turbo",transmision:"Automática",traccion:"AWD",enfoque:"Confort"}
-},
-
-{
-id:"explorer-st",
-nombre:"Ford Explorer ST",
-imagen:"",
-descripcion:"SUV deportiva con gran potencia.",
-ficha:{motor:"V6 Turbo",transmision:"Automática",traccion:"AWD",enfoque:"Performance"}
-},
-
-{
-id:"expedition-limited",
-nombre:"Ford Expedition Limited",
-imagen:"",
-descripcion:"SUV full size ideal para familias grandes.",
-ficha:{motor:"3.5L EcoBoost",transmision:"Automática",traccion:"4x4",enfoque:"Espacio"}
-},
-
-{
-id:"expedition-platinum",
-nombre:"Ford Expedition Platinum",
-imagen:"",
-descripcion:"SUV de lujo con gran presencia y tecnología.",
-ficha:{motor:"3.5L EcoBoost",transmision:"Automática",traccion:"4x4",enfoque:"Lujo"}
-},
-
-{
-id:"bronco-big-bend",
-nombre:"Ford Bronco Big Bend",
-imagen:"",
-descripcion:"SUV icónica para aventura y off-road.",
-ficha:{motor:"Turbo",transmision:"Automática",traccion:"4x4",enfoque:"Aventura"}
-},
-
-{
-id:"bronco-wildtrak",
-nombre:"Ford Bronco Wildtrak",
-imagen:"",
-descripcion:"Mayor capacidad off-road con diseño agresivo.",
-ficha:{motor:"Turbo",transmision:"Automática",traccion:"4x4",enfoque:"Off-road"}
-},
-
-{
-id:"bronco-raptor",
-nombre:"Ford Bronco Raptor",
-imagen:"",
-descripcion:"La versión más extrema de Bronco.",
-ficha:{motor:"V6 Turbo",transmision:"Automática",traccion:"4x4",enfoque:"Performance"}
-},
-
-{
-id:"bronco-sport",
-nombre:"Ford Bronco Sport",
-imagen:"",
-descripcion:"SUV compacta para aventura urbana.",
-ficha:{motor:"Turbo",transmision:"Automática",traccion:"AWD",enfoque:"Aventura"}
-},
-
-{
-id:"mustang-ecoboost",
-nombre:"Ford Mustang EcoBoost",
-imagen:"",
-descripcion:"Deportivo icónico con gran diseño y potencia.",
-ficha:{motor:"2.3L EcoBoost",transmision:"Automática / manual",traccion:"RWD",enfoque:"Deportivo"}
-},
-
-{
-id:"mustang-gt",
-nombre:"Ford Mustang GT",
-imagen:"",
-descripcion:"Muscle car con motor V8 y presencia legendaria.",
-ficha:{motor:"V8 5.0L",transmision:"Automática / manual",traccion:"RWD",enfoque:"Potencia"}
-},
-
-{
-id:"mustang-dark-horse",
-nombre:"Ford Mustang Dark Horse",
-imagen:"",
-descripcion:"Versión más radical del Mustang.",
-ficha:{motor:"V8 5.0L",transmision:"Automática / manual",traccion:"RWD",enfoque:"Performance"}
-}
-
+  {
+    id: "transit",
+    nombre: "Ford Transit",
+    categoria: "Comerciales",
+    descripcion: "Solución comercial y de carga para negocio y operación.",
+    versiones: [
+      {
+        id: "transit-cargo",
+        nombre: "Transit Cargo",
+        descripcion: "Van enfocada en transporte de carga y negocio.",
+        ficha: {
+          motor: "Gasolina / diésel según versión",
+          transmision: "Automática",
+          traccion: "Trasera",
+          enfoque: "Carga y logística"
+        },
+        colores: [
+          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "" },
+          { nombre: "Plata", codigo: "#94a3b8", imagen: "" }
+        ]
+      },
+      {
+        id: "transit-pasajeros",
+        nombre: "Transit Pasajeros",
+        descripcion: "Transporte de personas con enfoque comercial.",
+        ficha: {
+          motor: "Gasolina / diésel según versión",
+          transmision: "Automática",
+          traccion: "Trasera",
+          enfoque: "Pasajeros y servicio"
+        },
+        colores: [
+          { nombre: "Blanco", codigo: "#e5e7eb", imagen: "" },
+          { nombre: "Negro", codigo: "#111827", imagen: "" }
+        ]
+      }
+    ]
+  }
 ];
