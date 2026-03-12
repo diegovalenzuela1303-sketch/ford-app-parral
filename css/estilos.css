@@ -1496,3 +1496,30 @@ button.mini-pill {
     flex-wrap: wrap;
   }
 }
+.vehiculo-hidden {
+  display: none !important;
+}
+
+.vehiculo-auto-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 56px;
+  padding: 14px 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.06);
+}
+
+.vehiculo-auto-label {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+#vehiculoSeleccionadoTexto {
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
