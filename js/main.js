@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .map((nombre) => `<option value="${nombre}">${nombre}</option>`)
       .join("");
 
-    vehiculoSelect.innerHTML = `<option value="">Vehículo de interés</option>${opciones}`;
+    vehiculoSelect.innerHTML = `<option value="">Selecciona una versión</option>${opciones}`;
   }
 
   function placeholder(texto, color = "Color") {
@@ -133,6 +133,11 @@ document.addEventListener("DOMContentLoaded", () => {
     )}`;
     boton.setAttribute("aria-label", `Cotizar ${versionNombre} por WhatsApp`);
     boton.setAttribute("title", `Cotizar ${versionNombre}`);
+  }
+
+  function actualizarVehiculoSelect(versionNombre) {
+    if (!vehiculoSelect) return;
+    vehiculoSelect.value = versionNombre;
   }
 
   let modeloActivo = 0;
@@ -317,6 +322,7 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
     actualizarBotonFlotante(version.nombre);
+    actualizarVehiculoSelect(version.nombre);
 
     document.getElementById("abrirAvisoConfigurador")?.addEventListener("click", abrirModalAviso);
 
@@ -343,13 +349,14 @@ document.addEventListener("DOMContentLoaded", () => {
         if (colorName) colorName.textContent = color.nombre;
 
         actualizarBotonFlotante(version.nombre);
+        actualizarVehiculoSelect(version.nombre);
       });
     });
 
     document.querySelectorAll(".btn-cotizar-version").forEach((btn) => {
       btn.addEventListener("click", () => {
         const versionNombre = btn.getAttribute("data-version-nombre");
-        if (vehiculoSelect) vehiculoSelect.value = versionNombre;
+        actualizarVehiculoSelect(versionNombre);
 
         const comentario = document.getElementById("comentario");
         if (comentario && !comentario.value.trim()) {
@@ -439,6 +446,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         form.reset();
+        renderTodo();
       } catch (error) {
         console.error(error);
         if (mensajeEstado) {
