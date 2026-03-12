@@ -1,251 +1,250 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ford Parral | Diego Valenzuela</title>
-  <meta
-    name="description"
-    content="Catálogo Ford Parral 2025 y 2026 con versiones, colores y ficha técnica. Atención profesional con Diego Valenzuela."
-  />
-  <meta
-    name="keywords"
-    content="Ford Parral, Ranger, F-150, Super Duty, Territory, Bronco, Mustang, Diego Valenzuela"
-  />
-  <link rel="stylesheet" href="css/estilos.css" />
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Ford Parral | Diego Valenzuela</title>
+
+<link rel="stylesheet" href="css/estilos.css">
+
 </head>
+
 <body>
-  <div class="site-bg"></div>
 
-  <header class="top-nav-shell">
-    <div class="container">
-      <div class="top-nav">
-        <a href="#inicio" class="brand-block">
-          <div class="brand-logo">Ford</div>
-          <div class="brand-copy">
-            <strong>FORD PARRAL</strong>
-            <span>DIEGO VALENZUELA</span>
-          </div>
-        </a>
+<header class="top-nav-shell">
 
-        <nav class="main-nav">
-          <a href="#catalogo-seccion" class="nav-link active">Catálogo</a>
-          <a href="#contacto" class="nav-link">Cotiza</a>
-          <a href="tel:6272850550" class="nav-link">Contactar</a>
-          <a href="#quien-soy" class="nav-link">Quién soy</a>
-          <button type="button" class="nav-link nav-link-button" id="abrirAvisoTop">
-            Aviso legal
-          </button>
-        </nav>
+<div class="container">
 
-        <a class="top-wa wa-link" href="#" target="_blank" rel="noopener noreferrer">WhatsApp</a>
-      </div>
-    </div>
-  </header>
+<div class="top-nav">
 
-  <main id="inicio">
-    <section class="hero-pro">
-      <div class="container">
-        <div class="hero-pro-shell">
-          <div class="hero-left">
-            <h1>Encuentra tu <span>Ford</span> ideal</h1>
+<a href="#inicio" class="brand-block">
 
-            <p class="hero-subtext">
-              Descubre versiones, colores y características de los modelos Ford
-              2025 y 2026 con atención personalizada.
-            </p>
+<div class="brand-logo">
+<img src="public/ford-logo.png" alt="Ford" class="brand-logo-img">
+</div>
 
-            <div class="hero-feature-row">
-              <div>Asesoría personalizada</div>
-              <div>Entrega inmediata</div>
-              <div>Garantía Ford</div>
-            </div>
+<div class="brand-copy">
+<strong>FORD PARRAL</strong>
+<span>DIEGO VALENZUELA</span>
+</div>
 
-            <div class="hero-cta-row">
-              <a href="#catalogo-seccion" class="btn btn-primary btn-lg">Ver Catálogo</a>
-              <a href="#contacto" class="btn btn-secondary btn-lg">Solicitar información</a>
-            </div>
-          </div>
+</a>
 
-          <div class="hero-center">
-            <div class="hero-vehicles-stage">
-              <img src="public/ranger-xlt.jpg" alt="Ford destacado 1" class="hero-stage-img hero-stage-left" onerror="this.style.display='none'">
-              <img src="public/f150-xlt.jpg" alt="Ford destacado 2" class="hero-stage-img hero-stage-main" onerror="this.style.display='none'">
-              <img src="public/territory-titanium.jpg" alt="Ford destacado 3" class="hero-stage-img hero-stage-right" onerror="this.style.display='none'">
-            </div>
+<nav class="main-nav">
 
-            <div class="ia-note">
-              Imágenes de referencia generadas con IA
-            </div>
-          </div>
+<a href="#catalogo-seccion" class="nav-link active">Catálogo</a>
 
-          <aside class="hero-right" id="quien-soy">
-            <div class="advisor-card-pro">
-              <div class="advisor-photo-wrap">
-                <img
-                  src="public/diego.jpg"
-                  alt="Diego Valenzuela"
-                  class="advisor-photo"
-                  onerror="this.onerror=null;this.src='public/placeholder-asesor.jpg';"
-                />
-              </div>
+<a href="#contacto" class="nav-link">Cotiza</a>
 
-              <div class="advisor-info">
-                <h3>Diego Valenzuela</h3>
-                <p class="advisor-role">Asesor de Ventas</p>
-                <p class="advisor-location">Parral, Chihuahua</p>
+<a href="tel:6272850550" class="nav-link">Contactar</a>
 
-                <a class="advisor-phone" href="tel:6272850550">
-                  <span>627 285 0550</span>
-                </a>
-              </div>
-            </div>
-          </aside>
-        </div>
+<a href="#quien-soy" class="nav-link">Quién soy</a>
 
-        <div class="hero-search-row">
-          <div class="hero-search-wrap">
-            <input
-              type="text"
-              id="buscadorModelos"
-              class="hero-search"
-              placeholder="Buscar modelo..."
-            />
-          </div>
-        </div>
-      </div>
-    </section>
+</nav>
 
-    <section class="catalog-summary-section">
-      <div class="container">
-        <div class="section-title-row">
-          <h2>Catálogo Ford</h2>
-          <div class="section-line"></div>
-        </div>
+<a class="top-wa wa-link" href="#">WhatsApp</a>
 
-        <div id="modelos-resumen" class="model-summary-grid"></div>
-      </div>
-    </section>
+</div>
+</div>
 
-    <section class="catalog-config-section" id="catalogo-seccion">
-      <div class="container">
-        <div id="catalogo-principal"></div>
-      </div>
-    </section>
+</header>
 
-    <section class="contact-pro-section" id="contacto">
-      <div class="container">
-        <div class="contact-pro-shell">
-          <div class="contact-copy">
-            <span class="section-pill">Cotiza con asesor</span>
-            <h2>Solicita información</h2>
-            <p>
-              Déjame tus datos y te contacto con atención personalizada,
-              disponibilidad y seguimiento comercial.
-            </p>
+<main id="inicio">
 
-            <div class="contact-bullets">
-              <div>Respuesta rápida</div>
-              <div>Ficha técnica clara</div>
-              <div>Seguimiento directo</div>
-            </div>
+<section class="hero-pro">
 
-            <button type="button" class="btn btn-secondary btn-legal" id="abrirAvisoContacto">
-              Ver aviso legal
-            </button>
-          </div>
+<div class="container">
 
-          <div class="contact-form-card">
-            <form id="formProspecto" class="contact-form-grid">
-              <input type="text" id="nombre" placeholder="Nombre" required />
-              <input type="tel" id="telefono" placeholder="Teléfono" required />
+<div class="hero-pro-shell">
 
-              <select id="vehiculo" required>
-                <option value="">Vehículo de interés</option>
-              </select>
+<div class="hero-left">
 
-              <textarea id="comentario" placeholder="Comentario"></textarea>
+<h1>
+Encuentra tu <span>Ford</span> ideal
+</h1>
 
-              <div class="contact-form-actions">
-                <button type="submit" class="btn btn-primary btn-full">Solicitar información</button>
-                <a class="btn btn-secondary wa-link" href="#" target="_blank" rel="noopener noreferrer">WhatsApp</a>
-              </div>
+<p class="hero-subtext">
+Descubre versiones, colores y características
+de los modelos Ford con atención personalizada.
+</p>
 
-              <div id="mensajeEstado" class="mensaje"></div>
-            </form>
+<div class="hero-feature-row">
 
-            <p class="legal-inline-note">
-              Imágenes ilustrativas generadas con IA. Colores, equipamiento y disponibilidad pueden variar según versión, año modelo e inventario.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
+<div>Asesoría personalizada</div>
+<div>Entrega inmediata</div>
+<div>Garantía Ford</div>
 
-  <footer class="footer-dark">
-    <div class="container footer-content">
-      <div>
-        <strong>Ford Parral</strong>
-        <p>Atención profesional con Diego Valenzuela.</p>
-      </div>
+</div>
 
-      <div>
-        <strong>Atención personalizada</strong>
-        <p>Catálogo, cotización y seguimiento directo.</p>
-      </div>
+<div class="hero-cta-row">
 
-      <div>
-        <strong>Contacto</strong>
-        <p>WhatsApp: <span class="asesor-telefono">6272850550</span></p>
-      </div>
-    </div>
-  </footer>
+<a href="#catalogo-seccion" class="btn btn-primary btn-lg">
+Ver Catálogo
+</a>
 
-  <a class="float-call" href="tel:6272850550">Llamar</a>
+<a href="#contacto" class="btn btn-secondary btn-lg">
+Solicitar información
+</a>
 
-  <!-- MODAL / CUADRO DE DIÁLOGO LEGAL -->
-  <div class="modal-overlay" id="modalAviso" aria-hidden="true">
-    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="tituloAviso">
-      <div class="modal-header">
-        <h3 id="tituloAviso">Aviso importante</h3>
-        <button type="button" class="modal-close" id="cerrarAviso" aria-label="Cerrar aviso">×</button>
-      </div>
+</div>
 
-      <div class="modal-body">
-        <div class="modal-pill-row">
-          <span class="modal-pill">Imágenes de referencia</span>
-          <span class="modal-pill">Transparencia comercial</span>
-          <span class="modal-pill">Condiciones legales</span>
-        </div>
+</div>
 
-        <ul class="modal-list">
-          <li>Las imágenes mostradas en esta página son ilustrativas y de referencia.</li>
-          <li>Algunas imágenes del catálogo han sido generadas con IA con fines visuales y comerciales.</li>
-          <li>Los colores presentados son colores de referencia y pueden variar según versión, año modelo, región e inventario disponible.</li>
-          <li>El equipamiento, acabados, rines, interiores y detalles visuales pueden cambiar según la versión seleccionada.</li>
-          <li>La disponibilidad real de unidades está sujeta a existencia en agencia, asignación y cambios sin previo aviso.</li>
-          <li>Los precios, promociones, bonos, condiciones comerciales y tiempos de entrega pueden cambiar sin previo aviso.</li>
-          <li>Para confirmar colores, versiones, inventario y condiciones comerciales, consulta directamente con tu asesor.</li>
-        </ul>
+<div class="hero-center">
 
-        <div class="modal-advisor-box">
-          <strong>Asesor:</strong> Diego Valenzuela<br />
-          <strong>Teléfono:</strong> 627 285 0550
-        </div>
-      </div>
+<div class="hero-vehicles-stage">
 
-      <div class="modal-actions">
-        <button type="button" class="btn btn-secondary" id="cerrarAvisoSecundario">Cerrar</button>
-        <button type="button" class="btn btn-primary" id="aceptarAviso">Entendido</button>
-      </div>
-    </div>
-  </div>
+<img src="public/ranger-xlt.jpg" class="hero-stage-img hero-stage-left">
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="config.js"></script>
-  <script src="supabase-client.js"></script>
-  <script src="js/vehiculos.js"></script>
-  <script src="js/main.js"></script>
+<img src="public/f150-xlt.jpg" class="hero-stage-img hero-stage-main">
+
+<img src="public/territory-titanium.jpg" class="hero-stage-img hero-stage-right">
+
+</div>
+
+<div class="ia-note">
+Imágenes de referencia generadas con IA
+</div>
+
+</div>
+
+<aside class="hero-right">
+
+<div class="advisor-card-pro">
+
+<div class="advisor-photo-wrap">
+
+<img src="public/diego.jpg" class="advisor-photo">
+
+</div>
+
+<div class="advisor-info">
+
+<h3>Diego Valenzuela</h3>
+
+<p class="advisor-role">Asesor de ventas</p>
+
+<p class="advisor-location">Parral, Chihuahua</p>
+
+<a class="advisor-phone" href="tel:6272850550">
+
+<span>627 285 0550</span>
+
+</a>
+
+</div>
+
+</div>
+
+</aside>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="catalog-summary-section">
+
+<div class="container">
+
+<div class="section-title-row">
+
+<h2>Catálogo Ford</h2>
+
+<div class="section-line"></div>
+
+</div>
+
+<div id="modelos-resumen" class="model-summary-grid"></div>
+
+</div>
+
+</section>
+
+<section id="catalogo-seccion">
+
+<div class="container">
+
+<div id="catalogo-principal"></div>
+
+</div>
+
+</section>
+
+<section id="contacto" class="contact-pro-section">
+
+<div class="container">
+
+<div class="contact-pro-shell">
+
+<div class="contact-copy">
+
+<h2>Solicita información</h2>
+
+<p>
+Déjame tus datos y te contacto con opciones,
+promociones y disponibilidad.
+</p>
+
+</div>
+
+<div class="contact-form-card">
+
+<form id="formProspecto" class="contact-form-grid">
+
+<input type="text" id="nombre" placeholder="Nombre" required>
+
+<input type="tel" id="telefono" placeholder="Teléfono" required>
+
+<select id="vehiculo"></select>
+
+<textarea id="comentario" placeholder="Comentario"></textarea>
+
+<button type="submit" class="btn btn-primary btn-full">
+Solicitar información
+</button>
+
+<div id="mensajeEstado"></div>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+<footer class="footer-dark">
+
+<div class="container footer-content">
+
+<div>
+<strong>Ford Parral</strong>
+<p>Atención profesional con Diego Valenzuela</p>
+</div>
+
+<div>
+<strong>Contacto</strong>
+<p>WhatsApp: 627 285 0550</p>
+</div>
+
+</div>
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="config.js"></script>
+<script src="supabase-client.js"></script>
+<script src="js/vehiculos.js"></script>
+<script src="js/main.js"></script>
+
 </body>
 </html>
