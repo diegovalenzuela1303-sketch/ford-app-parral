@@ -1,87 +1,66 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin | Ford Parral</title>
-<link rel="stylesheet" href="../css/estilos.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin | Ford Parral</title>
+  <link rel="stylesheet" href="../css/estilos.css" />
 </head>
-
 <body>
+  <main class="admin-page">
+    <div class="container">
+      <h1>Panel de administración</h1>
 
-<main class="admin-page">
+      <section id="loginBox">
+        <h3>Ingreso administrador</h3>
 
-<div class="container">
+        <form id="loginForm">
+          <input type="email" id="adminEmail" placeholder="Correo" required />
+          <input type="password" id="adminPassword" placeholder="Contraseña" required />
+          <button type="submit" class="btn btn-dark">Ingresar</button>
+        </form>
 
-<h1>Panel de administración</h1>
+        <div id="estadoLogin"></div>
+      </section>
 
-<section id="loginBox">
+      <section id="panelBox" style="display:none;">
+        <div class="admin-top">
+          <button class="btn btn-dark" id="logoutBtn">Cerrar sesión</button>
+          <button class="btn btn-dark" id="exportCsvBtn">Exportar CSV</button>
+        </div>
 
-<h3>Ingreso administrador</h3>
+        <div id="alertaProspecto" class="alerta-prospecto" style="display:none;">
+          🚨 Nuevo prospecto recibido
+        </div>
 
-<form id="loginForm">
+        <div class="stats-box">
+          <div>Prospectos totales: <b id="totalProspectos">0</b></div>
+          <div>Prospectos hoy: <b id="prospectosHoy">0</b></div>
+          <div>Vehículo más solicitado: <b id="vehiculoTop">-</b></div>
+        </div>
 
-<input type="email" id="adminEmail" placeholder="Correo" required>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Teléfono</th>
+                <th>Vehículo</th>
+                <th>Comentario</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaProspectos"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
 
-<input type="password" id="adminPassword" placeholder="Contraseña" required>
-
-<button type="submit" class="btn btn-dark">Ingresar</button>
-
-</form>
-
-<div id="estadoLogin"></div>
-
-</section>
-
-<section id="panelBox" style="display:none;">
-
-<div class="admin-top">
-
-<button class="btn btn-dark" id="logoutBtn">
-Cerrar sesión
-</button>
-
-</div>
-
-<div class="stats-box">
-
-<div>Prospectos totales: <b id="totalProspectos">0</b></div>
-
-<div>Prospectos hoy: <b id="prospectosHoy">0</b></div>
-
-<div>Vehículo más solicitado: <b id="vehiculoTop">-</b></div>
-
-</div>
-
-<table>
-
-<thead>
-
-<tr>
-<th>Nombre</th>
-<th>Teléfono</th>
-<th>Vehículo</th>
-<th>Comentario</th>
-<th>Estado</th>
-<th>Acciones</th>
-</tr>
-
-</thead>
-
-<tbody id="tablaProspectos"></tbody>
-
-</table>
-
-</section>
-
-</div>
-
-</main>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="../config.js"></script>
-<script src="../supabase-client.js"></script>
-<script src="../js/admin.js"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../config.js"></script>
+  <script src="../supabase-client.js"></script>
+  <script src="../js/admin.js"></script>
 </body>
 </html>
