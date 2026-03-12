@@ -1,551 +1,503 @@
 window.CATALOGO_FORD = [
 
-  {
-    id: "ranger",
-    nombre: "Ford Ranger",
-    categoria: "Pickup",
-    versiones: [
-      {
-        nombre: "Ranger XL",
-        descripcion: "Versión enfocada en trabajo y flotillas.",
-        ficha: {
-          motor: "2.3L EcoBoost",
-          transmision: "Automática 10 velocidades",
-          traccion: "4x2 / 4x4",
-          enfoque: "Trabajo"
-        },
-        colores: [
-          { nombre: "Oxford White", codigo: "#F5F5F5", imagen: "public/ranger-xl.jpg" },
-          { nombre: "Carbonized Gray", codigo: "#4B5563", imagen: "public/ranger-xl.jpg" },
-          { nombre: "Agate Black", codigo: "#111827", imagen: "public/ranger-xl.jpg" },
-          { nombre: "Atlas Blue", codigo: "#1E40AF", imagen: "public/ranger-xl.jpg" }
-        ]
-      },
-      {
-        nombre: "Ranger XLT",
-        descripcion: "Más equipamiento y presencia comercial.",
-        ficha: {
-          motor: "2.3L EcoBoost",
-          transmision: "Automática 10 velocidades",
-          traccion: "4x2 / 4x4",
-          enfoque: "Trabajo y confort"
-        },
-        colores: [
-          { nombre: "Oxford White", codigo: "#F5F5F5", imagen: "public/ranger-xlt.jpg" },
-          { nombre: "Carbonized Gray", codigo: "#4B5563", imagen: "public/ranger-xlt.jpg" },
-          { nombre: "Race Red", codigo: "#B91C1C", imagen: "public/ranger-xlt.jpg" },
-          { nombre: "Atlas Blue", codigo: "#1E40AF", imagen: "public/ranger-xlt.jpg" }
-        ]
-      },
-      {
-        nombre: "Ranger Lariat",
-        descripcion: "Acabado premium con más tecnología.",
-        ficha: {
-          motor: "2.3L EcoBoost",
-          transmision: "Automática 10 velocidades",
-          traccion: "4x4",
-          enfoque: "Premium"
-        },
-        colores: [
-          { nombre: "Star White Metallic", codigo: "#F8FAFC", imagen: "public/ranger-lariat.jpg" },
-          { nombre: "Carbonized Gray", codigo: "#4B5563", imagen: "public/ranger-lariat.jpg" },
-          { nombre: "Agate Black", codigo: "#111827", imagen: "public/ranger-lariat.jpg" },
-          { nombre: "Atlas Blue", codigo: "#1E40AF", imagen: "public/ranger-lariat.jpg" }
-        ]
-      },
-      {
-        nombre: "Ranger Raptor",
-        descripcion: "Desempeño off-road extremo.",
-        ficha: {
-          motor: "V6 3.0L EcoBoost",
-          transmision: "Automática 10 velocidades",
-          traccion: "4x4",
-          enfoque: "Performance Off-Road"
-        },
-        colores: [
-          { nombre: "Code Orange", codigo: "#EA580C", imagen: "public/ranger-raptor.jpg" },
-          { nombre: "Agate Black", codigo: "#111827", imagen: "public/ranger-raptor.jpg" },
-          { nombre: "Carbonized Gray", codigo: "#4B5563", imagen: "public/ranger-raptor.jpg" },
-          { nombre: "Atlas Blue", codigo: "#1E40AF", imagen: "public/ranger-raptor.jpg" }
-        ]
-      }
-    ]
-  },
+/* =========================
+RANGER
+========================= */
 
-  {
-    id: "f150",
-    nombre: "Ford F-150",
-    categoria: "Pickup",
-    versiones: [
-      {
-        nombre: "F-150 XL",
-        descripcion: "Versión base enfocada en trabajo.",
-        ficha: {
-          motor: "V8 / EcoBoost",
-          transmision: "Automática 10 velocidades",
-          traccion: "4x2 / 4x4",
-          enfoque: "Trabajo"
-        },
-        colores: [
-          { nombre: "Oxford White", codigo: "#F5F5F5", imagen: "public/f150-xl.jpg" },
-          { nombre: "Iconic Silver", codigo: "#9CA3AF", imagen: "public/f150-xl.jpg" },
-          { nombre: "Carbonized Gray", codigo: "#4B5563", imagen: "public/f150-xl.jpg" },
-          { nombre: "Agate Black", codigo: "#111827", imagen: "public/f150-xl.jpg" }
-        ]
-      },
-      {
-        nombre: "F-150 XLT",
-        descripcion: "Equilibrio entre trabajo y confort.",
-        ficha: {
-          motor: "EcoBoost",
-          transmision: "Automática",
-          traccion: "4x4",
-          enfoque: "Versátil"
-        },
-        colores: [
-          { nombre: "Oxford White", codigo: "#F5F5F5", imagen: "public/f150-xlt.jpg" },
-          { nombre: "Rapid Red", codigo: "#B91C1C", imagen: "public/f150-xlt.jpg" },
-          { nombre: "Atlas Blue", codigo: "#1E40AF", imagen: "public/f150-xlt.jpg" },
-          { nombre: "Carbonized Gray", codigo: "#4B5563", imagen: "public/f150-xlt.jpg" }
-        ]
-      },
-      {
-        nombre: "F-150 Lariat",
-        descripcion: "Acabado premium con más lujo.",
-        ficha: {
-          motor: "EcoBoost",
-          transmision: "Automática",
-          traccion: "4x4",
-          enfoque: "Premium"
-        },
-        colores: [
-          { nombre: "Star White Metallic", codigo: "#F8FAFC", imagen: "public/f150-lariat.jpg" },
-          { nombre: "Carbonized Gray", codigo: "#4B5563", imagen: "public/f150-lariat.jpg" },
-          { nombre: "Rapid Red", codigo: "#B91C1C", imagen: "public/f150-lariat.jpg" },
-          { nombre: "Antimatter Blue", codigo: "#1E3A8A", imagen: "public/f150-lariat.jpg" }
-        ]
-      },
-      {
-        nombre: "F-150 Raptor",
-        descripcion: "Pickup deportiva de alto desempeño.",
-        ficha: {
-          motor: "V6 High Output",
-          transmision: "Automática 10 velocidades",
-          traccion: "4x4",
-          enfoque: "Performance"
-        },
-        colores: [
-          { nombre: "Code Orange", codigo: "#EA580C", imagen: "public/f150-raptor.jpg" },
-          { nombre: "Agate Black", codigo: "#111827", imagen: "public/f150-raptor.jpg" },
-          { nombre: "Carbonized Gray", codigo: "#4B5563", imagen: "public/f150-raptor.jpg" }
-        ]
-      }
-    ]
-  },
+{
+nombre:"Ranger",
+categoria:"Pickup mediana",
+versiones:[
 
-  {
-    id: "f250",
-    nombre: "Ford F-250 Super Duty",
-    categoria: "Pickup",
-    versiones: [
-      {
-        nombre: "F-250 XL",
-        descripcion: "Pickup heavy duty para trabajo pesado.",
-        ficha: {
-          motor: "V8 gasolina / diésel",
-          transmision: "Automática",
-          traccion: "4x4",
-          enfoque: "Trabajo pesado"
-        },
-        colores: [
-          { nombre: "Oxford White", codigo: "#F5F5F5", imagen: "public/f250-xl.jpg" },
-          { nombre: "Iconic Silver", codigo: "#9CA3AF", imagen: "public/f250-xl.jpg" },
-          { nombre: "Agate Black", codigo: "#111827", imagen: "public/f250-xl.jpg" }
-        ]
-      },
-      {
-        nombre: "F-250 XLT",
-        descripcion: "Mayor equipamiento para trabajo profesional.",
-        ficha: {
-          motor: "V8 gasolina / diésel",
-          transmision: "Automática",
-          traccion: "4x4",
-          enfoque: "Trabajo profesional"
-        },
-        colores: [
-          { nombre: "Oxford White", codigo: "#F5F5F5", imagen: "public/f250-xlt.jpg" },
-          { nombre: "Carbonized Gray", codigo: "#4B5563", imagen: "public/f250-xlt.jpg" },
-          { nombre: "Atlas Blue", codigo: "#1E40AF", imagen: "public/f250-xlt.jpg" }
-        ]
-      },
-      {
-        nombre: "F-250 Lariat",
-        descripcion: "Heavy duty premium.",
-        ficha: {
-          motor: "V8 gasolina / diésel",
-          transmision: "Automática",
-          traccion: "4x4",
-          enfoque: "Premium"
-        },
-        colores: [
-          { nombre: "Star White Metallic", codigo: "#F8FAFC", imagen: "public/f250-lariat.jpg" },
-          { nombre: "Carbonized Gray", codigo: "#4B5563", imagen: "public/f250-lariat.jpg" },
-          { nombre: "Agate Black", codigo: "#111827", imagen: "public/f250-lariat.jpg" }
-        ]
-      }
-    ]
-  },
+{
+nombre:"Ranger XL",
+descripcion:"Versión de trabajo robusta con gran capacidad de carga.",
+colores:[
+{nombre:"Blanco Oxford",codigo:"#f2f2f2"},
+{nombre:"Gris Magnético",codigo:"#4b4e52"},
+{nombre:"Negro Agata",codigo:"#0c0c0c"},
+{nombre:"Azul Velocity",codigo:"#003a8f"}
+],
+ficha:{
+motor:"2.3L EcoBoost",
+transmision:"Automática 10 vel",
+traccion:"4x2 / 4x4",
+enfoque:"Trabajo"
+}
+},
 
-  {
-    id: "f350",
-    nombre: "Ford F-350 Super Duty",
-    categoria: "Pickup",
-    versiones: [
-      {
-        nombre: "F-350 XL",
-        descripcion: "Versión orientada a carga y trabajo extremo.",
-        ficha: {
-          motor: "V8 gasolina / diésel",
-          transmision: "Automática",
-          traccion: "4x2 / 4x4",
-          enfoque: "Carga extrema"
-        },
-        colores: [
-          { nombre: "Oxford White", codigo: "#F5F5F5", imagen: "public/f350-xl.jpg" },
-          { nombre: "Iconic Silver", codigo: "#9CA3AF", imagen: "public/f350-xl.jpg" },
-          { nombre: "Agate Black", codigo: "#111827", imagen: "public/f350-xl.jpg" }
-        ]
-      },
-      {
-        nombre: "F-350 XLT",
-        descripcion: "Mayor presencia y mejor equipamiento para trabajo profesional.",
-        ficha: {
-          motor: "V8 gasolina / diésel",
-          transmision: "Automática",
-          traccion: "4x4",
-          enfoque: "Trabajo profesional"
-        },
-        colores: [
-          { nombre: "Oxford White", codigo: "#F5F5F5", imagen: "public/f350-xlt.jpg" },
-          { nombre: "Carbonized Gray", codigo: "#4B5563", imagen: "public/f350-xlt.jpg" },
-          { nombre: "Atlas Blue", codigo: "#1E40AF", imagen: "public/f350-xlt.jpg" }
-        ]
-      },
-      {
-        nombre: "F-350 Lariat",
-        descripcion: "Configuración premium dentro de la línea heavy duty.",
-        ficha: {
-          motor: "V8 gasolina / diésel",
-          transmision: "Automática",
-          traccion: "4x4",
-          enfoque: "Heavy duty premium"
-        },
-        colores: [
-          { nombre: "Star White Metallic", codigo: "#F8FAFC", imagen: "public/f350-lariat.jpg" },
-          { nombre: "Carbonized Gray", codigo: "#4B5563", imagen: "public/f350-lariat.jpg" },
-          { nombre: "Agate Black", codigo: "#111827", imagen: "public/f350-lariat.jpg" }
-        ]
-      }
-    ]
-  },
+{
+nombre:"Ranger XLT",
+descripcion:"Versión equilibrada para trabajo y uso personal.",
+colores:[
+{nombre:"Blanco Oxford",codigo:"#f2f2f2"},
+{nombre:"Plata Iconic",codigo:"#cfd3d6"},
+{nombre:"Gris Magnético",codigo:"#4b4e52"},
+{nombre:"Negro Agata",codigo:"#0c0c0c"},
+{nombre:"Azul Velocity",codigo:"#003a8f"}
+],
+ficha:{
+motor:"2.3L EcoBoost",
+transmision:"Automática 10 vel",
+traccion:"4x4",
+enfoque:"Uso mixto"
+}
+},
 
-  {
-    id: "territory",
-    nombre: "Ford Territory",
-    categoria: "SUV",
-    versiones: [
-      {
-        nombre: "Territory Trend",
-        descripcion: "SUV moderna para ciudad y familia.",
-        ficha: {
-          motor: "1.8L Turbo",
-          transmision: "Automática",
-          traccion: "Delantera",
-          enfoque: "Ciudad"
-        },
-        colores: [
-          { nombre: "Oxford White", codigo: "#F5F5F5", imagen: "public/territory-trend.jpg" },
-          { nombre: "Carbonized Gray", codigo: "#4B5563", imagen: "public/territory-trend.jpg" },
-          { nombre: "Atlas Blue", codigo: "#1E40AF", imagen: "public/territory-trend.jpg" }
-        ]
-      },
-      {
-        nombre: "Territory Titanium",
-        descripcion: "Versión premium de Territory.",
-        ficha: {
-          motor: "1.8L Turbo",
-          transmision: "Automática",
-          traccion: "Delantera",
-          enfoque: "Premium"
-        },
-        colores: [
-          { nombre: "Star White Metallic", codigo: "#F8FAFC", imagen: "public/territory-titanium.jpg" },
-          { nombre: "Carbonized Gray", codigo: "#4B5563", imagen: "public/territory-titanium.jpg" },
-          { nombre: "Agate Black", codigo: "#111827", imagen: "public/territory-titanium.jpg" }
-        ]
-      }
-    ]
-  },
+{
+nombre:"Ranger Lariat",
+descripcion:"Versión premium con mayor equipamiento.",
+colores:[
+{nombre:"Blanco Oxford",codigo:"#f2f2f2"},
+{nombre:"Gris Carbonized",codigo:"#3a3a3a"},
+{nombre:"Negro Agata",codigo:"#0c0c0c"},
+{nombre:"Azul Velocity",codigo:"#003a8f"},
+{nombre:"Rojo Rapid",codigo:"#a11217"}
+],
+ficha:{
+motor:"2.3L EcoBoost",
+transmision:"Automática 10 vel",
+traccion:"4x4",
+enfoque:"Premium"
+}
+},
 
-  {
-    id: "territory-hibrida",
-    nombre: "Ford Territory Híbrida",
-    categoria: "SUV",
-    versiones: [
-      {
-        nombre: "Territory Híbrida Trend",
-        descripcion: "SUV híbrida orientada a eficiencia y uso diario.",
-        ficha: {
-          motor: "Híbrido",
-          transmision: "Automática e-CVT / automática según versión",
-          traccion: "Delantera",
-          enfoque: "Eficiencia"
-        },
-        colores: [
-          { nombre: "Oxford White", codigo: "#F5F5F5", imagen: "public/territory-hibrida-trend.jpg" },
-          { nombre: "Carbonized Gray", codigo: "#4B5563", imagen: "public/territory-hibrida-trend.jpg" },
-          { nombre: "Atlas Blue", codigo: "#1E40AF", imagen: "public/territory-hibrida-trend.jpg" }
-        ]
-      },
-      {
-        nombre: "Territory Híbrida Titanium",
-        descripcion: "Versión híbrida premium para ciudad y familia.",
-        ficha: {
-          motor: "Híbrido",
-          transmision: "Automática e-CVT / automática según versión",
-          traccion: "Delantera",
-          enfoque: "Eficiencia premium"
-        },
-        colores: [
-          { nombre: "Star White Metallic", codigo: "#F8FAFC", imagen: "public/territory-hibrida-titanium.jpg" },
-          { nombre: "Carbonized Gray", codigo: "#4B5563", imagen: "public/territory-hibrida-titanium.jpg" },
-          { nombre: "Agate Black", codigo: "#111827", imagen: "public/territory-hibrida-titanium.jpg" }
-        ]
-      }
-    ]
-  },
+{
+nombre:"Ranger Raptor",
+descripcion:"Pickup de alto desempeño para off-road.",
+colores:[
+{nombre:"Azul Velocity",codigo:"#003a8f"},
+{nombre:"Negro Agata",codigo:"#0c0c0c"},
+{nombre:"Gris Conquer",codigo:"#3e4248"},
+{nombre:"Rojo Rapid",codigo:"#a11217"}
+],
+ficha:{
+motor:"3.0L EcoBoost V6",
+transmision:"Automática 10 vel",
+traccion:"4x4",
+enfoque:"Alto desempeño"
+}
+}
 
-  {
-    id: "edge",
-    nombre: "Ford Edge",
-    categoria: "SUV",
-    versiones: [
-      {
-        nombre: "Edge SEL",
-        descripcion: "SUV mediana para confort y uso urbano.",
-        ficha: {
-          motor: "Turbo",
-          transmision: "Automática",
-          traccion: "AWD / delantera según configuración",
-          enfoque: "Ciudad y confort"
-        },
-        colores: [
-          { nombre: "Oxford White", codigo: "#F5F5F5", imagen: "public/edge-sel.jpg" },
-          { nombre: "Carbonized Gray", codigo: "#4B5563", imagen: "public/edge-sel.jpg" },
-          { nombre: "Atlas Blue", codigo: "#1E40AF", imagen: "public/edge-sel.jpg" }
-        ]
-      },
-      {
-        nombre: "Edge Titanium",
-        descripcion: "Mayor nivel de equipamiento y presencia premium.",
-        ficha: {
-          motor: "Turbo",
-          transmision: "Automática",
-          traccion: "AWD",
-          enfoque: "Premium urbano"
-        },
-        colores: [
-          { nombre: "Star White Metallic", codigo: "#F8FAFC", imagen: "public/edge-titanium.jpg" },
-          { nombre: "Carbonized Gray", codigo: "#4B5563", imagen: "public/edge-titanium.jpg" },
-          { nombre: "Agate Black", codigo: "#111827", imagen: "public/edge-titanium.jpg" }
-        ]
-      },
-      {
-        nombre: "Edge ST",
-        descripcion: "La versión más deportiva de Edge.",
-        ficha: {
-          motor: "V6 / Turbo según configuración",
-          transmision: "Automática",
-          traccion: "AWD",
-          enfoque: "Performance SUV"
-        },
-        colores: [
-          { nombre: "Atlas Blue", codigo: "#1E40AF", imagen: "public/edge-st.jpg" },
-          { nombre: "Agate Black", codigo: "#111827", imagen: "public/edge-st.jpg" },
-          { nombre: "Oxford White", codigo: "#F5F5F5", imagen: "public/edge-st.jpg" }
-        ]
-      }
-    ]
-  },
+]
+},
 
-  {
-    id: "bronco",
-    nombre: "Ford Bronco",
-    categoria: "SUV",
-    versiones: [
-      {
-        nombre: "Bronco Badlands",
-        descripcion: "Capacidad off-road avanzada.",
-        ficha: {
-          motor: "Turbo",
-          transmision: "Automática",
-          traccion: "4x4",
-          enfoque: "Off-Road"
-        },
-        colores: [
-          { nombre: "Eruption Green", codigo: "#365314", imagen: "public/bronco-badlands.jpg" },
-          { nombre: "Area 51", codigo: "#475569", imagen: "public/bronco-badlands.jpg" },
-          { nombre: "Cyber Orange", codigo: "#EA580C", imagen: "public/bronco-badlands.jpg" },
-          { nombre: "Agate Black", codigo: "#111827", imagen: "public/bronco-badlands.jpg" }
-        ]
-      }
-    ]
-  },
+/* =========================
+F150
+========================= */
 
-  {
-    id: "explorer",
-    nombre: "Ford Explorer",
-    categoria: "SUV",
-    versiones: [
-      {
-        nombre: "Explorer XLT",
-        descripcion: "Versión familiar de gran espacio y comodidad.",
-        ficha: {
-          motor: "Turbo",
-          transmision: "Automática",
-          traccion: "AWD / 4x4 según configuración",
-          enfoque: "Familia"
-        },
-        colores: [
-          { nombre: "Oxford White", codigo: "#F5F5F5", imagen: "public/explorer-xlt.jpg" },
-          { nombre: "Carbonized Gray", codigo: "#4B5563", imagen: "public/explorer-xlt.jpg" },
-          { nombre: "Atlas Blue", codigo: "#1E40AF", imagen: "public/explorer-xlt.jpg" }
-        ]
-      },
-      {
-        nombre: "Explorer Limited",
-        descripcion: "Mayor confort, equipamiento y enfoque premium.",
-        ficha: {
-          motor: "Turbo",
-          transmision: "Automática",
-          traccion: "AWD",
-          enfoque: "Confort premium"
-        },
-        colores: [
-          { nombre: "Star White Metallic", codigo: "#F8FAFC", imagen: "public/explorer-limited.jpg" },
-          { nombre: "Carbonized Gray", codigo: "#4B5563", imagen: "public/explorer-limited.jpg" },
-          { nombre: "Agate Black", codigo: "#111827", imagen: "public/explorer-limited.jpg" }
-        ]
-      },
-      {
-        nombre: "Explorer ST",
-        descripcion: "SUV deportiva con imagen y desempeño superiores.",
-        ficha: {
-          motor: "V6 Turbo",
-          transmision: "Automática",
-          traccion: "AWD",
-          enfoque: "Performance SUV"
-        },
-        colores: [
-          { nombre: "Atlas Blue", codigo: "#1E40AF", imagen: "public/explorer-st.jpg" },
-          { nombre: "Agate Black", codigo: "#111827", imagen: "public/explorer-st.jpg" },
-          { nombre: "Oxford White", codigo: "#F5F5F5", imagen: "public/explorer-st.jpg" }
-        ]
-      }
-    ]
-  },
+{
+nombre:"F-150",
+categoria:"Pickup grande",
+versiones:[
 
-  {
-    id: "mustang",
-    nombre: "Ford Mustang",
-    categoria: "Deportivo",
-    versiones: [
-      {
-        nombre: "Mustang EcoBoost",
-        descripcion: "Deportivo icónico con motor turbo.",
-        ficha: {
-          motor: "2.3L EcoBoost",
-          transmision: "Automática / manual",
-          traccion: "Trasera",
-          enfoque: "Deportivo"
-        },
-        colores: [
-          { nombre: "Race Red", codigo: "#B91C1C", imagen: "public/mustang.jpg" },
-          { nombre: "Grabber Yellow", codigo: "#FACC15", imagen: "public/mustang.jpg" },
-          { nombre: "Atlas Blue", codigo: "#1E40AF", imagen: "public/mustang.jpg" },
-          { nombre: "Shadow Black", codigo: "#111827", imagen: "public/mustang.jpg" }
-        ]
-      },
-      {
-        nombre: "Mustang GT",
-        descripcion: "Muscle car con motor V8.",
-        ficha: {
-          motor: "V8 5.0L",
-          transmision: "Automática / manual",
-          traccion: "Trasera",
-          enfoque: "Performance"
-        },
-        colores: [
-          { nombre: "Race Red", codigo: "#B91C1C", imagen: "public/mustang.jpg" },
-          { nombre: "Grabber Yellow", codigo: "#FACC15", imagen: "public/mustang.jpg" },
-          { nombre: "Atlas Blue", codigo: "#1E40AF", imagen: "public/mustang.jpg" },
-          { nombre: "Shadow Black", codigo: "#111827", imagen: "public/mustang.jpg" }
-        ]
-      }
-    ]
-  },
+{
+nombre:"F-150 XL",
+descripcion:"Versión de entrada robusta.",
+colores:[
+{nombre:"Blanco Oxford",codigo:"#f2f2f2"},
+{nombre:"Gris Carbonized",codigo:"#4a4a4a"},
+{nombre:"Negro Agata",codigo:"#0c0c0c"}
+],
+ficha:{
+motor:"3.5L EcoBoost",
+transmision:"Automática 10 vel",
+traccion:"4x4",
+enfoque:"Trabajo pesado"
+}
+},
 
-  {
-    id: "transit",
-    nombre: "Ford Transit",
-    categoria: "Comercial",
-    versiones: [
-      {
-        nombre: "Transit Cargo",
-        descripcion: "Van comercial enfocada en carga y logística.",
-        ficha: {
-          motor: "Gasolina / diésel según configuración",
-          transmision: "Automática",
-          traccion: "Trasera",
-          enfoque: "Carga y negocio"
-        },
-        colores: [
-          { nombre: "Oxford White", codigo: "#F5F5F5", imagen: "public/transit-cargo.jpg" },
-          { nombre: "Iconic Silver", codigo: "#9CA3AF", imagen: "public/transit-cargo.jpg" },
-          { nombre: "Agate Black", codigo: "#111827", imagen: "public/transit-cargo.jpg" }
-        ]
-      },
-      {
-        nombre: "Transit Pasajeros",
-        descripcion: "Configuración orientada al transporte de personas.",
-        ficha: {
-          motor: "Gasolina / diésel según configuración",
-          transmision: "Automática",
-          traccion: "Trasera",
-          enfoque: "Pasajeros y servicio"
-        },
-        colores: [
-          { nombre: "Oxford White", codigo: "#F5F5F5", imagen: "public/transit-pasajeros.jpg" },
-          { nombre: "Iconic Silver", codigo: "#9CA3AF", imagen: "public/transit-pasajeros.jpg" },
-          { nombre: "Agate Black", codigo: "#111827", imagen: "public/transit-pasajeros.jpg" }
-        ]
-      },
-      {
-        nombre: "Transit Chasis",
-        descripcion: "Base para adaptaciones comerciales y negocio.",
-        ficha: {
-          motor: "Gasolina / diésel según configuración",
-          transmision: "Automática",
-          traccion: "Trasera",
-          enfoque: "Adaptación comercial"
-        },
-        colores: [
-          { nombre: "Oxford White", codigo: "#F5F5F5", imagen: "public/transit-chasis.jpg" },
-          { nombre: "Iconic Silver", codigo: "#9CA3AF", imagen: "public/transit-chasis.jpg" },
-          { nombre: "Agate Black", codigo: "#111827", imagen: "public/transit-chasis.jpg" }
-        ]
-      }
-    ]
-  }
+{
+nombre:"F-150 XLT",
+descripcion:"Versión popular con equipamiento adicional.",
+colores:[
+{nombre:"Blanco Oxford",codigo:"#f2f2f2"},
+{nombre:"Plata Iconic",codigo:"#d1d1d1"},
+{nombre:"Gris Carbonized",codigo:"#4a4a4a"},
+{nombre:"Negro Agata",codigo:"#0c0c0c"},
+{nombre:"Azul Velocity",codigo:"#003a8f"}
+],
+ficha:{
+motor:"3.5L EcoBoost",
+transmision:"Automática 10 vel",
+traccion:"4x4",
+enfoque:"Uso mixto"
+}
+},
+
+{
+nombre:"F-150 Lariat",
+descripcion:"Versión premium con gran equipamiento.",
+colores:[
+{nombre:"Blanco Oxford",codigo:"#f2f2f2"},
+{nombre:"Gris Carbonized",codigo:"#4a4a4a"},
+{nombre:"Negro Agata",codigo:"#0c0c0c"},
+{nombre:"Rojo Rapid",codigo:"#a11217"}
+],
+ficha:{
+motor:"3.5L EcoBoost",
+transmision:"Automática 10 vel",
+traccion:"4x4",
+enfoque:"Premium"
+}
+},
+
+{
+nombre:"F-150 Raptor",
+descripcion:"Pickup deportiva de alto desempeño.",
+colores:[
+{nombre:"Azul Velocity",codigo:"#003a8f"},
+{nombre:"Negro Agata",codigo:"#0c0c0c"},
+{nombre:"Gris Conquer",codigo:"#3f3f3f"}
+],
+ficha:{
+motor:"3.5L EcoBoost V6",
+transmision:"Automática 10 vel",
+traccion:"4x4",
+enfoque:"Off-road"
+}
+}
+
+]
+},
+
+/* =========================
+F250
+========================= */
+
+{
+nombre:"F-250",
+categoria:"Super Duty",
+versiones:[
+
+{
+nombre:"F-250 XL",
+descripcion:"Versión de trabajo para carga pesada.",
+colores:[
+{nombre:"Blanco Oxford",codigo:"#f2f2f2"},
+{nombre:"Gris Carbonized",codigo:"#4a4a4a"},
+{nombre:"Negro Agata",codigo:"#0c0c0c"}
+],
+ficha:{
+motor:"6.2L V8",
+transmision:"Automática",
+traccion:"4x4",
+enfoque:"Trabajo pesado"
+}
+},
+
+{
+nombre:"F-250 XLT",
+descripcion:"Mayor equipamiento para trabajo y confort.",
+colores:[
+{nombre:"Blanco Oxford",codigo:"#f2f2f2"},
+{nombre:"Plata Iconic",codigo:"#d1d1d1"},
+{nombre:"Gris Carbonized",codigo:"#4a4a4a"},
+{nombre:"Negro Agata",codigo:"#0c0c0c"}
+],
+ficha:{
+motor:"6.2L V8",
+transmision:"Automática",
+traccion:"4x4",
+enfoque:"Trabajo pesado"
+}
+},
+
+{
+nombre:"F-250 Lariat",
+descripcion:"Super Duty premium.",
+colores:[
+{nombre:"Blanco Oxford",codigo:"#f2f2f2"},
+{nombre:"Negro Agata",codigo:"#0c0c0c"},
+{nombre:"Rojo Rapid",codigo:"#a11217"}
+],
+ficha:{
+motor:"6.7L PowerStroke Diesel",
+transmision:"Automática",
+traccion:"4x4",
+enfoque:"Trabajo premium"
+}
+}
+
+]
+},
+
+/* =========================
+F350
+========================= */
+
+{
+nombre:"F-350",
+categoria:"Super Duty",
+versiones:[
+
+{
+nombre:"F-350 XL",
+descripcion:"Pickup heavy duty para trabajo extremo.",
+colores:[
+{nombre:"Blanco Oxford",codigo:"#f2f2f2"},
+{nombre:"Gris Carbonized",codigo:"#4a4a4a"},
+{nombre:"Negro Agata",codigo:"#0c0c0c"}
+],
+ficha:{
+motor:"6.2L V8",
+transmision:"Automática",
+traccion:"4x4",
+enfoque:"Trabajo pesado"
+}
+},
+
+{
+nombre:"F-350 XLT",
+descripcion:"Mayor equipamiento para carga pesada.",
+colores:[
+{nombre:"Blanco Oxford",codigo:"#f2f2f2"},
+{nombre:"Plata Iconic",codigo:"#d1d1d1"},
+{nombre:"Negro Agata",codigo:"#0c0c0c"}
+],
+ficha:{
+motor:"6.2L V8",
+transmision:"Automática",
+traccion:"4x4",
+enfoque:"Trabajo"
+}
+},
+
+{
+nombre:"F-350 Lariat",
+descripcion:"Versión premium de alto torque.",
+colores:[
+{nombre:"Negro Agata",codigo:"#0c0c0c"},
+{nombre:"Blanco Oxford",codigo:"#f2f2f2"},
+{nombre:"Rojo Rapid",codigo:"#a11217"}
+],
+ficha:{
+motor:"6.7L PowerStroke Diesel",
+transmision:"Automática",
+traccion:"4x4",
+enfoque:"Premium trabajo"
+}
+}
+
+]
+},
+
+/* =========================
+TERRITORY
+========================= */
+
+{
+nombre:"Territory",
+categoria:"SUV",
+versiones:[
+
+{
+nombre:"Territory Trend",
+descripcion:"SUV familiar moderno y tecnológico.",
+colores:[
+{nombre:"Blanco Oxford",codigo:"#f2f2f2"},
+{nombre:"Plata Iconic",codigo:"#d1d1d1"},
+{nombre:"Negro Agata",codigo:"#0c0c0c"}
+],
+ficha:{
+motor:"1.8 Turbo",
+transmision:"Automática",
+traccion:"Delantera",
+enfoque:"Familiar"
+}
+},
+
+{
+nombre:"Territory Titanium",
+descripcion:"Versión premium con mayor tecnología.",
+colores:[
+{nombre:"Blanco Oxford",codigo:"#f2f2f2"},
+{nombre:"Gris Carbonized",codigo:"#4a4a4a"},
+{nombre:"Negro Agata",codigo:"#0c0c0c"}
+],
+ficha:{
+motor:"1.8 Turbo",
+transmision:"Automática",
+traccion:"Delantera",
+enfoque:"Premium"
+}
+}
+
+]
+},
+
+/* =========================
+EXPLORER
+========================= */
+
+{
+nombre:"Explorer",
+categoria:"SUV grande",
+versiones:[
+
+{
+nombre:"Explorer XLT",
+descripcion:"SUV espaciosa para familia.",
+colores:[
+{nombre:"Blanco Oxford",codigo:"#f2f2f2"},
+{nombre:"Negro Agata",codigo:"#0c0c0c"},
+{nombre:"Gris Carbonized",codigo:"#4a4a4a"}
+],
+ficha:{
+motor:"2.3 EcoBoost",
+transmision:"Automática",
+traccion:"AWD",
+enfoque:"Familiar"
+}
+},
+
+{
+nombre:"Explorer Limited",
+descripcion:"SUV premium con mayor confort.",
+colores:[
+{nombre:"Blanco Oxford",codigo:"#f2f2f2"},
+{nombre:"Negro Agata",codigo:"#0c0c0c"},
+{nombre:"Plata Iconic",codigo:"#d1d1d1"}
+],
+ficha:{
+motor:"2.3 EcoBoost",
+transmision:"Automática",
+traccion:"AWD",
+enfoque:"Premium"
+}
+},
+
+{
+nombre:"Explorer ST",
+descripcion:"Versión deportiva de alto desempeño.",
+colores:[
+{nombre:"Negro Agata",codigo:"#0c0c0c"},
+{nombre:"Gris Carbonized",codigo:"#4a4a4a"},
+{nombre:"Rojo Rapid",codigo:"#a11217"}
+],
+ficha:{
+motor:"3.0 V6 EcoBoost",
+transmision:"Automática",
+traccion:"AWD",
+enfoque:"Deportivo"
+}
+}
+
+]
+},
+
+/* =========================
+EDGE
+========================= */
+
+{
+nombre:"Edge",
+categoria:"SUV mediana",
+versiones:[
+
+{
+nombre:"Edge SEL",
+descripcion:"SUV cómoda para uso diario.",
+colores:[
+{nombre:"Blanco Oxford",codigo:"#f2f2f2"},
+{nombre:"Negro Agata",codigo:"#0c0c0c"},
+{nombre:"Plata Iconic",codigo:"#d1d1d1"}
+],
+ficha:{
+motor:"2.0 EcoBoost",
+transmision:"Automática",
+traccion:"AWD",
+enfoque:"Familiar"
+}
+},
+
+{
+nombre:"Edge Titanium",
+descripcion:"Versión premium.",
+colores:[
+{nombre:"Blanco Oxford",codigo:"#f2f2f2"},
+{nombre:"Gris Carbonized",codigo:"#4a4a4a"},
+{nombre:"Negro Agata",codigo:"#0c0c0c"}
+],
+ficha:{
+motor:"2.0 EcoBoost",
+transmision:"Automática",
+traccion:"AWD",
+enfoque:"Premium"
+}
+},
+
+{
+nombre:"Edge ST",
+descripcion:"SUV deportiva.",
+colores:[
+{nombre:"Negro Agata",codigo:"#0c0c0c"},
+{nombre:"Azul Velocity",codigo:"#003a8f"},
+{nombre:"Rojo Rapid",codigo:"#a11217"}
+],
+ficha:{
+motor:"2.7 V6 EcoBoost",
+transmision:"Automática",
+traccion:"AWD",
+enfoque:"Deportivo"
+}
+}
+
+]
+},
+
+/* =========================
+TRANSIT
+========================= */
+
+{
+nombre:"Transit",
+categoria:"Comercial",
+versiones:[
+
+{
+nombre:"Transit Cargo",
+descripcion:"Van para carga y logística.",
+colores:[
+{nombre:"Blanco Oxford",codigo:"#f2f2f2"}
+],
+ficha:{
+motor:"3.5 V6",
+transmision:"Automática",
+traccion:"Trasera",
+enfoque:"Carga"
+}
+},
+
+{
+nombre:"Transit Pasajeros",
+descripcion:"Van para transporte de personas.",
+colores:[
+{nombre:"Blanco Oxford",codigo:"#f2f2f2"}
+],
+ficha:{
+motor:"3.5 V6",
+transmision:"Automática",
+traccion:"Trasera",
+enfoque:"Transporte"
+}
+},
+
+{
+nombre:"Transit Chasis",
+descripcion:"Base para conversiones comerciales.",
+colores:[
+{nombre:"Blanco Oxford",codigo:"#f2f2f2"}
+],
+ficha:{
+motor:"3.5 V6",
+transmision:"Automática",
+traccion:"Trasera",
+enfoque:"Especializada"
+}
+}
+
+]
+}
 
 ];
