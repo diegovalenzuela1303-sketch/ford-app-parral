@@ -56,6 +56,10 @@ img {
   max-width: 100%;
 }
 
+button {
+  font: inherit;
+}
+
 .container {
   width: min(1320px, calc(100% - 28px));
   margin: 0 auto;
@@ -118,12 +122,16 @@ img {
   flex-wrap: wrap;
 }
 
-.nav-link {
+.nav-link,
+.nav-link-button {
   position: relative;
   padding: 10px 14px;
   border-radius: 12px;
   color: #eaf1fb;
   font-weight: 600;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
 }
 
 .nav-link.active::after {
@@ -222,8 +230,8 @@ img {
   overflow: hidden;
   padding: 18px;
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-end;
   background:
     radial-gradient(circle at center, rgba(255,255,255,0.05), transparent 30%),
     linear-gradient(135deg, rgba(8,18,34,0.95), rgba(20,38,67,0.82));
@@ -341,6 +349,23 @@ img {
   color: #fff;
   padding: 0 22px;
   font-size: 16px;
+}
+
+.ia-note {
+  margin-top: 14px;
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #c7d5e8;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.ia-note-config {
+  margin-top: 14px;
 }
 
 /* SUMMARY MODELS */
@@ -654,6 +679,7 @@ img {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
+  margin-bottom: 16px;
 }
 
 .contact-bullets div {
@@ -662,6 +688,10 @@ img {
   background: rgba(255,255,255,0.06);
   color: #eef4fb;
   font-weight: 600;
+}
+
+.btn-legal {
+  margin-top: 8px;
 }
 
 .contact-form-grid {
@@ -707,6 +737,13 @@ img {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
+}
+
+.legal-inline-note {
+  margin: 16px 0 0;
+  color: #aebed1;
+  font-size: 13px;
+  line-height: 1.6;
 }
 
 .btn {
@@ -759,6 +796,11 @@ img {
   flex: 1 1 240px;
 }
 
+.btn-lg {
+  min-height: 52px;
+  padding-inline: 22px;
+}
+
 .mensaje {
   font-weight: 700;
 }
@@ -769,6 +811,109 @@ img {
 
 .mensaje.error {
   color: #ff8b8b;
+}
+
+/* MODAL LEGAL */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 10, 18, 0.72);
+  backdrop-filter: blur(6px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  z-index: 2000;
+}
+
+.modal-overlay.open {
+  display: flex;
+}
+
+.modal-card {
+  width: min(760px, 100%);
+  background: linear-gradient(135deg, rgba(10,20,37,0.98), rgba(16,37,67,0.96));
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 26px;
+  box-shadow: 0 28px 80px rgba(0,0,0,0.45);
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px 22px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.modal-close {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.modal-body {
+  padding: 22px;
+}
+
+.modal-pill-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.modal-pill {
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #dbe6f4;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.modal-list {
+  margin: 0;
+  padding-left: 18px;
+  color: #d9e4f2;
+  line-height: 1.7;
+}
+
+.modal-list li {
+  margin-bottom: 10px;
+}
+
+.modal-advisor-box {
+  margin-top: 18px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.06);
+  color: #f1f5fb;
+  line-height: 1.6;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 18px 22px 22px;
+  border-top: 1px solid rgba(255,255,255,0.08);
 }
 
 /* FOOTER */
@@ -1091,7 +1236,8 @@ th {
 
   .section-title-row h2,
   .contact-copy h2,
-  .admin-card-header h2 {
+  .admin-card-header h2,
+  .modal-header h3 {
     font-size: 26px;
   }
 
@@ -1125,5 +1271,13 @@ th {
     width: 100%;
     border-radius: 16px;
     min-height: 52px;
+  }
+
+  .modal-actions {
+    justify-content: stretch;
+  }
+
+  .modal-actions .btn {
+    width: 100%;
   }
 }
