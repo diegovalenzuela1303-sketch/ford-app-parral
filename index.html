@@ -1,370 +1,810 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ford Parral | Diego Valenzuela</title>
-  <meta
-    name="description"
-    content="Asesor profesional Ford en Parral, Chihuahua. Cotiza pickups, SUVs y deportivos Ford con Diego Valenzuela."
-  />
-  <meta
-    name="keywords"
-    content="Ford Parral, Ford Chihuahua, Ranger, Raptor, F150, Territory, Bronco, Mustang, Diego Valenzuela"
-  />
-  <link rel="stylesheet" href="css/estilos.css" />
-</head>
-<body>
-  <div class="topbar">
-    <div class="container topbar-inner">
-      <div>Asesor profesional Ford en Parral, Chihuahua</div>
-      <div>Precios sujetos a cambio sin previo aviso</div>
-    </div>
-  </div>
+:root {
+  --ford-blue: #003478;
+  --ford-blue-dark: #07182b;
+  --ford-blue-soft: #0d2646;
+  --bg: #f3f6fb;
+  --panel: #ffffff;
+  --text: #0f172a;
+  --muted: #5b6778;
+  --border: #dce5f0;
+  --success: #18a957;
+  --danger: #c62828;
+  --shadow: 0 20px 45px rgba(10, 24, 45, 0.08);
+  --shadow-strong: 0 24px 60px rgba(10, 24, 45, 0.14);
+  --radius: 22px;
+}
 
-  <header class="hero hero-premium">
-    <div class="container hero-layout">
-      <div class="hero-copy">
-        <span class="hero-tag">Atención personalizada Ford</span>
-        <h1>Encuentra tu próxima Ford con atención profesional y seguimiento real</h1>
-        <p>
-          Soy <strong class="asesor-nombre">Diego Valenzuela</strong> y te ayudo a elegir la unidad ideal
-          para trabajo, familia, aventura o uso personal en Parral y la región.
-        </p>
+* {
+  box-sizing: border-box;
+}
 
-        <div class="hero-metrics">
-          <div class="metric-card">
-            <strong>32+</strong>
-            <span>Modelos en catálogo</span>
-          </div>
-          <div class="metric-card">
-            <strong>Atención</strong>
-            <span>Rápida y personalizada</span>
-          </div>
-          <div class="metric-card">
-            <strong>Seguimiento</strong>
-            <span>Directo por WhatsApp</span>
-          </div>
-        </div>
+html {
+  scroll-behavior: smooth;
+}
 
-        <div class="hero-actions">
-          <a href="#catalogo-seccion" class="btn btn-primary">Ver catálogo</a>
-          <a href="#contacto" class="btn btn-outline">Solicitar información</a>
-        </div>
-      </div>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(180deg, #f8fbff 0%, #eef3f9 100%);
+  color: var(--text);
+}
 
-      <div class="hero-side">
-        <div class="asesor-card">
-          <img src="public/diego.jpg" alt="Diego Valenzuela" class="asesor-foto" />
-          <div class="asesor-card-content">
-            <span class="mini-label">Asesor Ford</span>
-            <h3><span class="asesor-nombre">Diego Valenzuela</span></h3>
-            <p>Atención clara, rápida y enfocada en ayudarte a tomar una buena decisión de compra.</p>
+img {
+  max-width: 100%;
+  display: block;
+}
 
-            <div class="asesor-data">
-              <div class="asesor-data-item">
-                <small>Teléfono</small>
-                <strong class="asesor-telefono">627 285 0550</strong>
-              </div>
-              <div class="asesor-data-item">
-                <small>Zona</small>
-                <strong>Parral, Chihuahua</strong>
-              </div>
-            </div>
+a {
+  text-decoration: none;
+}
 
-            <div class="hero-actions">
-              <a class="btn btn-whatsapp wa-link" target="_blank" rel="noopener noreferrer" href="#">WhatsApp</a>
-              <a class="btn btn-primary" href="tel:6272850550">Llamar</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
+.container {
+  width: min(1180px, calc(100% - 28px));
+  margin: 0 auto;
+}
 
-  <main>
-    <section class="section compact-section">
-      <div class="container">
-        <div class="section-head">
-          <span class="section-kicker">Ventajas</span>
-          <h2 class="section-title">Una experiencia más clara para el cliente</h2>
-          <p class="section-subtitle">
-            Enfoque comercial profesional para ayudarte a elegir la Ford correcta según necesidad, uso y perfil.
-          </p>
-        </div>
+.topbar {
+  background: var(--ford-blue-dark);
+  color: rgba(255,255,255,0.92);
+  font-size: 13px;
+}
 
-        <div class="ventajas-grid premium-grid">
-          <article class="info-card">
-            <div class="info-icon">⚡</div>
-            <h3>Respuesta rápida</h3>
-            <p>Atención por WhatsApp, llamada y seguimiento directo desde el primer contacto.</p>
-          </article>
+.topbar-inner {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  flex-wrap: wrap;
+}
 
-          <article class="info-card">
-            <div class="info-icon">🎯</div>
-            <h3>Asesoría enfocada</h3>
-            <p>Trabajo, familia, aventura o perfil premium: te ayudo a filtrar la mejor opción.</p>
-          </article>
+.hero-premium {
+  position: relative;
+  overflow: hidden;
+  padding: 52px 0 30px;
+  background:
+    radial-gradient(circle at top right, rgba(0,52,120,0.16), transparent 28%),
+    linear-gradient(180deg, #f8fbff 0%, #eef4fa 100%);
+}
 
-          <article class="info-card">
-            <div class="info-icon">🤝</div>
-            <h3>Seguimiento serio</h3>
-            <p>Cotización, disponibilidad y atención comercial con trato claro y profesional.</p>
-          </article>
-        </div>
-      </div>
-    </section>
+.hero-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 26px;
+  align-items: stretch;
+}
 
-    <section class="section compact-section destacados-section">
-      <div class="container">
-        <div class="section-head">
-          <span class="section-kicker">Destacados</span>
-          <h2 class="section-title">Líneas Ford para cada tipo de cliente</h2>
-        </div>
+.hero-copy,
+.asesor-card,
+.info-card,
+.promo-card,
+.testimonio-card,
+.destacado-card,
+.premium-panel,
+.cta-box {
+  border-radius: var(--radius);
+  background: rgba(255,255,255,0.9);
+  border: 1px solid rgba(220,229,240,0.8);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(8px);
+}
 
-        <div class="destacados-grid">
-          <article class="destacado-card">
-            <span class="destacado-badge">Pickup</span>
-            <h3>Trabajo y productividad</h3>
-            <p>Ranger, F-150, F-250 y F-350 para clientes de trabajo, negocio y operación.</p>
-          </article>
+.hero-copy {
+  padding: 38px;
+}
 
-          <article class="destacado-card">
-            <span class="destacado-badge">SUV</span>
-            <h3>Familia y aventura</h3>
-            <p>Territory, Explorer, Expedition y Bronco para ciudad, carretera y estilo de vida.</p>
-          </article>
+.hero-tag,
+.section-kicker,
+.mini-label,
+.section-kicker-light {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
 
-          <article class="destacado-card">
-            <span class="destacado-badge">Deportivo</span>
-            <h3>Presencia y emoción</h3>
-            <p>Mustang para clientes que buscan diseño, potencia y experiencia de manejo.</p>
-          </article>
-        </div>
-      </div>
-    </section>
+.hero-tag,
+.section-kicker,
+.mini-label {
+  background: #edf3fb;
+  color: var(--ford-blue);
+}
 
-    <section class="section compact-section promos-section">
-      <div class="container">
-        <div class="section-head">
-          <span class="section-kicker">Oportunidades</span>
-          <h2 class="section-title">Promociones y opciones comerciales</h2>
-          <p class="section-subtitle">
-            Consulta disponibilidad, seguimiento y alternativas comerciales vigentes. Todo sujeto a cambio sin previo aviso.
-          </p>
-        </div>
+.section-kicker-light {
+  background: rgba(255,255,255,0.12);
+  color: #ffffff;
+}
 
-        <div class="promos-grid premium-grid">
-          <article class="promo-card">
-            <span class="promo-badge">Pickup</span>
-            <h3>Ranger y F-150</h3>
-            <p>Opciones ideales para trabajo diario, negocio, flotilla o uso personal.</p>
-          </article>
+.hero-copy h1 {
+  font-size: 48px;
+  line-height: 1.05;
+  margin: 16px 0 18px;
+}
 
-          <article class="promo-card">
-            <span class="promo-badge">SUV</span>
-            <h3>Territory, Bronco y Explorer</h3>
-            <p>Conoce alternativas enfocadas en familia, espacio, aventura y equipamiento.</p>
-          </article>
+.hero-copy p {
+  margin: 0 0 24px;
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 17px;
+  max-width: 720px;
+}
 
-          <article class="promo-card">
-            <span class="promo-badge">Deportivo</span>
-            <h3>Mustang</h3>
-            <p>Consulta seguimiento personalizado para disponibilidad, versión y atención comercial.</p>
-          </article>
-        </div>
-      </div>
-    </section>
+.hero-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
 
-    <section class="section compact-section" id="catalogo-seccion">
-      <div class="container">
-        <div class="section-head">
-          <span class="section-kicker">Catálogo</span>
-          <h2 class="section-title">Catálogo Ford</h2>
-          <p class="section-subtitle">
-            Modelos enfocados al mercado de Parral y la región, con opciones para trabajo, aventura, familia y clientes de perfil premium.
-          </p>
-        </div>
+.metric-card {
+  background: #f7faff;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 16px;
+}
 
-        <div class="catalogo-grid" id="catalogo-lista"></div>
-      </div>
-    </section>
+.metric-card strong {
+  display: block;
+  font-size: 22px;
+  margin-bottom: 6px;
+}
 
-    <section class="section compact-section testimonios-section">
-      <div class="container">
-        <div class="section-head">
-          <span class="section-kicker">Confianza</span>
-          <h2 class="section-title">Seguimiento con enfoque profesional</h2>
-        </div>
+.metric-card span {
+  color: var(--muted);
+  font-size: 14px;
+}
 
-        <div class="testimonios-grid premium-grid">
-          <article class="testimonio-card">
-            <p>“Atención rápida y explicación clara desde el primer contacto.”</p>
-            <strong>Cliente potencial</strong>
-          </article>
+.hero-side {
+  display: flex;
+}
 
-          <article class="testimonio-card">
-            <p>“Muy buena orientación para encontrar una unidad adecuada para trabajo y uso diario.”</p>
-            <strong>Prospecto atendido</strong>
-          </article>
+.asesor-card {
+  padding: 18px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 18px;
+  align-items: center;
+}
 
-          <article class="testimonio-card">
-            <p>“Proceso comercial más claro, seguimiento profesional y mejor confianza.”</p>
-            <strong>Atención personalizada</strong>
-          </article>
-        </div>
-      </div>
-    </section>
+.asesor-foto {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 24px;
+  border: 3px solid rgba(0,52,120,0.08);
+  box-shadow: var(--shadow);
+}
 
-    <section class="section compact-section cta-section">
-      <div class="container">
-        <div class="cta-box">
-          <div>
-            <span class="section-kicker section-kicker-light">Atención directa</span>
-            <h2>¿Buscas una Ford para trabajo, familia o aventura?</h2>
-            <p>
-              Recibe atención con <strong>Diego Valenzuela</strong> y encuentra una opción acorde a tu perfil.
-            </p>
-          </div>
+.asesor-card-content h3 {
+  margin: 10px 0 10px;
+  font-size: 28px;
+}
 
-          <div class="cta-actions">
-            <a class="btn btn-whatsapp wa-link" target="_blank" rel="noopener noreferrer" href="#">Enviar WhatsApp</a>
-            <a class="btn btn-light" href="tel:6272850550">Llamar ahora</a>
-          </div>
-        </div>
-      </div>
-    </section>
+.asesor-card-content p {
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0 0 16px;
+}
 
-    <section class="section compact-section" id="contacto">
-      <div class="container contact-grid premium-contact-grid">
-        <div class="contact-card premium-panel">
-          <span class="section-kicker">Contacto</span>
-          <h3>Solicita información</h3>
-          <p>
-            Déjame tus datos y te contacto para cotización, disponibilidad, planes y seguimiento.
-          </p>
+.asesor-data {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 18px;
+}
 
-          <div class="contact-list">
-            <div class="contact-item">
-              <strong>Asesor:</strong> <span class="asesor-nombre">Diego Valenzuela</span>
-            </div>
-            <div class="contact-item">
-              <strong>Teléfono:</strong> <span class="asesor-telefono">627 285 0550</span>
-            </div>
-            <div class="contact-item">
-              <strong>Zona:</strong> Parral, Chihuahua y alrededores
-            </div>
-          </div>
+.asesor-data-item {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 12px 14px;
+  background: #f8fbff;
+}
 
-          <div class="contact-actions">
-            <a class="btn btn-whatsapp wa-link" target="_blank" rel="noopener noreferrer" href="#">Enviar WhatsApp</a>
-            <a class="btn btn-primary" href="tel:6272850550">Llamar</a>
-          </div>
-        </div>
+.asesor-data-item small {
+  display: block;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
 
-        <div class="form-card premium-panel">
-          <span class="section-kicker">Formulario</span>
-          <h3>Formulario de prospecto</h3>
+.asesor-data-item strong {
+  font-size: 15px;
+}
 
-          <form id="formProspecto" class="form-grid">
-            <label>
-              Nombre completo *
-              <input type="text" id="nombre" placeholder="Escribe tu nombre" required />
-            </label>
+.hero-actions,
+.contact-actions,
+.cta-actions,
+.admin-top {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
 
-            <label>
-              Teléfono *
-              <input type="tel" id="telefono" placeholder="Escribe tu teléfono" required />
-            </label>
+.section {
+  padding: 30px 0;
+}
 
-            <label>
-              Vehículo de interés *
-              <select id="vehiculo" required>
-                <option value="Ford Ranger XL">Ford Ranger XL</option>
-                <option value="Ford Ranger XLT">Ford Ranger XLT</option>
-                <option value="Ford Ranger Lariat">Ford Ranger Lariat</option>
-                <option value="Ford Ranger Raptor">Ford Ranger Raptor</option>
-                <option value="Ford Ranger Wildtrak">Ford Ranger Wildtrak</option>
-                <option value="Ford Ranger Tremor">Ford Ranger Tremor</option>
-                <option value="Ford F-150 XL">Ford F-150 XL</option>
-                <option value="Ford F-150 XLT">Ford F-150 XLT</option>
-                <option value="Ford F-150 Lariat">Ford F-150 Lariat</option>
-                <option value="Ford F-150 Platinum">Ford F-150 Platinum</option>
-                <option value="Ford F-150 Tremor">Ford F-150 Tremor</option>
-                <option value="Ford F-150 Raptor">Ford F-150 Raptor</option>
-                <option value="Ford F-150 Lightning">Ford F-150 Lightning</option>
-                <option value="Ford F-250 XL">Ford F-250 XL</option>
-                <option value="Ford F-250 XLT">Ford F-250 XLT</option>
-                <option value="Ford F-250 Lariat">Ford F-250 Lariat</option>
-                <option value="Ford F-350 XL">Ford F-350 XL</option>
-                <option value="Ford F-350 XLT">Ford F-350 XLT</option>
-                <option value="Ford F-350 Lariat">Ford F-350 Lariat</option>
-                <option value="Ford Territory Trend">Ford Territory Trend</option>
-                <option value="Ford Territory Titanium">Ford Territory Titanium</option>
-                <option value="Ford Escape">Ford Escape</option>
-                <option value="Ford Edge ST">Ford Edge ST</option>
-                <option value="Ford Explorer XLT">Ford Explorer XLT</option>
-                <option value="Ford Explorer Limited">Ford Explorer Limited</option>
-                <option value="Ford Explorer ST">Ford Explorer ST</option>
-                <option value="Ford Expedition Limited">Ford Expedition Limited</option>
-                <option value="Ford Expedition Platinum">Ford Expedition Platinum</option>
-                <option value="Ford Bronco Big Bend">Ford Bronco Big Bend</option>
-                <option value="Ford Bronco Wildtrak">Ford Bronco Wildtrak</option>
-                <option value="Ford Bronco Raptor">Ford Bronco Raptor</option>
-                <option value="Ford Bronco Sport">Ford Bronco Sport</option>
-                <option value="Ford Mustang EcoBoost">Ford Mustang EcoBoost</option>
-                <option value="Ford Mustang GT">Ford Mustang GT</option>
-                <option value="Ford Mustang Dark Horse">Ford Mustang Dark Horse</option>
-              </select>
-            </label>
+.compact-section {
+  padding: 26px 0;
+}
 
-            <label>
-              Comentario
-              <textarea id="comentario" placeholder="Ejemplo: Me interesa cotización, mensualidades o disponibilidad."></textarea>
-            </label>
+.section-head {
+  margin-bottom: 20px;
+}
 
-            <button type="submit" class="btn btn-dark">Solicitar información</button>
-            <div id="mensajeEstado" class="mensaje"></div>
-          </form>
+.section-title {
+  margin: 10px 0 10px;
+  font-size: 38px;
+  line-height: 1.15;
+}
 
-          <p class="small-note">
-            Al enviar este formulario aceptas ser contactado únicamente con fines de atención comercial.
-            Precios sujetos a cambio sin previo aviso.
-          </p>
-        </div>
-      </div>
-    </section>
-  </main>
+.section-subtitle {
+  max-width: 760px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
 
-  <footer class="footer premium-footer">
-    <div class="container footer-grid">
-      <div>
-        <strong>Ford Parral</strong>
-        <p>Atención profesional con <span class="asesor-nombre">Diego Valenzuela</span>.</p>
-      </div>
+.premium-grid,
+.destacados-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
 
-      <div>
-        <strong>Contacto</strong>
-        <p>Teléfono: <span class="asesor-telefono">627 285 0550</span></p>
-      </div>
+.info-card,
+.promo-card,
+.testimonio-card,
+.destacado-card {
+  padding: 22px;
+}
 
-      <div>
-        <strong>Legal</strong>
-        <p>Precios sujetos a cambio sin previo aviso.</p>
-      </div>
-    </div>
+.info-icon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: #edf3fb;
+  margin-bottom: 14px;
+  font-size: 20px;
+}
 
-    <div class="container footer-bottom">
-      <p>© <span id="year"></span> Todos los derechos reservados.</p>
-    </div>
-  </footer>
+.info-card h3,
+.promo-card h3,
+.destacado-card h3 {
+  margin: 0 0 10px;
+  font-size: 22px;
+}
 
-  <a class="call-float" href="tel:6272850550">Llamar</a>
+.info-card p,
+.promo-card p,
+.destacado-card p,
+.testimonio-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="config.js"></script>
-  <script src="supabase-client.js"></script>
-  <script src="js/vehiculos.js"></script>
-  <script src="js/main.js"></script>
-</body>
-</html>
+.promo-badge,
+.destacado-badge,
+.vehiculo-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #edf3fb;
+  color: var(--ford-blue);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.catalogo-toolbar {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.catalogo-search {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #c9d7e6;
+  border-radius: 14px;
+  font: inherit;
+  background: #ffffff;
+  box-shadow: var(--shadow);
+}
+
+.catalogo-filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filtro-btn {
+  border: 1px solid #c9d7e6;
+  background: #ffffff;
+  color: #0b223f;
+  padding: 10px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.filtro-btn.active {
+  background: var(--ford-blue);
+  color: #ffffff;
+  border-color: var(--ford-blue);
+}
+
+.catalogo-categoria {
+  margin-bottom: 30px;
+}
+
+.categoria-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.categoria-header h3 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.categoria-header span {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.catalogo-grid-interno {
+  display: grid;
+  gap: 20px;
+}
+
+.vehiculo-card {
+  display: grid;
+  grid-template-columns: 330px 1fr;
+  gap: 0;
+  background: rgba(255,255,255,0.92);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(220,229,240,0.8);
+}
+
+.vehiculo-img-wrap {
+  background: linear-gradient(135deg, #e8f0fb, #dce8f5);
+  min-height: 100%;
+}
+
+.vehiculo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.vehiculo-info {
+  padding: 24px;
+}
+
+.vehiculo-info h3 {
+  margin: 0 0 10px;
+  font-size: 31px;
+}
+
+.vehiculo-desc {
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 18px;
+}
+
+.ficha-tecnica {
+  margin: 0 0 20px;
+  padding: 18px;
+  border-radius: 18px;
+  background: #f7faff;
+  border: 1px solid var(--border);
+}
+
+.ficha-tecnica h4 {
+  margin: 0 0 10px;
+}
+
+.ficha-tecnica ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.ficha-tecnica li {
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.premium-panel {
+  padding: 28px;
+}
+
+.contact-card h3,
+.form-card h3,
+.admin-card h3 {
+  margin: 10px 0 12px;
+  font-size: 30px;
+}
+
+.contact-card p,
+.form-card p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.contact-list {
+  display: grid;
+  gap: 12px;
+  margin: 20px 0 24px;
+}
+
+.contact-item {
+  padding: 15px 16px;
+  border-radius: 16px;
+  background: #f8fbff;
+  border: 1px solid var(--border);
+}
+
+.form-grid {
+  display: grid;
+  gap: 14px;
+}
+
+label {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  margin-top: 6px;
+  padding: 14px 15px;
+  border: 1px solid #c9d7e6;
+  border-radius: 14px;
+  font: inherit;
+  background: #ffffff;
+}
+
+textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+.small-note {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.mensaje {
+  margin-top: 14px;
+  font-weight: 700;
+}
+
+.mensaje.success {
+  color: var(--success);
+}
+
+.mensaje.error {
+  color: var(--danger);
+}
+
+.btn {
+  border: 0;
+  border-radius: 14px;
+  padding: 14px 18px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+
+.btn-primary {
+  background: var(--ford-blue);
+  color: #ffffff;
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--ford-blue);
+  border: 1px solid rgba(0,52,120,0.25);
+}
+
+.btn-dark {
+  background: var(--ford-blue-dark);
+  color: #ffffff;
+}
+
+.btn-light {
+  background: #ffffff;
+  color: var(--ford-blue-dark);
+}
+
+.btn-whatsapp {
+  background: var(--success);
+  color: #ffffff;
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: #ffffff;
+}
+
+.cta-box {
+  background: linear-gradient(135deg, #062144, #0a1830);
+  color: #ffffff;
+  padding: 32px;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 24px;
+  align-items: center;
+  box-shadow: var(--shadow-strong);
+}
+
+.cta-box h2 {
+  margin: 10px 0 12px;
+  font-size: 34px;
+}
+
+.cta-box p {
+  margin: 0;
+  color: rgba(255,255,255,0.92);
+  line-height: 1.7;
+}
+
+.premium-footer {
+  background: #091728;
+  color: rgba(255,255,255,0.9);
+  margin-top: 26px;
+  padding: 34px 0 16px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.footer-grid p,
+.footer-bottom p {
+  margin: 8px 0 0;
+  color: rgba(255,255,255,0.76);
+}
+
+.footer-bottom {
+  padding-top: 20px;
+  margin-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.wa-float {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 999;
+  background: var(--success);
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 700;
+  padding: 14px 18px;
+  border-radius: 999px;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+}
+
+.call-float {
+  position: fixed;
+  left: 18px;
+  bottom: 18px;
+  z-index: 999;
+  background: var(--ford-blue);
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 700;
+  padding: 14px 18px;
+  border-radius: 999px;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+}
+
+.admin-page {
+  padding: 38px 0 60px;
+}
+
+#loginBox,
+#panelBox {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 26px;
+  box-shadow: var(--shadow);
+}
+
+#loginForm {
+  display: grid;
+  gap: 12px;
+  max-width: 420px;
+}
+
+#estadoLogin {
+  color: var(--danger);
+  margin-top: 12px;
+  font-weight: 700;
+}
+
+.stats-box {
+  display: flex;
+  gap: 20px;
+  margin: 20px 0;
+  font-weight: 600;
+  flex-wrap: wrap;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+}
+
+th,
+td {
+  padding: 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+th {
+  background: #f7faff;
+}
+
+.loading-cell {
+  text-align: center;
+  color: var(--muted);
+  padding: 24px;
+}
+
+.alerta-prospecto {
+  margin: 16px 0;
+  padding: 14px 18px;
+  border-radius: 12px;
+  background: var(--success);
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.16);
+}
+
+.alerta-prospecto.show {
+  animation: pulseAdmin 0.6s ease-in-out 2;
+}
+
+@keyframes pulseAdmin {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+.acciones-admin {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.btn-mini {
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+.fecha-mini {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.sin-resultados {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 28px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  color: var(--muted);
+  font-weight: 700;
+}
+
+@media (max-width: 1100px) {
+  .hero-layout,
+  .contact-grid,
+  .cta-box,
+  .vehiculo-card,
+  .footer-grid,
+  .premium-grid,
+  .destacados-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .asesor-card {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .asesor-foto {
+    margin: 0 auto;
+  }
+
+  .asesor-data {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-actions {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 700px) {
+  .hero-copy {
+    padding: 26px;
+  }
+
+  .hero-copy h1 {
+    font-size: 34px;
+  }
+
+  .section-title {
+    font-size: 29px;
+  }
+
+  .vehiculo-info h3 {
+    font-size: 25px;
+  }
+
+  .topbar-inner {
+    flex-direction: column;
+  }
+
+  .wa-float,
+  .call-float {
+    bottom: 14px;
+    padding: 12px 16px;
+  }
+
+  .wa-float {
+    right: 14px;
+  }
+
+  .call-float {
+    left: 14px;
+  }
+}
