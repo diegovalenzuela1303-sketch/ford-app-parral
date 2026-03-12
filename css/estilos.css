@@ -1,637 +1,840 @@
-:root{
+/* =========================================================
+   FORD PARRAL | DIEGO VALENZUELA
+   styles.css COMPLETO
+   ========================================================= */
 
---bg1:#050d19;
---bg2:#091527;
---bg3:#102543;
-
---ford:#1e5eff;
---fordDark:#1748c6;
-
---panel:#0f1d33;
-
---text:#f5f8fc;
---muted:#aebed1;
-
---radius:22px;
-
-}
-
-/* RESET */
-
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
-
-body{
-
-font-family:Arial, Helvetica, sans-serif;
-
-color:var(--text);
-
-background:
-linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));
-
-min-height:100vh;
-
-}
-
-.container{
-width:95%;
-max-width:1280px;
-margin:auto;
-}
-
-/* NAVBAR */
-
-.top-nav-shell{
-padding:20px 0;
-}
-
-.top-nav{
-
-display:flex;
-align-items:center;
-justify-content:space-between;
-
-background:#081224;
-
-padding:15px 25px;
-
-border-radius:26px;
-
-}
-
-/* LOGO */
-
-.brand-block{
-display:flex;
-align-items:center;
-gap:15px;
-}
-
-.brand-logo{
-
-width:120px;
-height:60px;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-}
-
-.brand-logo-img{
-width:100%;
-height:100%;
-object-fit:contain;
-}
-
-.brand-copy strong{
-display:block;
-font-size:20px;
-letter-spacing:2px;
-}
-
-.brand-copy span{
-font-size:12px;
-color:#9fb2d0;
-}
-
-/* MENU */
-
-.main-nav{
-display:flex;
-gap:25px;
-}
-
-.nav-link{
-
-color:white;
-text-decoration:none;
-
-font-weight:600;
-
-}
-
-.nav-link:hover{
-color:var(--ford);
-}
-
-/* WHATSAPP */
-
-.top-wa{
-
-background:#25d366;
-
-color:white;
-
-padding:12px 18px;
-
-border-radius:50px;
-
-text-decoration:none;
-
-font-weight:bold;
-
-}
-
-/* HERO */
-
-.hero-pro{
-
-margin-top:20px;
-
-}
-
-.hero-pro-shell{
-
-display:grid;
-grid-template-columns:1fr 1fr 320px;
-
-gap:20px;
-
-}
-
-/* HERO LEFT */
-
-.hero-left{
-
-background:var(--panel);
-
-padding:40px;
-
-border-radius:var(--radius);
-
-}
-
-.hero-left h1{
-
-font-size:60px;
-
-margin-bottom:15px;
-
-}
-
-.hero-left span{
-color:var(--ford);
-}
-
-.hero-subtext{
-color:#d7e1f0;
-margin-bottom:20px;
-}
-
-.hero-feature-row{
-display:flex;
-gap:20px;
-margin-bottom:25px;
-}
-
-.hero-cta-row{
-display:flex;
-gap:15px;
-}
-
-/* BOTONES */
-
-.btn{
-
-padding:14px 20px;
-
-border-radius:16px;
-
-text-decoration:none;
-
-font-weight:bold;
-
-cursor:pointer;
-
-border:none;
-
-}
-
-.btn-primary{
-
-background:var(--ford);
-color:white;
-
-}
-
-.btn-primary:hover{
-background:var(--fordDark);
-}
-
-.btn-secondary{
-
-background:#1f2f4a;
-color:white;
-
-}
-
-/* HERO CENTER */
-
-.hero-center{
-
-background:var(--panel);
-
-border-radius:var(--radius);
-
-padding:20px;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-}
-
-.hero-vehicles-stage img{
-
-max-width:100%;
-
-}
-
-/* ASESOR */
-
-.hero-right{
-
-background:var(--panel);
-
-padding:20px;
-
-border-radius:var(--radius);
-
-}
-
-.advisor-photo{
-
-width:100%;
-
-border-radius:15px;
-
-margin-bottom:15px;
-
-}
-
-.advisor-info h3{
-margin-bottom:5px;
-}
-
-.advisor-role{
-color:var(--ford);
-}
-
-.advisor-location{
-color:var(--muted);
-margin-bottom:15px;
-}
-
-.advisor-phone{
-
-display:block;
-
-background:#1f2f4a;
-
-padding:14px;
-
-text-align:center;
-
-border-radius:20px;
-
-text-decoration:none;
-
-color:white;
-
-font-weight:bold;
-
-}
-
-/* CATALOGO */
-
-.catalog-summary-section{
-margin-top:40px;
-}
-
-.section-title-row{
-display:flex;
-align-items:center;
-gap:15px;
-margin-bottom:20px;
-}
-
-.section-title-row h2{
-font-size:28px;
-}
-
-.section-line{
-
-height:2px;
-
-flex:1;
-
-background:linear-gradient(90deg,var(--ford),transparent);
-
-}
-
-/* GRID MODELOS */
-
-.model-summary-grid{
-
-display:grid;
-
-grid-template-columns:repeat(6,1fr);
-
-gap:20px;
-
-}
-
-.model-summary-card{
-
-background:var(--panel);
-
-padding:15px;
-
-border-radius:18px;
-
-cursor:pointer;
-
-transition:.3s;
-
-}
-
-.model-summary-card:hover{
-
-transform:translateY(-4px);
-
-border:1px solid var(--ford);
-
-}
-
-.model-summary-card img{
-
-width:100%;
-
-border-radius:12px;
-
-margin-bottom:10px;
-
-}
-
-/* CONFIGURADOR */
-
-.configurator-shell{
-
-margin-top:40px;
-
-display:grid;
-
-grid-template-columns:1fr 1fr;
-
-gap:25px;
-
-background:var(--panel);
-
-padding:25px;
-
-border-radius:var(--radius);
-
-}
-
-.config-visual img{
-
-width:100%;
-
-border-radius:15px;
-
-}
-
-/* VERSIONES */
-
-.version-tabs{
-
-display:flex;
-
-gap:10px;
-
-margin-bottom:15px;
-
-}
-
-.version-tab{
-
-background:#1f2f4a;
-
-border:none;
-
-padding:10px 15px;
-
-border-radius:20px;
-
-cursor:pointer;
-
-color:white;
-
-}
-
-.version-tab.active{
-background:var(--ford);
-}
-
-/* COLORES */
-
-.color-swatches{
-
-display:flex;
-
-gap:10px;
-
-margin:15px 0;
-
-}
-
-.color-swatch{
-
-width:40px;
-height:40px;
-
-border-radius:50%;
-
-border:3px solid white;
-
-cursor:pointer;
-
-}
-
-/* FICHA */
-
-.ficha-grid{
-
-display:grid;
-
-grid-template-columns:1fr 1fr;
-
-gap:15px;
-
-margin-top:20px;
-
-}
-
-.ficha-item{
-
-background:#1f2f4a;
-
-padding:12px;
-
-border-radius:10px;
-
-}
-
-/* CONTACTO */
-
-.contact-pro-section{
-
-margin-top:50px;
-
-}
-
-.contact-pro-shell{
-
-display:grid;
-
-grid-template-columns:1fr 1fr;
-
-gap:25px;
-
-}
-
-.contact-copy{
-
-background:var(--panel);
-
-padding:25px;
-
-border-radius:var(--radius);
-
-}
-
-.contact-form-card{
-
-background:var(--panel);
-
-padding:25px;
-
-border-radius:var(--radius);
-
-}
-
-.contact-form-grid{
-
-display:flex;
-flex-direction:column;
-gap:15px;
-
-}
-
-.contact-form-grid input,
-.contact-form-grid textarea,
-.contact-form-grid select{
-
-padding:12px;
-
-border-radius:10px;
-
-border:none;
-
-background:#1f2f4a;
-
-color:white;
-
-}
-
-/* FOOTER */
-
-.footer-dark{
-
-margin-top:60px;
-
-padding:30px;
-
-background:#081224;
-
-}
-
-.footer-content{
-
-display:flex;
-
-justify-content:space-between;
-
-}
-
-/* BOTONES FLOTANTES */
-
-.float-call{
-
-position:fixed;
-
-left:20px;
-bottom:20px;
-
-background:var(--ford);
-
-color:white;
-
-padding:12px 18px;
-
-border-radius:50px;
-
-text-decoration:none;
-
-}
-
-.wa-float{
-
-position:fixed;
-
-right:20px;
-bottom:20px;
-
-background:#25d366;
-
-color:white;
-
-padding:12px 18px;
-
-border-radius:50px;
-
-text-decoration:none;
-
-}
-
-/* RESPONSIVE */
-
-@media(max-width:1000px){
-
-.hero-pro-shell{
-grid-template-columns:1fr;
-}
-
-.model-summary-grid{
-grid-template-columns:repeat(2,1fr);
-}
-
-.configurator-shell{
-grid-template-columns:1fr;
-}
-
-.contact-pro-shell{
-grid-template-columns:1fr;
-}
-
-.footer-content{
-flex-direction:column;
-gap:20px;
-}
-
+:root {
+  --bg-main: #041327;
+  --bg-secondary: #071a36;
+  --bg-card: rgba(8, 27, 58, 0.92);
+  --bg-card-2: rgba(14, 37, 74, 0.96);
+  --line: rgba(77, 132, 255, 0.18);
+  --line-strong: rgba(77, 132, 255, 0.45);
+  --primary: #2563eb;
+  --primary-2: #3b82f6;
+  --primary-soft: rgba(59, 130, 246, 0.12);
+  --text: #f8fbff;
+  --text-soft: #d8e3f6;
+  --text-muted: #9fb2d0;
+  --success: #22c55e;
+  --success-dark: #16a34a;
+  --shadow-lg: 0 14px 40px rgba(0, 0, 0, 0.30);
+  --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.22);
+  --radius-xl: 28px;
+  --radius-lg: 22px;
+  --radius-md: 16px;
+  --radius-sm: 12px;
+  --container: 1360px;
+  --transition: all 0.25s ease;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top, rgba(37, 99, 235, 0.20), transparent 35%),
+    linear-gradient(180deg, #041327 0%, #071a36 45%, #05152b 100%);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* =========================================================
+   CONTENEDORES GENERALES
+   ========================================================= */
+
+main,
+.container,
+.catalogo-section,
+#catalogo,
+.catalogo,
+.detalle-vehiculo-wrap,
+.detalle-vehiculo {
+  width: min(var(--container), calc(100% - 28px));
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* =========================================================
+   HERO / ENCABEZADOS GENERALES
+   ========================================================= */
+
+section {
+  position: relative;
+}
+
+h1, h2, h3, h4 {
+  margin-top: 0;
+}
+
+.titulo-seccion,
+.catalogo h2,
+.catalogo-title,
+.catalogo-header h2 {
+  font-size: clamp(2rem, 3vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+/* =========================================================
+   BOTONES FLOTANTES
+   ========================================================= */
+
+.floating-call,
+.btn-llamar,
+.llamar-btn,
+a[href^="tel:"] {
+  transition: var(--transition);
+}
+
+.whatsapp-float,
+.btn-whatsapp-float,
+.whatsapp-btn {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 120;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 14px 22px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+  transition: var(--transition);
+}
+
+.whatsapp-float:hover,
+.btn-whatsapp-float:hover,
+.whatsapp-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 28px rgba(0, 0, 0, 0.32);
+}
+
+.call-float,
+.btn-call-float {
+  position: fixed;
+  left: 18px;
+  bottom: 18px;
+  z-index: 120;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 14px 22px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+  transition: var(--transition);
+}
+
+.call-float:hover,
+.btn-call-float:hover {
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   CATÁLOGO - TÍTULO
+   ========================================================= */
+
+.catalogo-header,
+.catalogo-titulo-wrap,
+.catalogo-title-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 34px auto 20px;
+  width: min(var(--container), calc(100% - 28px));
+}
+
+.catalogo-header::after,
+.catalogo-titulo-wrap::after,
+.catalogo-title-row::after {
+  content: "";
+  flex: 1;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--primary-2), rgba(59, 130, 246, 0.08));
+}
+
+/* =========================================================
+   GRID DE TARJETAS DE VEHÍCULOS
+   ========================================================= */
+
+.catalogo-grid,
+.vehiculos-grid,
+.grid-vehiculos,
+.lista-modelos {
+  width: min(var(--container), calc(100% - 28px));
+  margin: 0 auto 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 18px;
+}
+
+/* Tarjeta genérica */
+.catalogo-card,
+.vehiculo-card,
+.card-modelo,
+.modelo-card {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(11, 33, 67, 0.97) 0%, rgba(8, 23, 50, 0.98) 100%);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 16px;
+  min-height: 250px;
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.catalogo-card:hover,
+.vehiculo-card:hover,
+.card-modelo:hover,
+.modelo-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--line-strong);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.32);
+}
+
+.catalogo-card::before,
+.vehiculo-card::before,
+.card-modelo::before,
+.modelo-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top right, rgba(59, 130, 246, 0.16), transparent 38%);
+  pointer-events: none;
+}
+
+.catalogo-card h3,
+.vehiculo-card h3,
+.card-modelo h3,
+.modelo-card h3 {
+  margin: 0 0 14px;
+  color: #ffffff;
+  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  line-height: 1.1;
+  font-weight: 800;
+  min-height: 48px;
+}
+
+.catalogo-card img,
+.vehiculo-card img,
+.card-modelo img,
+.modelo-card img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: linear-gradient(180deg, #123c74 0%, #0a2954 100%);
+  margin-bottom: 14px;
+}
+
+.catalogo-card p,
+.vehiculo-card p,
+.card-modelo p,
+.modelo-card p,
+.catalogo-card .versiones,
+.vehiculo-card .versiones {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 0.98rem;
+  font-weight: 700;
+}
+
+.catalogo-card p::before,
+.vehiculo-card p::before,
+.card-modelo p::before,
+.modelo-card p::before,
+.catalogo-card .versiones::before,
+.vehiculo-card .versiones::before {
+  content: "• ";
+  color: #ffffff;
+}
+
+/* Estado activo opcional */
+.catalogo-card.active,
+.vehiculo-card.active,
+.card-modelo.active,
+.modelo-card.active {
+  border-color: rgba(59, 130, 246, 0.62);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.10), 0 18px 34px rgba(0, 0, 0, 0.34);
+}
+
+/* =========================================================
+   BLOQUE DE DETALLE DEL VEHÍCULO
+   ========================================================= */
+
+.detalle-vehiculo,
+.vehiculo-detalle,
+.detalle-modelo,
+#detalleVehiculo,
+#detalle-vehiculo {
+  width: min(var(--container), calc(100% - 28px));
+  margin: 36px auto 90px;
+  background:
+    linear-gradient(180deg, rgba(8, 28, 58, 0.98), rgba(6, 21, 43, 0.98));
+  border: 1px solid var(--line);
+  border-radius: 34px;
+  box-shadow: var(--shadow-lg);
+  padding: 26px;
+  overflow: hidden;
+}
+
+/* Título del modelo */
+.detalle-vehiculo h2,
+.vehiculo-detalle h2,
+.detalle-modelo h2,
+#detalleVehiculo h2,
+#detalle-vehiculo h2 {
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  margin: 0 0 18px;
+  color: #ffffff;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* Layout principal */
+.detalle-grid,
+.vehiculo-detalle-grid,
+.detalle-contenido,
+.detalle-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(360px, 0.9fr);
+  gap: 28px;
+  align-items: start;
+}
+
+/* Imagen grande */
+.detalle-imagen,
+.vehiculo-imagen-principal,
+.galeria-principal,
+.detalle-foto {
+  position: relative;
+  overflow: hidden;
+  border-radius: 28px;
+  min-height: 520px;
+  background: linear-gradient(180deg, #0d2c58, #081d3f);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.detalle-imagen img,
+.vehiculo-imagen-principal img,
+.galeria-principal img,
+.detalle-foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Columna derecha */
+.detalle-info,
+.vehiculo-info,
+.info-version,
+.panel-info-version {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Tabs superiores */
+.detalle-tabs,
+.tabs-detalle,
+.tabs-superiores,
+.acciones-detalle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.detalle-tabs button,
+.tabs-detalle button,
+.tabs-superiores button,
+.acciones-detalle button,
+.detalle-tabs a,
+.tabs-detalle a,
+.tabs-superiores a,
+.acciones-detalle a {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-soft);
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 700;
+  transition: var(--transition);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detalle-tabs button:hover,
+.tabs-detalle button:hover,
+.tabs-superiores button:hover,
+.acciones-detalle button:hover,
+.detalle-tabs a:hover,
+.tabs-detalle a:hover,
+.tabs-superiores a:hover,
+.acciones-detalle a:hover {
+  background: rgba(59, 130, 246, 0.14);
+  color: #ffffff;
+  border-color: rgba(59, 130, 246, 0.38);
+}
+
+/* Tabs de versiones */
+.version-tabs,
+.tabs-versiones,
+.versiones-tabs,
+.selector-versiones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.version-tabs button,
+.tabs-versiones button,
+.versiones-tabs button,
+.selector-versiones button,
+.version-tabs a,
+.tabs-versiones a,
+.versiones-tabs a,
+.selector-versiones a {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-soft);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+  padding: 11px 20px;
+  font-size: 0.98rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.version-tabs button:hover,
+.tabs-versiones button:hover,
+.versiones-tabs button:hover,
+.selector-versiones button:hover,
+.version-tabs a:hover,
+.tabs-versiones a:hover,
+.versiones-tabs a:hover,
+.selector-versiones a:hover {
+  background: rgba(59, 130, 246, 0.14);
+  border-color: rgba(59, 130, 246, 0.35);
+  color: #ffffff;
+}
+
+.version-tabs .active,
+.tabs-versiones .active,
+.versiones-tabs .active,
+.selector-versiones .active,
+.version-tabs button.active,
+.tabs-versiones button.active,
+.versiones-tabs button.active,
+.selector-versiones button.active {
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 12px 20px rgba(37, 99, 235, 0.28);
+}
+
+/* Nombre de la versión */
+.version-nombre,
+.nombre-version,
+.detalle-version h3,
+.info-version h3 {
+  margin: 0;
+  font-size: clamp(1.75rem, 2.2vw, 2.4rem);
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1;
+}
+
+/* Descripción */
+.version-descripcion,
+.descripcion-version,
+.detalle-version p,
+.info-version p {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 1.08rem;
+  line-height: 1.5;
+}
+
+/* Colores */
+.colores-wrap,
+.colores-version,
+.selector-colores,
+.paleta-colores {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.colores-wrap .titulo,
+.colores-version .titulo,
+.selector-colores .titulo,
+.paleta-colores .titulo,
+.colores-wrap strong,
+.colores-version strong {
+  font-size: 1.05rem;
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.colores-lista,
+.colores-opciones,
+.lista-colores {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.color-btn,
+.color-option,
+.color-circle,
+.swatch {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 3px solid rgba(255, 255, 255, 0.75);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.color-btn:hover,
+.color-option:hover,
+.color-circle:hover,
+.swatch:hover {
+  transform: scale(1.08);
+}
+
+.color-btn.active,
+.color-option.active,
+.color-circle.active,
+.swatch.active {
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.24);
+}
+
+.color-nombre,
+.nombre-color {
+  margin: 0;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+/* Ficha técnica */
+.ficha-grid,
+.especificaciones-grid,
+.detalle-specs,
+.ficha-tecnica-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.spec-card,
+.ficha-item,
+.especificacion,
+.spec-box {
+  background: linear-gradient(180deg, rgba(31, 56, 104, 0.84), rgba(26, 46, 88, 0.94));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 16px 18px;
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  font-size: 1.02rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+/* Botonera inferior */
+.detalle-acciones,
+.acciones-version,
+.botones-detalle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+}
+
+.btn-cotizar,
+.boton-cotizar,
+.btn-principal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 0 24px;
+  border: none;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  color: #ffffff;
+  font-size: 1.06rem;
+  font-weight: 800;
+  box-shadow: 0 14px 24px rgba(37, 99, 235, 0.30);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-cotizar:hover,
+.boton-cotizar:hover,
+.btn-principal:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 28px rgba(37, 99, 235, 0.34);
+}
+
+.link-whatsapp,
+.whatsapp-directo,
+.btn-link-whatsapp {
+  color: #2d7cff;
+  font-size: 1.05rem;
+  font-weight: 800;
+  transition: var(--transition);
+}
+
+.link-whatsapp:hover,
+.whatsapp-directo:hover,
+.btn-link-whatsapp:hover {
+  color: #60a5fa;
+}
+
+/* =========================================================
+   CLASES AUXILIARES POR SI TU HTML YA LAS TRAE
+   ========================================================= */
+
+.aviso-legal,
+.legal-text,
+.texto-legal {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* =========================================================
+   AJUSTES RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1180px) {
+  .detalle-grid,
+  .vehiculo-detalle-grid,
+  .detalle-contenido,
+  .detalle-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .detalle-imagen,
+  .vehiculo-imagen-principal,
+  .galeria-principal,
+  .detalle-foto {
+    min-height: 420px;
+  }
+}
+
+@media (max-width: 860px) {
+  .catalogo-grid,
+  .vehiculos-grid,
+  .grid-vehiculos,
+  .lista-modelos {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+  }
+
+  .catalogo-card,
+  .vehiculo-card,
+  .card-modelo,
+  .modelo-card {
+    padding: 14px;
+    min-height: 226px;
+  }
+
+  .catalogo-card img,
+  .vehiculo-card img,
+  .card-modelo img,
+  .modelo-card img {
+    height: 110px;
+  }
+
+  .detalle-vehiculo,
+  .vehiculo-detalle,
+  .detalle-modelo,
+  #detalleVehiculo,
+  #detalle-vehiculo {
+    padding: 18px;
+    border-radius: 24px;
+  }
+
+  .ficha-grid,
+  .especificaciones-grid,
+  .detalle-specs,
+  .ficha-tecnica-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detalle-imagen,
+  .vehiculo-imagen-principal,
+  .galeria-principal,
+  .detalle-foto {
+    min-height: 340px;
+    border-radius: 22px;
+  }
+}
+
+@media (max-width: 640px) {
+  .catalogo-header,
+  .catalogo-titulo-wrap,
+  .catalogo-title-row {
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .catalogo-header h2,
+  .catalogo-titulo-wrap h2,
+  .catalogo-title-row h2,
+  .catalogo h2 {
+    font-size: 1.9rem;
+  }
+
+  .catalogo-grid,
+  .vehiculos-grid,
+  .grid-vehiculos,
+  .lista-modelos {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .catalogo-card h3,
+  .vehiculo-card h3,
+  .card-modelo h3,
+  .modelo-card h3 {
+    font-size: 1rem;
+    min-height: 42px;
+  }
+
+  .version-tabs,
+  .tabs-versiones,
+  .versiones-tabs,
+  .selector-versiones,
+  .detalle-tabs,
+  .tabs-detalle,
+  .tabs-superiores,
+  .acciones-detalle {
+    gap: 8px;
+  }
+
+  .version-tabs button,
+  .tabs-versiones button,
+  .versiones-tabs button,
+  .selector-versiones button,
+  .version-tabs a,
+  .tabs-versiones a,
+  .versiones-tabs a,
+  .selector-versiones a,
+  .detalle-tabs button,
+  .tabs-detalle button,
+  .tabs-superiores button,
+  .acciones-detalle button,
+  .detalle-tabs a,
+  .tabs-detalle a,
+  .tabs-superiores a,
+  .acciones-detalle a {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .btn-cotizar,
+  .boton-cotizar,
+  .btn-principal {
+    width: 100%;
+  }
+
+  .detalle-acciones,
+  .acciones-version,
+  .botones-detalle {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .call-float,
+  .btn-call-float {
+    left: 12px;
+    bottom: 12px;
+    padding: 12px 18px;
+    font-size: 0.96rem;
+  }
+
+  .whatsapp-float,
+  .btn-whatsapp-float,
+  .whatsapp-btn {
+    right: 12px;
+    bottom: 12px;
+    padding: 12px 18px;
+    font-size: 0.96rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .catalogo-grid,
+  .vehiculos-grid,
+  .grid-vehiculos,
+  .lista-modelos {
+    grid-template-columns: 1fr;
+  }
+
+  .detalle-imagen,
+  .vehiculo-imagen-principal,
+  .galeria-principal,
+  .detalle-foto {
+    min-height: 280px;
+  }
+
+  .version-nombre,
+  .nombre-version,
+  .detalle-version h3,
+  .info-version h3 {
+    font-size: 1.6rem;
+  }
+
+  .version-descripcion,
+  .descripcion-version,
+  .detalle-version p,
+  .info-version p {
+    font-size: 1rem;
+  }
 }
