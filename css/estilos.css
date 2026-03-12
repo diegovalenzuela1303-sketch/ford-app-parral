@@ -6,22 +6,18 @@
 :root {
   --bg-main: #041327;
   --bg-secondary: #071a36;
-  --bg-deep: #020c1c;
-  --bg-card: rgba(8, 27, 58, 0.92);
-  --bg-card-2: rgba(14, 37, 74, 0.96);
-  --bg-soft: rgba(255, 255, 255, 0.04);
+  --bg-card: rgba(8, 27, 58, 0.94);
+  --bg-card-2: rgba(14, 37, 74, 0.98);
+  --bg-soft: rgba(255, 255, 255, 0.05);
   --line: rgba(77, 132, 255, 0.18);
-  --line-strong: rgba(77, 132, 255, 0.45);
+  --line-strong: rgba(77, 132, 255, 0.42);
   --primary: #2563eb;
   --primary-2: #3b82f6;
   --primary-dark: #1d4ed8;
-  --primary-soft: rgba(59, 130, 246, 0.12);
   --text: #f8fbff;
   --text-soft: #d8e3f6;
   --text-muted: #9fb2d0;
   --success: #22c55e;
-  --success-dark: #16a34a;
-  --danger: #ef4444;
   --shadow-lg: 0 18px 45px rgba(0, 0, 0, 0.30);
   --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.22);
   --shadow-sm: 0 6px 18px rgba(0, 0, 0, 0.15);
@@ -46,7 +42,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   color: var(--text);
   background:
-    radial-gradient(circle at top, rgba(37, 99, 235, 0.20), transparent 35%),
+    radial-gradient(circle at top, rgba(37, 99, 235, 0.18), transparent 35%),
     linear-gradient(180deg, #041327 0%, #071a36 45%, #05152b 100%);
 }
 
@@ -85,7 +81,7 @@ button {
   top: 0;
   z-index: 150;
   backdrop-filter: blur(14px);
-  background: rgba(4, 19, 39, 0.82);
+  background: rgba(4, 19, 39, 0.84);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -113,6 +109,7 @@ button {
   display: grid;
   place-items: center;
   box-shadow: var(--shadow-sm);
+  overflow: hidden;
 }
 
 .brand-logo-img {
@@ -579,14 +576,17 @@ button {
   gap: 28px;
 }
 
-/* Título del bloque detalle si lo genera JS */
+/* tarjeta general del detalle */
 .catalogo-detalle,
 .detalle-vehiculo,
 .vehiculo-detalle,
 .detalle-modelo,
 .detalle-card,
 .detalle-shell,
-.vehiculo-principal {
+.vehiculo-principal,
+#catalogo-principal > section,
+#catalogo-principal > article,
+#catalogo-principal > div {
   background:
     linear-gradient(180deg, rgba(8, 28, 58, 0.98), rgba(6, 21, 43, 0.98));
   border: 1px solid var(--line);
@@ -602,69 +602,118 @@ button {
 .detalle-modelo h2,
 .detalle-card h2,
 .detalle-shell h2,
-.vehiculo-principal h2 {
+.vehiculo-principal h2,
+#catalogo-principal > section > h2,
+#catalogo-principal > article > h2,
+#catalogo-principal > div > h2 {
   margin: 0 0 18px;
-  font-size: clamp(2rem, 3vw, 2.9rem);
+  font-size: clamp(2rem, 3vw, 2.8rem);
   color: #fff;
   line-height: 1;
   letter-spacing: -0.02em;
 }
 
-/* Layout del detalle */
+/* Fuerza layout profesional del detalle */
 .detalle-grid,
 .vehiculo-detalle-grid,
 .detalle-layout,
 .detalle-contenido,
 .vehiculo-layout,
-.catalogo-layout {
+.catalogo-layout,
+#catalogo-principal .detalle-body,
+#catalogo-principal .detalle-wrap,
+#catalogo-principal .vehiculo-wrap,
+#catalogo-principal .vehiculo-main,
+#catalogo-principal .modelo-detalle-wrap,
+#catalogo-principal .modelo-layout,
+#catalogo-principal .vehiculo-detalle-wrap,
+#catalogo-principal .info-wrap {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(360px, 0.9fr);
+  grid-template-columns: minmax(320px, 520px) minmax(380px, 1fr);
   gap: 28px;
   align-items: start;
 }
 
-/* Imagen principal */
+/* fallback: si tu JS no trae wrappers claros */
+#catalogo-principal > section > img:first-of-type,
+#catalogo-principal > article > img:first-of-type,
+#catalogo-principal > div > img:first-of-type {
+  width: 100%;
+}
+
+/* imagen principal lado izquierdo */
 .detalle-imagen,
 .vehiculo-imagen,
 .galeria-principal,
 .imagen-principal,
-.detalle-foto {
+.detalle-foto,
+#catalogo-principal .media-col,
+#catalogo-principal .image-col,
+#catalogo-principal .detalle-left,
+#catalogo-principal .vehiculo-left,
+#catalogo-principal .col-imagen {
   position: relative;
   overflow: hidden;
   border-radius: 28px;
-  min-height: 520px;
+  min-height: 390px;
+  max-height: 470px;
   background: linear-gradient(180deg, #0d2c58, #081d3f);
   border: 1px solid rgba(255,255,255,0.06);
+  align-self: start;
 }
 
 .detalle-imagen img,
 .vehiculo-imagen img,
 .galeria-principal img,
 .imagen-principal img,
-.detalle-foto img {
+.detalle-foto img,
+#catalogo-principal .media-col img,
+#catalogo-principal .image-col img,
+#catalogo-principal .detalle-left img,
+#catalogo-principal .vehiculo-left img,
+#catalogo-principal .col-imagen img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* Panel derecho */
+/* cualquier imagen directa dentro del detalle */
+#catalogo-principal > section > img:first-of-type,
+#catalogo-principal > article > img:first-of-type,
+#catalogo-principal > div > img:first-of-type {
+  border-radius: 28px;
+  min-height: 390px;
+  max-height: 470px;
+  object-fit: cover;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: linear-gradient(180deg, #0d2c58, #081d3f);
+}
+
+/* panel info lado derecho */
 .detalle-info,
 .vehiculo-info,
 .info-version,
 .panel-info-version,
-.detalle-panel {
+.detalle-panel,
+#catalogo-principal .info-col,
+#catalogo-principal .detalle-right,
+#catalogo-principal .vehiculo-right,
+#catalogo-principal .col-info {
   display: flex;
   flex-direction: column;
   gap: 18px;
+  min-width: 0;
 }
 
-/* Tabs superiores ficha/configurar/legal */
+/* Tabs superiores */
 .detalle-tabs,
 .tabs-detalle,
 .tabs-superiores,
 .acciones-detalle,
 .detalle-switch,
-.detalle-top-tabs {
+.detalle-top-tabs,
+#catalogo-principal .tabs-top,
+#catalogo-principal .tabs-principales {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -684,7 +733,9 @@ button {
 .detalle-switch a,
 .detalle-top-tabs a,
 .tab-btn,
-.tab-link {
+.tab-link,
+#catalogo-principal .tabs-top button,
+#catalogo-principal .tabs-principales button {
   border: 1px solid rgba(255,255,255,0.08);
   background: rgba(255,255,255,0.06);
   color: var(--text-soft);
@@ -711,23 +762,12 @@ button {
 .detalle-switch a:hover,
 .detalle-top-tabs a:hover,
 .tab-btn:hover,
-.tab-link:hover {
+.tab-link:hover,
+#catalogo-principal .tabs-top button:hover,
+#catalogo-principal .tabs-principales button:hover {
   background: rgba(59, 130, 246, 0.14);
   color: #fff;
   border-color: rgba(59, 130, 246, 0.34);
-}
-
-.detalle-tabs .active,
-.tabs-detalle .active,
-.tabs-superiores .active,
-.acciones-detalle .active,
-.detalle-switch .active,
-.detalle-top-tabs .active,
-.tab-btn.active,
-.tab-link.active {
-  background: rgba(59, 130, 246, 0.16);
-  color: #fff;
-  border-color: rgba(59, 130, 246, 0.45);
 }
 
 /* Tabs de versiones */
@@ -735,7 +775,9 @@ button {
 .tabs-versiones,
 .versiones-tabs,
 .selector-versiones,
-.variantes-row {
+.variantes-row,
+#catalogo-principal .version-row,
+#catalogo-principal .version-tabs-row {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -752,18 +794,21 @@ button {
 .selector-versiones a,
 .variantes-row a,
 .version-btn,
-.variant-btn {
+.variant-btn,
+#catalogo-principal .version-row button,
+#catalogo-principal .version-tabs-row button {
   background: rgba(255,255,255,0.05);
   color: var(--text-soft);
   border: 1px solid rgba(255,255,255,0.06);
   border-radius: 999px;
-  padding: 11px 20px;
-  font-size: 0.98rem;
+  padding: 12px 22px;
+  font-size: 1rem;
   font-weight: 800;
   transition: var(--transition);
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  min-height: 48px;
 }
 
 .version-tabs button:hover,
@@ -777,7 +822,9 @@ button {
 .selector-versiones a:hover,
 .variantes-row a:hover,
 .version-btn:hover,
-.variant-btn:hover {
+.variant-btn:hover,
+#catalogo-principal .version-row button:hover,
+#catalogo-principal .version-tabs-row button:hover {
   background: rgba(59,130,246,0.14);
   border-color: rgba(59,130,246,0.35);
   color: #fff;
@@ -794,7 +841,9 @@ button {
 .tabs-versiones button.active,
 .versiones-tabs button.active,
 .selector-versiones button.active,
-.variantes-row button.active {
+.variantes-row button.active,
+#catalogo-principal .version-row .active,
+#catalogo-principal .version-tabs-row .active {
   background: linear-gradient(135deg, #2563eb, #3b82f6);
   color: #fff;
   border-color: transparent;
@@ -807,25 +856,27 @@ button {
 .detalle-version h3,
 .info-version h3,
 .version-title,
-.variant-title {
+.variant-title,
+#catalogo-principal h3 {
   margin: 0;
-  font-size: clamp(1.75rem, 2.2vw, 2.5rem);
-  line-height: 1;
+  font-size: clamp(1.75rem, 2.2vw, 2.4rem);
+  line-height: 1.05;
   font-weight: 900;
   color: #fff;
 }
 
-/* Descripción */
+/* Texto descriptivo */
 .version-descripcion,
 .descripcion-version,
 .detalle-version p,
 .info-version p,
 .version-copy,
-.variant-copy {
+.variant-copy,
+#catalogo-principal .descripcion {
   margin: 0;
   color: var(--text-soft);
   font-size: 1.08rem;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 /* Colores */
@@ -833,7 +884,9 @@ button {
 .colores-version,
 .selector-colores,
 .paleta-colores,
-.color-block {
+.color-block,
+#catalogo-principal .colores-wrap,
+#catalogo-principal .bloque-colores {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -846,42 +899,51 @@ button {
 .color-block .titulo,
 .colores-wrap strong,
 .colores-version strong,
-.color-label {
+.color-label,
+#catalogo-principal .bloque-colores strong,
+#catalogo-principal h4 {
   font-size: 1.05rem;
   color: #fff;
   font-weight: 800;
+  margin: 0;
 }
 
 .colores-lista,
 .colores-opciones,
 .lista-colores,
 .color-options,
-.swatch-list {
+.swatch-list,
+#catalogo-principal .lista-colores {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 14px;
 }
 
 .color-btn,
 .color-option,
 .color-circle,
 .swatch,
-.color-dot {
-  width: 44px;
-  height: 44px;
+.color-dot,
+#catalogo-principal .color-item,
+#catalogo-principal .color {
+  width: 52px;
+  height: 52px;
   border-radius: 999px;
-  border: 3px solid rgba(255,255,255,0.78);
+  border: 3px solid rgba(255,255,255,0.82);
   box-shadow: inset 0 0 0 1px rgba(0,0,0,0.25);
   transition: transform 0.18s ease, box-shadow 0.18s ease;
   display: inline-block;
+  flex: 0 0 52px;
 }
 
 .color-btn:hover,
 .color-option:hover,
 .color-circle:hover,
 .swatch:hover,
-.color-dot:hover {
+.color-dot:hover,
+#catalogo-principal .color-item:hover,
+#catalogo-principal .color:hover {
   transform: scale(1.08);
 }
 
@@ -889,13 +951,16 @@ button {
 .color-option.active,
 .color-circle.active,
 .swatch.active,
-.color-dot.active {
-  box-shadow: 0 0 0 4px rgba(59,130,246,0.24);
+.color-dot.active,
+#catalogo-principal .color-item.active,
+#catalogo-principal .color.active {
+  box-shadow: 0 0 0 5px rgba(59,130,246,0.22);
 }
 
 .color-nombre,
 .nombre-color,
-.color-name {
+.color-name,
+#catalogo-principal .nombre-color {
   margin: 0;
   color: #fff;
   font-weight: 700;
@@ -907,7 +972,9 @@ button {
 .especificaciones-grid,
 .detalle-specs,
 .ficha-tecnica-grid,
-.spec-grid {
+.spec-grid,
+#catalogo-principal .ficha-grid,
+#catalogo-principal .spec-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
@@ -917,17 +984,19 @@ button {
 .ficha-item,
 .especificacion,
 .spec-box,
-.spec-pill {
+.spec-pill,
+#catalogo-principal .spec-card,
+#catalogo-principal .ficha-item {
   background: linear-gradient(180deg, rgba(31, 56, 104, 0.84), rgba(26, 46, 88, 0.94));
   border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 16px;
-  padding: 16px 18px;
-  min-height: 72px;
+  border-radius: 18px;
+  padding: 18px 20px;
+  min-height: 78px;
   display: flex;
   align-items: center;
   color: #fff;
-  font-size: 1.02rem;
-  font-weight: 700;
+  font-size: 1.04rem;
+  font-weight: 800;
   line-height: 1.35;
 }
 
@@ -936,7 +1005,8 @@ button {
 .acciones-version,
 .botones-detalle,
 .cta-row,
-.variant-actions {
+.variant-actions,
+#catalogo-principal .acciones {
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
@@ -947,7 +1017,8 @@ button {
 .boton-cotizar,
 .btn-principal,
 .btn-cotiza,
-.cta-primary {
+.cta-primary,
+#catalogo-principal .btn-cotizar {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -967,7 +1038,8 @@ button {
 .boton-cotizar:hover,
 .btn-principal:hover,
 .btn-cotiza:hover,
-.cta-primary:hover {
+.cta-primary:hover,
+#catalogo-principal .btn-cotizar:hover {
   transform: translateY(-2px);
   box-shadow: 0 18px 28px rgba(37, 99, 235, 0.34);
 }
@@ -975,9 +1047,10 @@ button {
 .link-whatsapp,
 .whatsapp-directo,
 .btn-link-whatsapp,
-.cta-link {
-  color: #2d7cff;
-  font-size: 1.05rem;
+.cta-link,
+#catalogo-principal .link-whatsapp {
+  color: #60a5fa;
+  font-size: 1.04rem;
   font-weight: 800;
   transition: var(--transition);
 }
@@ -985,8 +1058,49 @@ button {
 .link-whatsapp:hover,
 .whatsapp-directo:hover,
 .btn-link-whatsapp:hover,
-.cta-link:hover {
-  color: #60a5fa;
+.cta-link:hover,
+#catalogo-principal .link-whatsapp:hover {
+  color: #93c5fd;
+}
+
+/* =========================================================
+   REORDENAMIENTO GENÉRICO DEL DETALLE
+   ========================================================= */
+
+/* intenta ordenar la primera imagen a la izquierda y el resto a la derecha */
+#catalogo-principal > section,
+#catalogo-principal > article,
+#catalogo-principal > div {
+  display: grid;
+  grid-template-columns: minmax(320px, 520px) minmax(380px, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+
+#catalogo-principal > section > h2,
+#catalogo-principal > article > h2,
+#catalogo-principal > div > h2 {
+  grid-column: 1 / -1;
+}
+
+#catalogo-principal > section > img:first-of-type,
+#catalogo-principal > article > img:first-of-type,
+#catalogo-principal > div > img:first-of-type {
+  grid-column: 1;
+}
+
+#catalogo-principal > section > :not(h2):not(img:first-of-type),
+#catalogo-principal > article > :not(h2):not(img:first-of-type),
+#catalogo-principal > div > :not(h2):not(img:first-of-type) {
+  grid-column: 2;
+}
+
+/* bloques de specs abajo a dos columnas cuando estén en la derecha */
+#catalogo-principal .ficha-grid,
+#catalogo-principal .spec-grid,
+#catalogo-principal .detalle-specs,
+#catalogo-principal .ficha-tecnica-grid {
+  width: 100%;
 }
 
 /* =========================================================
@@ -1111,7 +1225,7 @@ button {
 }
 
 /* =========================================================
-   CLASES AUXILIARES
+   AUXILIARES
    ========================================================= */
 
 .hidden {
@@ -1125,10 +1239,6 @@ button {
   font-size: 0.95rem;
   line-height: 1.5;
 }
-
-/* =========================================================
-   WHATSAPP FIJO OPCIONAL SI LO GENERA TU JS
-   ========================================================= */
 
 .whatsapp-float,
 .btn-whatsapp-float,
@@ -1159,26 +1269,36 @@ button {
    ========================================================= */
 
 @media (max-width: 1180px) {
-  .hero-pro-shell {
-    grid-template-columns: 1fr;
-  }
-
+  .hero-pro-shell,
   .contact-pro-shell,
   .detalle-grid,
   .vehiculo-detalle-grid,
   .detalle-layout,
   .detalle-contenido,
   .vehiculo-layout,
-  .catalogo-layout {
+  .catalogo-layout,
+  #catalogo-principal > section,
+  #catalogo-principal > article,
+  #catalogo-principal > div {
     grid-template-columns: 1fr;
+  }
+
+  #catalogo-principal > section > :not(h2),
+  #catalogo-principal > article > :not(h2),
+  #catalogo-principal > div > :not(h2) {
+    grid-column: 1;
   }
 
   .detalle-imagen,
   .vehiculo-imagen,
   .galeria-principal,
   .imagen-principal,
-  .detalle-foto {
-    min-height: 420px;
+  .detalle-foto,
+  #catalogo-principal > section > img:first-of-type,
+  #catalogo-principal > article > img:first-of-type,
+  #catalogo-principal > div > img:first-of-type {
+    min-height: 360px;
+    max-height: 420px;
   }
 }
 
@@ -1204,7 +1324,10 @@ button {
   .detalle-modelo,
   .detalle-card,
   .detalle-shell,
-  .vehiculo-principal {
+  .vehiculo-principal,
+  #catalogo-principal > section,
+  #catalogo-principal > article,
+  #catalogo-principal > div {
     border-radius: 24px;
   }
 
@@ -1240,17 +1363,10 @@ button {
   .especificaciones-grid,
   .detalle-specs,
   .ficha-tecnica-grid,
-  .spec-grid {
+  .spec-grid,
+  #catalogo-principal .ficha-grid,
+  #catalogo-principal .spec-grid {
     grid-template-columns: 1fr;
-  }
-
-  .detalle-imagen,
-  .vehiculo-imagen,
-  .galeria-principal,
-  .imagen-principal,
-  .detalle-foto {
-    min-height: 340px;
-    border-radius: 22px;
   }
 }
 
@@ -1272,7 +1388,8 @@ button {
   .acciones-version,
   .botones-detalle,
   .cta-row,
-  .variant-actions {
+  .variant-actions,
+  #catalogo-principal .acciones {
     flex-direction: column;
     align-items: stretch;
   }
@@ -1282,7 +1399,8 @@ button {
   .boton-cotizar,
   .btn-principal,
   .btn-cotiza,
-  .cta-primary {
+  .cta-primary,
+  #catalogo-principal .btn-cotizar {
     width: 100%;
   }
 
@@ -1327,7 +1445,9 @@ button {
   .tabs-versiones,
   .versiones-tabs,
   .selector-versiones,
-  .variantes-row {
+  .variantes-row,
+  #catalogo-principal .version-row,
+  #catalogo-principal .version-tabs-row {
     gap: 8px;
   }
 
@@ -1356,7 +1476,9 @@ button {
   .selector-versiones a,
   .variantes-row a,
   .version-btn,
-  .variant-btn {
+  .variant-btn,
+  #catalogo-principal .version-row button,
+  #catalogo-principal .version-tabs-row button {
     width: 100%;
     justify-content: center;
   }
@@ -1369,8 +1491,23 @@ button {
   .detalle-modelo,
   .detalle-card,
   .detalle-shell,
-  .vehiculo-principal {
+  .vehiculo-principal,
+  #catalogo-principal > section,
+  #catalogo-principal > article,
+  #catalogo-principal > div {
     padding: 18px;
+  }
+
+  .color-btn,
+  .color-option,
+  .color-circle,
+  .swatch,
+  .color-dot,
+  #catalogo-principal .color-item,
+  #catalogo-principal .color {
+    width: 56px;
+    height: 56px;
+    flex-basis: 56px;
   }
 }
 
@@ -1396,17 +1533,22 @@ button {
   .vehiculo-imagen,
   .galeria-principal,
   .imagen-principal,
-  .detalle-foto {
-    min-height: 280px;
+  .detalle-foto,
+  #catalogo-principal > section > img:first-of-type,
+  #catalogo-principal > article > img:first-of-type,
+  #catalogo-principal > div > img:first-of-type {
+    min-height: 260px;
+    max-height: 320px;
   }
 
   .version-nombre,
   .nombre-version,
-  .detallে-version h3,
+  .detalle-version h3,
   .info-version h3,
   .version-title,
-  .variant-title {
-    font-size: 1.6rem;
+  .variant-title,
+  #catalogo-principal h3 {
+    font-size: 1.55rem;
   }
 
   .version-descripcion,
@@ -1414,7 +1556,8 @@ button {
   .detalle-version p,
   .info-version p,
   .version-copy,
-  .variant-copy {
+  .variant-copy,
+  #catalogo-principal .descripcion {
     font-size: 1rem;
   }
 }
