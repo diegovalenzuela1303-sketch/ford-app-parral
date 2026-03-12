@@ -1,304 +1,472 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin | Ford Parral</title>
+  <link rel="stylesheet" href="../css/estilos.css">
+  <style>
+    body {
+      background: #071a36;
+    }
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    .admin-wrap {
+      width: min(1200px, calc(100% - 24px));
+      margin: 32px auto;
+    }
 
-<title>Panel Admin | Ford Parral</title>
+    .admin-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
 
-<link rel="stylesheet" href="../css/estilos.css">
+    .admin-title {
+      margin: 0;
+      color: #fff;
+      font-size: 2rem;
+      font-weight: 800;
+    }
 
-<style>
+    .admin-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
 
-.admin-shell{
-max-width:1200px;
-margin:auto;
-padding:40px 20px;
-}
+    .admin-btn {
+      min-height: 46px;
+      padding: 0 18px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
 
-.admin-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:30px;
-}
+    .admin-btn:hover {
+      background: rgba(255,255,255,0.12);
+    }
 
-.admin-title{
-font-size:32px;
-}
+    .admin-btn-primary {
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      border: none;
+    }
 
-.admin-counter{
-background:#0b3a75;
-padding:10px 18px;
-border-radius:20px;
-font-weight:600;
-}
+    .admin-btn-danger {
+      background: rgba(239, 68, 68, 0.16);
+      border-color: rgba(239, 68, 68, 0.25);
+    }
 
-.admin-filters{
-margin-bottom:20px;
-}
+    .admin-btn-primary:hover {
+      transform: translateY(-1px);
+    }
 
-.admin-select{
-padding:10px;
-border-radius:8px;
-border:none;
-}
+    .admin-panel {
+      background: linear-gradient(180deg, rgba(8, 27, 58, 0.94), rgba(8, 20, 43, 0.98));
+      border: 1px solid rgba(77, 132, 255, 0.18);
+      border-radius: 24px;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.30);
+      overflow: hidden;
+    }
 
-.admin-table{
+    .admin-summary {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
 
-width:100%;
-border-collapse:collapse;
-background:#0b1c35;
-border-radius:10px;
-overflow:hidden;
+    .summary-card {
+      min-width: 180px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
 
-}
+    .summary-card span {
+      display: block;
+      color: #9fb2d0;
+      font-size: 0.88rem;
+      margin-bottom: 6px;
+    }
 
-.admin-table th,
-.admin-table td{
+    .summary-card strong {
+      color: #fff;
+      font-size: 1.25rem;
+    }
 
-padding:12px 14px;
-border-bottom:1px solid rgba(255,255,255,.08);
+    .admin-table-wrap {
+      overflow-x: auto;
+    }
 
-}
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 900px;
+    }
 
-.admin-table th{
-background:#112a4f;
-text-align:left;
-}
+    .admin-table th,
+    .admin-table td {
+      padding: 14px 16px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      color: #d8e3f6;
+      vertical-align: top;
+    }
 
-.admin-table tr:hover{
-background:rgba(255,255,255,.05);
-}
+    .admin-table th {
+      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 800;
+      background: rgba(255,255,255,0.04);
+    }
 
-.btn-admin{
+    .admin-table tr:hover td {
+      background: rgba(255,255,255,0.03);
+    }
 
-padding:6px 10px;
-border-radius:6px;
-border:none;
-cursor:pointer;
-font-size:12px;
+    .empty-state {
+      padding: 24px;
+      color: #d8e3f6;
+    }
 
-}
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 10px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+    }
 
-.btn-wa{
-background:#25D366;
-color:#fff;
-}
+    .admin-link {
+      color: #93c5fd;
+      font-weight: 700;
+    }
 
-.btn-ok{
-background:#22c55e;
-color:#fff;
-}
+    .admin-link:hover {
+      color: #bfdbfe;
+    }
 
-.estado-nuevo{
-color:#5eead4;
-font-weight:600;
-}
+    .comment-cell {
+      max-width: 260px;
+      white-space: pre-wrap;
+      line-height: 1.45;
+    }
 
-.estado-contactado{
-color:#94a3b8;
-}
+    .login-shell {
+      width: min(460px, calc(100% - 24px));
+      margin: 80px auto;
+      background: linear-gradient(180deg, rgba(8, 27, 58, 0.94), rgba(8, 20, 43, 0.98));
+      border: 1px solid rgba(77, 132, 255, 0.18);
+      border-radius: 24px;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.30);
+      padding: 28px;
+    }
 
-</style>
+    .login-shell h1 {
+      margin: 0 0 10px;
+      color: #fff;
+      font-size: 2rem;
+    }
 
+    .login-shell p {
+      margin: 0 0 18px;
+      color: #d8e3f6;
+      line-height: 1.6;
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .login-form input {
+      width: 100%;
+      min-height: 54px;
+      padding: 0 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .login-form input:focus {
+      border-color: rgba(59,130,246,0.45);
+      box-shadow: 0 0 0 4px rgba(59,130,246,0.10);
+    }
+
+    .login-error {
+      min-height: 22px;
+      color: #fecaca;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 640px) {
+      .admin-title {
+        font-size: 1.6rem;
+      }
+
+      .admin-actions {
+        width: 100%;
+      }
+
+      .admin-btn {
+        width: 100%;
+      }
+
+      .login-shell {
+        margin-top: 40px;
+      }
+    }
+  </style>
 </head>
-
 <body>
-
-<div class="admin-shell">
-
-<div class="admin-header">
-
-<h1 class="admin-title">
-Prospectos Ford Parral
-</h1>
-
-<div id="contador" class="admin-counter">
-0 prospectos
-</div>
-
-</div>
-
-<div class="admin-filters">
-
-<select id="filtroVehiculo" class="admin-select">
-<option value="">Todos los vehículos</option>
-</select>
-
-</div>
-
-<table class="admin-table">
-
-<thead>
-
-<tr>
-<th>Nombre</th>
-<th>Teléfono</th>
-<th>Vehículo</th>
-<th>Comentario</th>
-<th>Estado</th>
-<th>Acciones</th>
-<th>Fecha</th>
-</tr>
-
-</thead>
-
-<tbody id="tablaProspectos"></tbody>
-
-</table>
-
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script src="../config.js"></script>
-<script src="../supabase-client.js"></script>
-
-<script>
-
-let prospectos = []
-
-async function cargarProspectos(){
-
-const tabla = document.getElementById("tablaProspectos")
-const contador = document.getElementById("contador")
-
-const { data, error } = await window.db
-.from("prospectos")
-.select("*")
-.order("created_at",{ascending:false})
-
-if(error){
-
-tabla.innerHTML = "<tr><td colspan='7'>Error cargando prospectos</td></tr>"
-return
-
-}
-
-prospectos = data
-
-contador.innerText = data.length + " prospectos"
-
-renderTabla(data)
-
-llenarFiltro(data)
-
-}
-
-function llenarFiltro(data){
-
-const filtro = document.getElementById("filtroVehiculo")
-
-const vehiculos = [...new Set(data.map(p=>p.vehiculo))]
-
-vehiculos.forEach(v=>{
-
-const option = document.createElement("option")
-option.value = v
-option.textContent = v
-filtro.appendChild(option)
-
-})
-
-}
-
-function renderTabla(data){
-
-const tabla = document.getElementById("tablaProspectos")
-
-tabla.innerHTML = data.map(p=>`
-
-<tr>
-
-<td>${p.nombre}</td>
-
-<td>
-<a href="tel:${p.telefono}">
-${p.telefono}
-</a>
-</td>
-
-<td>${p.vehiculo}</td>
-
-<td>${p.comentario || ""}</td>
-
-<td>
-
-<span class="${
-p.contactado ? "estado-contactado" : "estado-nuevo"
-}">
-
-${p.contactado ? "Contactado" : "Nuevo"}
-
-</span>
-
-</td>
-
-<td>
-
-<button class="btn-admin btn-wa"
-onclick="waCliente('${p.telefono}','${p.vehiculo}')">
-WhatsApp
-</button>
-
-<button class="btn-admin btn-ok"
-onclick="marcarContactado('${p.id}')">
-OK
-</button>
-
-</td>
-
-<td>${new Date(p.created_at).toLocaleString()}</td>
-
-</tr>
-
-`).join("")
-
-}
-
-function waCliente(telefono,vehiculo){
-
-const mensaje = encodeURIComponent(
-`Hola, recibí tu solicitud sobre ${vehiculo}. Te atiende Diego Valenzuela.`
-)
-
-window.open(`https://wa.me/52${telefono}?text=${mensaje}`)
-
-}
-
-async function marcarContactado(id){
-
-await window.db
-.from("prospectos")
-.update({contactado:true})
-.eq("id",id)
-
-cargarProspectos()
-
-}
-
-document.getElementById("filtroVehiculo")
-.addEventListener("change",function(){
-
-const valor = this.value
-
-if(!valor){
-renderTabla(prospectos)
-return
-}
-
-const filtrado = prospectos.filter(p=>p.vehiculo === valor)
-
-renderTabla(filtrado)
-
-})
-
-cargarProspectos()
-
-</script>
-
+  <div id="loginView" class="login-shell">
+    <h1>Acceso admin</h1>
+    <p>Ingresa la clave para ver los prospectos de Ford Parral.</p>
+
+    <form id="loginForm" class="login-form">
+      <input
+        type="password"
+        id="adminPassword"
+        placeholder="Clave de acceso"
+        autocomplete="current-password"
+        required
+      >
+      <button type="submit" class="admin-btn admin-btn-primary">Entrar</button>
+      <div id="loginError" class="login-error"></div>
+    </form>
+  </div>
+
+  <div id="adminView" class="hidden">
+    <div class="admin-wrap">
+      <div class="admin-topbar">
+        <h1 class="admin-title">Prospectos Ford Parral</h1>
+
+        <div class="admin-actions">
+          <button id="btnRecargar" class="admin-btn">Recargar</button>
+          <button id="btnDescargarCSV" class="admin-btn admin-btn-primary">Descargar CSV</button>
+          <button id="btnCerrarSesion" class="admin-btn admin-btn-danger">Cerrar sesión</button>
+        </div>
+      </div>
+
+      <div class="admin-panel">
+        <div class="admin-summary">
+          <div class="summary-card">
+            <span>Total de prospectos</span>
+            <strong id="totalProspectos">0</strong>
+          </div>
+
+          <div class="summary-card">
+            <span>Último registro</span>
+            <strong id="ultimoRegistro">—</strong>
+          </div>
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Nombre</th>
+                <th>Teléfono</th>
+                <th>Vehículo</th>
+                <th>Comentario</th>
+                <th>Ciudad</th>
+              </tr>
+            </thead>
+            <tbody id="tablaProspectos"></tbody>
+          </table>
+        </div>
+
+        <div id="emptyState" class="empty-state" style="display:none;">
+          No hay prospectos guardados todavía.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../config.js"></script>
+  <script src="../supabase-client.js"></script>
+
+  <script>
+    const CLAVE_ADMIN = "FordParral2026";
+    const STORAGE_KEY = "ford_parral_admin_ok";
+
+    const loginView = document.getElementById("loginView");
+    const adminView = document.getElementById("adminView");
+    const loginForm = document.getElementById("loginForm");
+    const adminPassword = document.getElementById("adminPassword");
+    const loginError = document.getElementById("loginError");
+
+    const tablaProspectos = document.getElementById("tablaProspectos");
+    const emptyState = document.getElementById("emptyState");
+    const totalProspectos = document.getElementById("totalProspectos");
+    const ultimoRegistro = document.getElementById("ultimoRegistro");
+    const btnDescargarCSV = document.getElementById("btnDescargarCSV");
+    const btnRecargar = document.getElementById("btnRecargar");
+    const btnCerrarSesion = document.getElementById("btnCerrarSesion");
+
+    let prospectosActuales = [];
+
+    function accesoActivo() {
+      return localStorage.getItem(STORAGE_KEY) === "1";
+    }
+
+    function activarAdmin() {
+      loginView.classList.add("hidden");
+      adminView.classList.remove("hidden");
+      cargarProspectos();
+    }
+
+    function cerrarSesion() {
+      localStorage.removeItem(STORAGE_KEY);
+      adminView.classList.add("hidden");
+      loginView.classList.remove("hidden");
+      loginForm.reset();
+      loginError.textContent = "";
+    }
+
+    function escaparCSV(valor) {
+      const texto = String(valor ?? "").replace(/"/g, '""');
+      return `"${texto}"`;
+    }
+
+    function formatearFecha(valor) {
+      if (!valor) return "—";
+      const fecha = new Date(valor);
+      if (Number.isNaN(fecha.getTime())) return "—";
+      return fecha.toLocaleString("es-MX");
+    }
+
+    function descargarCSV() {
+      if (!prospectosActuales.length) return;
+
+      const encabezados = [
+        "Fecha",
+        "Nombre",
+        "Teléfono",
+        "Vehículo",
+        "Comentario",
+        "Ciudad"
+      ];
+
+      const filas = prospectosActuales.map((p) => [
+        formatearFecha(p.created_at),
+        p.nombre || "",
+        p.telefono || "",
+        p.vehiculo || "",
+        p.comentario || "",
+        p.ciudad || ""
+      ]);
+
+      const contenido = [
+        encabezados.map(escaparCSV).join(","),
+        ...filas.map((fila) => fila.map(escaparCSV).join(","))
+      ].join("\n");
+
+      const blob = new Blob(["\ufeff" + contenido], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const enlace = document.createElement("a");
+      const fecha = new Date().toISOString().slice(0, 10);
+
+      enlace.href = url;
+      enlace.download = `prospectos-ford-parral-${fecha}.csv`;
+      document.body.appendChild(enlace);
+      enlace.click();
+      document.body.removeChild(enlace);
+      URL.revokeObjectURL(url);
+    }
+
+    function renderTabla(data) {
+      prospectosActuales = data || [];
+      tablaProspectos.innerHTML = "";
+
+      totalProspectos.textContent = String(prospectosActuales.length);
+      ultimoRegistro.textContent = prospectosActuales.length
+        ? formatearFecha(prospectosActuales[0].created_at)
+        : "—";
+
+      if (!prospectosActuales.length) {
+        emptyState.style.display = "block";
+        return;
+      }
+
+      emptyState.style.display = "none";
+
+      tablaProspectos.innerHTML = prospectosActuales.map((p) => `
+        <tr>
+          <td><span class="pill">${formatearFecha(p.created_at)}</span></td>
+          <td>${p.nombre || "—"}</td>
+          <td>
+            ${p.telefono ? `<a class="admin-link" href="tel:${p.telefono}">${p.telefono}</a>` : "—"}
+          </td>
+          <td>${p.vehiculo || "—"}</td>
+          <td class="comment-cell">${p.comentario || "—"}</td>
+          <td>${p.ciudad || "—"}</td>
+        </tr>
+      `).join("");
+    }
+
+    async function cargarProspectos() {
+      try {
+        const { data, error } = await window.db
+          .from("prospectos")
+          .select("*")
+          .order("created_at", { ascending: false });
+
+        if (error) throw error;
+        renderTabla(data || []);
+      } catch (error) {
+        console.error(error);
+        tablaProspectos.innerHTML = "";
+        emptyState.style.display = "block";
+        emptyState.textContent = "No se pudieron cargar los prospectos. Revisa Supabase.";
+      }
+    }
+
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const valor = adminPassword.value.trim();
+
+      if (valor !== CLAVE_ADMIN) {
+        loginError.textContent = "Clave incorrecta.";
+        return;
+      }
+
+      localStorage.setItem(STORAGE_KEY, "1");
+      loginError.textContent = "";
+      activarAdmin();
+    });
+
+    btnDescargarCSV.addEventListener("click", descargarCSV);
+    btnRecargar.addEventListener("click", cargarProspectos);
+    btnCerrarSesion.addEventListener("click", cerrarSesion);
+
+    if (accesoActivo()) {
+      activarAdmin();
+    }
+  </script>
 </body>
 </html>
