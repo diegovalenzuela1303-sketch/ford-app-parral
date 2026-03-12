@@ -552,3 +552,38 @@ font-weight:600;
 background:#c62828;
 color:white;
 }
+.alerta-prospecto {
+  margin: 16px 0;
+  padding: 14px 18px;
+  border-radius: 12px;
+  background: #18a957;
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.16);
+}
+
+.alerta-prospecto.show {
+  animation: pulseAdmin 0.6s ease-in-out 2;
+}
+
+@keyframes pulseAdmin {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+.acciones-admin {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.btn-mini {
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+.fecha-mini {
+  font-size: 12px;
+  color: #5c6b7a;
+}
