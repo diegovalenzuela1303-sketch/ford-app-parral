@@ -1,115 +1,304 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin | Ford Parral</title>
-  <link rel="stylesheet" href="../css/estilos.css" />
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Panel Admin | Ford Parral</title>
+
+<link rel="stylesheet" href="../css/estilos.css">
+
+<style>
+
+.admin-shell{
+max-width:1200px;
+margin:auto;
+padding:40px 20px;
+}
+
+.admin-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:30px;
+}
+
+.admin-title{
+font-size:32px;
+}
+
+.admin-counter{
+background:#0b3a75;
+padding:10px 18px;
+border-radius:20px;
+font-weight:600;
+}
+
+.admin-filters{
+margin-bottom:20px;
+}
+
+.admin-select{
+padding:10px;
+border-radius:8px;
+border:none;
+}
+
+.admin-table{
+
+width:100%;
+border-collapse:collapse;
+background:#0b1c35;
+border-radius:10px;
+overflow:hidden;
+
+}
+
+.admin-table th,
+.admin-table td{
+
+padding:12px 14px;
+border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+.admin-table th{
+background:#112a4f;
+text-align:left;
+}
+
+.admin-table tr:hover{
+background:rgba(255,255,255,.05);
+}
+
+.btn-admin{
+
+padding:6px 10px;
+border-radius:6px;
+border:none;
+cursor:pointer;
+font-size:12px;
+
+}
+
+.btn-wa{
+background:#25D366;
+color:#fff;
+}
+
+.btn-ok{
+background:#22c55e;
+color:#fff;
+}
+
+.estado-nuevo{
+color:#5eead4;
+font-weight:600;
+}
+
+.estado-contactado{
+color:#94a3b8;
+}
+
+</style>
+
 </head>
+
 <body>
-  <div class="site-bg"></div>
 
-  <main class="admin-page">
-    <div class="container">
-      <section class="admin-hero">
-        <div class="admin-hero-copy">
-          <span class="hero-pill">Panel privado Ford Parral</span>
-          <h1>Administración de prospectos</h1>
-          <p>
-            Revisa, organiza y da seguimiento a tus prospectos desde un panel
-            más limpio, visual y profesional.
-          </p>
+<div class="admin-shell">
 
-          <div class="hero-badges">
-            <span>📊 CRM básico activo</span>
-            <span>🔔 Prospectos en tiempo real</span>
-            <span>📁 Exportación CSV</span>
-          </div>
-        </div>
+<div class="admin-header">
 
-        <div class="admin-hero-side">
-          <div class="admin-mini-card">
-            <strong>Ford Parral</strong>
-            <span>Diego Valenzuela · Panel Admin</span>
-          </div>
-        </div>
-      </section>
+<h1 class="admin-title">
+Prospectos Ford Parral
+</h1>
 
-      <section id="loginBox" class="admin-panel-card">
-        <div class="admin-card-header">
-          <div>
-            <span class="section-tag">Acceso privado</span>
-            <h2>Ingreso administrador</h2>
-            <p>Entra con tu correo y contraseña de Supabase Auth.</p>
-          </div>
-        </div>
+<div id="contador" class="admin-counter">
+0 prospectos
+</div>
 
-        <form id="loginForm" class="admin-login-form">
-          <input type="email" id="adminEmail" placeholder="Correo" required />
-          <input type="password" id="adminPassword" placeholder="Contraseña" required />
-          <button type="submit" class="btn btn-primary">Ingresar</button>
-        </form>
+</div>
 
-        <div id="estadoLogin"></div>
-      </section>
+<div class="admin-filters">
 
-      <section id="panelBox" class="admin-panel-card" style="display:none;">
-        <div class="admin-card-header admin-card-header-split">
-          <div>
-            <span class="section-tag">Gestión</span>
-            <h2>Prospectos registrados</h2>
-            <p>Consulta el estado, exporta y da seguimiento a cada lead.</p>
-          </div>
+<select id="filtroVehiculo" class="admin-select">
+<option value="">Todos los vehículos</option>
+</select>
 
-          <div class="admin-top">
-            <button class="btn btn-secondary" id="logoutBtn">Cerrar sesión</button>
-            <button class="btn btn-primary" id="exportCsvBtn">Exportar CSV</button>
-          </div>
-        </div>
+</div>
 
-        <div id="alertaProspecto" class="alerta-prospecto" style="display:none;">
-          🚨 Nuevo prospecto recibido
-        </div>
+<table class="admin-table">
 
-        <div class="stats-box admin-stats-box">
-          <div class="stat-card">
-            <small>Prospectos totales</small>
-            <strong id="totalProspectos">0</strong>
-          </div>
+<thead>
 
-          <div class="stat-card">
-            <small>Prospectos hoy</small>
-            <strong id="prospectosHoy">0</strong>
-          </div>
+<tr>
+<th>Nombre</th>
+<th>Teléfono</th>
+<th>Vehículo</th>
+<th>Comentario</th>
+<th>Estado</th>
+<th>Acciones</th>
+<th>Fecha</th>
+</tr>
 
-          <div class="stat-card">
-            <small>Vehículo más solicitado</small>
-            <strong id="vehiculoTop">-</strong>
-          </div>
-        </div>
+</thead>
 
-        <div class="table-wrap admin-table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Teléfono</th>
-                <th>Vehículo</th>
-                <th>Comentario</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody id="tablaProspectos"></tbody>
-          </table>
-        </div>
-      </section>
-    </div>
-  </main>
+<tbody id="tablaProspectos"></tbody>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="../config.js"></script>
-  <script src="../supabase-client.js"></script>
-  <script src="../js/admin.js"></script>
+</table>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="../config.js"></script>
+<script src="../supabase-client.js"></script>
+
+<script>
+
+let prospectos = []
+
+async function cargarProspectos(){
+
+const tabla = document.getElementById("tablaProspectos")
+const contador = document.getElementById("contador")
+
+const { data, error } = await window.db
+.from("prospectos")
+.select("*")
+.order("created_at",{ascending:false})
+
+if(error){
+
+tabla.innerHTML = "<tr><td colspan='7'>Error cargando prospectos</td></tr>"
+return
+
+}
+
+prospectos = data
+
+contador.innerText = data.length + " prospectos"
+
+renderTabla(data)
+
+llenarFiltro(data)
+
+}
+
+function llenarFiltro(data){
+
+const filtro = document.getElementById("filtroVehiculo")
+
+const vehiculos = [...new Set(data.map(p=>p.vehiculo))]
+
+vehiculos.forEach(v=>{
+
+const option = document.createElement("option")
+option.value = v
+option.textContent = v
+filtro.appendChild(option)
+
+})
+
+}
+
+function renderTabla(data){
+
+const tabla = document.getElementById("tablaProspectos")
+
+tabla.innerHTML = data.map(p=>`
+
+<tr>
+
+<td>${p.nombre}</td>
+
+<td>
+<a href="tel:${p.telefono}">
+${p.telefono}
+</a>
+</td>
+
+<td>${p.vehiculo}</td>
+
+<td>${p.comentario || ""}</td>
+
+<td>
+
+<span class="${
+p.contactado ? "estado-contactado" : "estado-nuevo"
+}">
+
+${p.contactado ? "Contactado" : "Nuevo"}
+
+</span>
+
+</td>
+
+<td>
+
+<button class="btn-admin btn-wa"
+onclick="waCliente('${p.telefono}','${p.vehiculo}')">
+WhatsApp
+</button>
+
+<button class="btn-admin btn-ok"
+onclick="marcarContactado('${p.id}')">
+OK
+</button>
+
+</td>
+
+<td>${new Date(p.created_at).toLocaleString()}</td>
+
+</tr>
+
+`).join("")
+
+}
+
+function waCliente(telefono,vehiculo){
+
+const mensaje = encodeURIComponent(
+`Hola, recibí tu solicitud sobre ${vehiculo}. Te atiende Diego Valenzuela.`
+)
+
+window.open(`https://wa.me/52${telefono}?text=${mensaje}`)
+
+}
+
+async function marcarContactado(id){
+
+await window.db
+.from("prospectos")
+.update({contactado:true})
+.eq("id",id)
+
+cargarProspectos()
+
+}
+
+document.getElementById("filtroVehiculo")
+.addEventListener("change",function(){
+
+const valor = this.value
+
+if(!valor){
+renderTabla(prospectos)
+return
+}
+
+const filtrado = prospectos.filter(p=>p.vehiculo === valor)
+
+renderTabla(filtrado)
+
+})
+
+cargarProspectos()
+
+</script>
+
 </body>
 </html>
