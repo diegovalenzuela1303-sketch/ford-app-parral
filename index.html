@@ -8,6 +8,7 @@
     name="description"
     content="Asesor profesional Ford en Parral, Chihuahua. Cotiza pickups, SUVs y deportivos Ford con Diego Valenzuela."
   />
+  <meta name="keywords" content="Ford Parral, Ford Chihuahua, Ranger, Raptor, F150, Territory, Bronco, Mustang, Diego Valenzuela" />
   <link rel="stylesheet" href="css/estilos.css" />
 </head>
 <body>
@@ -40,12 +41,64 @@
         <p><strong>Asesor:</strong> <span class="asesor-nombre">Diego Valenzuela</span></p>
         <p><strong>Teléfono:</strong> <span class="asesor-telefono">627 285 0550</span></p>
         <p><strong>Enfoque:</strong> Venta profesional Ford, seguimiento real y atención personalizada.</p>
-        <a class="btn btn-whatsapp wa-link" target="_blank" rel="noopener noreferrer" href="#">WhatsApp</a>
+        <div class="hero-actions">
+          <a class="btn btn-whatsapp wa-link" target="_blank" rel="noopener noreferrer" href="#">WhatsApp</a>
+          <a class="btn btn-primary" href="tel:6272850550">Llamar ahora</a>
+        </div>
       </div>
     </div>
   </header>
 
   <main>
+    <section class="section ventajas-section">
+      <div class="container">
+        <h2 class="section-title">¿Por qué comprar conmigo?</h2>
+        <div class="ventajas-grid">
+          <div class="ventaja-card">
+            <h3>Atención rápida</h3>
+            <p>Respuesta ágil por WhatsApp y seguimiento real desde el primer contacto.</p>
+          </div>
+          <div class="ventaja-card">
+            <h3>Asesoría personalizada</h3>
+            <p>Te ayudo a elegir la unidad según trabajo, familia, aventura o presupuesto.</p>
+          </div>
+          <div class="ventaja-card">
+            <h3>Seguimiento profesional</h3>
+            <p>Cotización, disponibilidad y acompañamiento durante el proceso comercial.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section promociones-section">
+      <div class="container">
+        <h2 class="section-title">Promociones y oportunidades</h2>
+        <p class="section-subtitle">
+          Consulta disponibilidad, planes y opciones comerciales vigentes. Promociones sujetas a cambios sin previo aviso.
+        </p>
+
+        <div class="promos-grid">
+          <article class="promo-card">
+            <span class="promo-badge">Pickup</span>
+            <h3>Ranger y F-150</h3>
+            <p>Pregunta por opciones para trabajo, negocio, flotilla y uso personal.</p>
+          </article>
+
+          <article class="promo-card">
+            <span class="promo-badge">SUV</span>
+            <h3>Territory, Bronco y Explorer</h3>
+            <p>Conoce versiones familiares, aventureras y premium según tu necesidad.</p>
+          </article>
+
+          <article class="promo-card">
+            <span class="promo-badge">Deportivo</span>
+            <h3>Mustang</h3>
+            <p>Consulta disponibilidad, versiones y seguimiento personalizado para cierre.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="catalogo-seccion">
       <div class="container">
         <h2 class="section-title">Catálogo Ford</h2>
@@ -53,6 +106,42 @@
           Modelos enfocados al mercado de Parral y la región, con opciones para trabajo, aventura, familia y clientes de perfil premium.
         </p>
         <div class="catalogo-grid" id="catalogo-lista"></div>
+      </div>
+    </section>
+
+    <section class="section testimonios-section">
+      <div class="container">
+        <h2 class="section-title">Confianza y seguimiento</h2>
+        <div class="testimonios-grid">
+          <article class="testimonio-card">
+            <p>“Atención clara, rápida y profesional. Me ayudó a resolver dudas desde el primer contacto.”</p>
+            <strong>Cliente potencial</strong>
+          </article>
+
+          <article class="testimonio-card">
+            <p>“Muy buena orientación para elegir una unidad adecuada para trabajo y uso diario.”</p>
+            <strong>Prospecto atendido</strong>
+          </article>
+
+          <article class="testimonio-card">
+            <p>“Seguimiento serio y explicación sencilla del vehículo, disponibilidad y proceso.”</p>
+            <strong>Atención comercial</strong>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta-section">
+      <div class="container cta-box">
+        <div>
+          <h2>¿Buscas una Ford para trabajo, familia o aventura?</h2>
+          <p>Recibe atención directa con <strong>Diego Valenzuela</strong> y conoce las mejores opciones según tu perfil.</p>
+        </div>
+
+        <div class="cta-actions">
+          <a class="btn btn-whatsapp wa-link" target="_blank" rel="noopener noreferrer" href="#">Enviar WhatsApp</a>
+          <a class="btn btn-dark" href="tel:6272850550">Llamar ahora</a>
+        </div>
       </div>
     </section>
 
@@ -78,6 +167,7 @@
 
           <div class="contact-actions">
             <a class="btn btn-whatsapp wa-link" target="_blank" rel="noopener noreferrer" href="#">Enviar WhatsApp</a>
+            <a class="btn btn-primary" href="tel:6272850550">Llamar</a>
           </div>
         </div>
 
@@ -168,6 +258,8 @@
       <p>Precios sujetos a cambio sin previo aviso.</p>
     </div>
   </footer>
+
+  <a class="call-float" href="tel:6272850550">Llamar</a>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js"></script>
