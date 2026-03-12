@@ -1,342 +1,273 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin | Ford Parral</title>
-  <link rel="stylesheet" href="../css/estilos.css">
-  <style>
-    body {
-      background: #071a36;
-    }
+  <title>Ford Parral | Diego Valenzuela</title>
+  <link rel="stylesheet" href="css/estilos.css">
 
-    .admin-wrap {
-      width: min(1200px, calc(100% - 24px));
-      margin: 32px auto;
-    }
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];
+    t=b.createElement(e);t.async=!0;
+    t.src=v;
+    s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s);
+    }(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
 
-    .admin-topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-
-    .admin-title {
-      margin: 0;
-      color: #fff;
-      font-size: 2rem;
-      font-weight: 800;
-    }
-
-    .admin-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .admin-btn {
-      min-height: 46px;
-      padding: 0 18px;
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 14px;
-      background: rgba(255,255,255,0.06);
-      color: #fff;
-      font-weight: 800;
-      cursor: pointer;
-      transition: 0.2s ease;
-    }
-
-    .admin-btn:hover {
-      background: rgba(255,255,255,0.12);
-    }
-
-    .admin-btn-primary {
-      background: linear-gradient(135deg, #2563eb, #3b82f6);
-      border: none;
-    }
-
-    .admin-btn-primary:hover {
-      transform: translateY(-1px);
-    }
-
-    .admin-panel {
-      background: linear-gradient(180deg, rgba(8, 27, 58, 0.94), rgba(8, 20, 43, 0.98));
-      border: 1px solid rgba(77, 132, 255, 0.18);
-      border-radius: 24px;
-      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.30);
-      overflow: hidden;
-    }
-
-    .admin-summary {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      padding: 20px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .summary-card {
-      min-width: 180px;
-      padding: 14px 16px;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .summary-card span {
-      display: block;
-      color: #9fb2d0;
-      font-size: 0.88rem;
-      margin-bottom: 6px;
-    }
-
-    .summary-card strong {
-      color: #fff;
-      font-size: 1.25rem;
-    }
-
-    .admin-table-wrap {
-      overflow-x: auto;
-    }
-
-    .admin-table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 900px;
-    }
-
-    .admin-table th,
-    .admin-table td {
-      padding: 14px 16px;
-      text-align: left;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      color: #d8e3f6;
-      vertical-align: top;
-    }
-
-    .admin-table th {
-      color: #fff;
-      font-size: 0.95rem;
-      font-weight: 800;
-      background: rgba(255,255,255,0.04);
-    }
-
-    .admin-table tr:hover td {
-      background: rgba(255,255,255,0.03);
-    }
-
-    .empty-state {
-      padding: 24px;
-      color: #d8e3f6;
-    }
-
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      min-height: 30px;
-      padding: 0 10px;
-      border-radius: 999px;
-      font-size: 0.82rem;
-      font-weight: 800;
-      background: rgba(255,255,255,0.08);
-      color: #fff;
-    }
-
-    .admin-link {
-      color: #93c5fd;
-      font-weight: 700;
-    }
-
-    .admin-link:hover {
-      color: #bfdbfe;
-    }
-
-    .comment-cell {
-      max-width: 260px;
-      white-space: pre-wrap;
-      line-height: 1.45;
-    }
-
-    @media (max-width: 640px) {
-      .admin-title {
-        font-size: 1.6rem;
-      }
-
-      .admin-actions {
-        width: 100%;
-      }
-
-      .admin-btn {
-        width: 100%;
-      }
-    }
-  </style>
+    fbq('init', '1755420805441530');
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+         src="https://www.facebook.com/tr?id=1755420805441530&ev=PageView&noscript=1"/>
+  </noscript>
+  <!-- End Meta Pixel Code -->
 </head>
-<body>
-  <div class="admin-wrap">
-    <div class="admin-topbar">
-      <h1 class="admin-title">Prospectos Ford Parral</h1>
 
-      <div class="admin-actions">
-        <button id="btnRecargar" class="admin-btn">Recargar</button>
-        <button id="btnDescargarCSV" class="admin-btn admin-btn-primary">Descargar CSV</button>
+<body>
+
+  <header class="top-nav-shell">
+    <div class="container">
+      <div class="top-nav">
+
+        <a href="#inicio" class="brand-block">
+          <div class="brand-logo">
+            <img src="public/logo-ford.png" alt="Ford" class="brand-logo-img">
+          </div>
+
+          <div class="brand-copy">
+            <strong>FORD PARRAL</strong>
+            <span>DIEGO VALENZUELA</span>
+          </div>
+        </a>
+
+        <nav class="main-nav">
+          <a href="#catalogo-seccion" class="nav-link active">Catálogo</a>
+          <a href="#contacto" class="nav-link">Cotiza</a>
+          <a href="tel:6272850550" class="nav-link">Contactar</a>
+        </nav>
+
+        <a class="top-wa wa-link" href="#">WhatsApp</a>
       </div>
     </div>
+  </header>
 
-    <div class="admin-panel">
-      <div class="admin-summary">
-        <div class="summary-card">
-          <span>Total de prospectos</span>
-          <strong id="totalProspectos">0</strong>
-        </div>
+  <main id="inicio">
 
-        <div class="summary-card">
-          <span>Último registro</span>
-          <strong id="ultimoRegistro">—</strong>
+    <section class="hero-pro">
+      <div class="container">
+        <div class="hero-pro-shell">
+
+          <div class="hero-left">
+            <h1>Encuentra tu <span>Ford</span> ideal</h1>
+
+            <p class="hero-subtext">
+              Descubre versiones, colores y características
+              de los modelos Ford con atención personalizada.
+            </p>
+
+            <div class="hero-feature-row">
+              <div>Asesoría personalizada</div>
+              <div>Entrega inmediata</div>
+              <div>Garantía Ford</div>
+            </div>
+
+            <div class="hero-cta-row">
+              <a href="#catalogo-seccion" class="btn btn-primary btn-lg">
+                Ver Catálogo
+              </a>
+
+              <a href="#contacto" class="btn btn-secondary btn-lg">
+                Solicitar información
+              </a>
+            </div>
+
+            <div class="hero-legal-row">
+              <button type="button" id="abrirAvisoTop" class="hero-legal-btn">
+                Ver aviso legal
+              </button>
+            </div>
+          </div>
+
+          <div class="hero-center">
+            <div class="hero-vehicles-stage">
+              <img src="public/ranger-xlt.jpg" class="hero-stage-img hero-stage-left" alt="Ford Ranger">
+              <img src="public/f150-xlt.jpg" class="hero-stage-img hero-stage-main" alt="Ford F-150">
+              <img src="public/territory-titanium.jpg" class="hero-stage-img hero-stage-right" alt="Ford Territory">
+            </div>
+
+            <div class="ia-note">
+              Imágenes de referencia generadas con IA
+            </div>
+          </div>
+
+          <aside class="hero-right">
+            <div class="advisor-card-pro">
+              <div class="advisor-photo-wrap">
+                <img src="public/diego.jpg" class="advisor-photo" alt="Diego Valenzuela">
+              </div>
+
+              <div class="advisor-info">
+                <h3>Diego Valenzuela</h3>
+                <p class="advisor-role">Asesor de ventas Ford</p>
+                <p class="advisor-location">Parral, Chihuahua</p>
+
+                <a class="advisor-phone" href="tel:6272850550">
+                  <span class="asesor-telefono">627 285 0550</span>
+                </a>
+              </div>
+            </div>
+          </aside>
+
         </div>
       </div>
+    </section>
 
-      <div class="admin-table-wrap">
-        <table class="admin-table">
-          <thead>
-            <tr>
-              <th>Fecha</th>
-              <th>Nombre</th>
-              <th>Teléfono</th>
-              <th>Vehículo</th>
-              <th>Comentario</th>
-              <th>Ciudad</th>
-            </tr>
-          </thead>
-          <tbody id="tablaProspectos"></tbody>
-        </table>
+    <section class="catalog-summary-section">
+      <div class="container">
+        <div class="section-title-row">
+          <h2>Catálogo Ford</h2>
+          <div class="section-line"></div>
+        </div>
+
+        <div id="modelos-resumen" class="model-summary-grid"></div>
+      </div>
+    </section>
+
+    <section id="catalogo-seccion">
+      <div class="container">
+        <div id="catalogo-principal"></div>
+      </div>
+    </section>
+
+    <section id="contacto" class="contact-pro-section">
+      <div class="container">
+        <div class="contact-pro-shell">
+
+          <div class="contact-copy">
+            <h2>Solicita información</h2>
+
+            <p>
+              Déjame tus datos y te contacto con opciones,
+              promociones y disponibilidad.
+            </p>
+
+            <div class="contact-copy-actions">
+              <button type="button" id="abrirAvisoContacto" class="legal-inline-btn">
+                Aviso legal
+              </button>
+            </div>
+          </div>
+
+          <div class="contact-form-card">
+            <form id="formProspecto" class="contact-form-grid">
+
+              <input type="text" id="nombre" placeholder="Nombre" required>
+
+              <input type="tel" id="telefono" placeholder="Teléfono" required>
+
+              <div class="vehiculo-field-wrap">
+                <label for="vehiculo" class="vehiculo-field-label">Vehículo de interés</label>
+                <select id="vehiculo" required></select>
+                <small class="vehiculo-field-help">
+                  Se autocompleta con la versión seleccionada. Puedes cambiarla si lo deseas.
+                </small>
+              </div>
+
+              <textarea id="comentario" placeholder="Comentario"></textarea>
+
+              <button type="submit" class="btn btn-primary btn-full">
+                Solicitar información
+              </button>
+
+              <div id="mensajeEstado"></div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-final-section">
+      <div class="container">
+        <div class="cta-final-card">
+          <div class="cta-final-copy">
+            <h2>¿Listo para cotizar tu próximo Ford?</h2>
+            <p>
+              Recibe atención directa con Diego Valenzuela y conoce versiones,
+              disponibilidad y opciones de la unidad que más te interese.
+            </p>
+          </div>
+
+          <div class="cta-final-actions">
+            <a href="#catalogo-seccion" class="btn btn-secondary">Explorar catálogo</a>
+            <a href="#" class="btn btn-primary wa-link">Cotizar por WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer-dark">
+    <div class="container footer-content">
+      <div>
+        <strong>Ford Parral</strong>
+        <p>Atención profesional con Diego Valenzuela</p>
       </div>
 
-      <div id="emptyState" class="empty-state" style="display:none;">
-        No hay prospectos guardados todavía.
+      <div>
+        <strong>Contacto</strong>
+        <p>WhatsApp: 627 285 0550</p>
+      </div>
+    </div>
+  </footer>
+
+  <div id="modalAviso" class="modal-aviso" aria-hidden="true">
+    <div class="modal-aviso-dialog" role="dialog" aria-modal="true" aria-labelledby="tituloAvisoLegal">
+      <button type="button" id="cerrarAviso" class="modal-aviso-close" aria-label="Cerrar aviso legal">×</button>
+
+      <div class="modal-aviso-body">
+        <h3 id="tituloAvisoLegal">Aviso legal</h3>
+
+        <p>
+          La información presentada en este sitio es de carácter informativo y comercial.
+          Versiones, equipamiento, colores, disponibilidad, precios, promociones y tiempos
+          de entrega pueden cambiar sin previo aviso.
+        </p>
+
+        <p>
+          Las imágenes mostradas pueden incluir referencias visuales o material generado con IA
+          con fines ilustrativos. La apariencia final del vehículo puede variar según versión,
+          color, equipamiento y disponibilidad.
+        </p>
+
+        <p>
+          Para confirmar datos exactos de la unidad de tu interés, disponibilidad y condiciones
+          comerciales vigentes, contacta directamente a Diego Valenzuela.
+        </p>
+
+        <div class="modal-aviso-actions">
+          <button type="button" id="cerrarAvisoSecundario" class="btn btn-secondary">Cerrar</button>
+          <button type="button" id="aceptarAviso" class="btn btn-primary">Entendido</button>
+        </div>
       </div>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="../config.js"></script>
-  <script src="../supabase-client.js"></script>
+  <script src="config.js"></script>
+  <script src="supabase-client.js"></script>
+  <script src="js/vehiculos.js"></script>
+  <script src="js/main.js"></script>
 
-  <script>
-    const tablaProspectos = document.getElementById("tablaProspectos");
-    const emptyState = document.getElementById("emptyState");
-    const totalProspectos = document.getElementById("totalProspectos");
-    const ultimoRegistro = document.getElementById("ultimoRegistro");
-    const btnDescargarCSV = document.getElementById("btnDescargarCSV");
-    const btnRecargar = document.getElementById("btnRecargar");
-
-    let prospectosActuales = [];
-
-    function escaparCSV(valor) {
-      const texto = String(valor ?? "").replace(/"/g, '""');
-      return `"${texto}"`;
-    }
-
-    function formatearFecha(valor) {
-      if (!valor) return "—";
-      const fecha = new Date(valor);
-      if (Number.isNaN(fecha.getTime())) return "—";
-      return fecha.toLocaleString("es-MX");
-    }
-
-    function descargarCSV() {
-      if (!prospectosActuales.length) return;
-
-      const encabezados = [
-        "Fecha",
-        "Nombre",
-        "Teléfono",
-        "Vehículo",
-        "Comentario",
-        "Ciudad"
-      ];
-
-      const filas = prospectosActuales.map((p) => [
-        formatearFecha(p.created_at),
-        p.nombre || "",
-        p.telefono || "",
-        p.vehiculo || "",
-        p.comentario || "",
-        p.ciudad || ""
-      ]);
-
-      const contenido = [
-        encabezados.map(escaparCSV).join(","),
-        ...filas.map((fila) => fila.map(escaparCSV).join(","))
-      ].join("\n");
-
-      const blob = new Blob(["\ufeff" + contenido], { type: "text/csv;charset=utf-8;" });
-      const url = URL.createObjectURL(blob);
-      const enlace = document.createElement("a");
-      const fecha = new Date().toISOString().slice(0, 10);
-
-      enlace.href = url;
-      enlace.download = `prospectos-ford-parral-${fecha}.csv`;
-      document.body.appendChild(enlace);
-      enlace.click();
-      document.body.removeChild(enlace);
-      URL.revokeObjectURL(url);
-    }
-
-    function renderTabla(data) {
-      prospectosActuales = data || [];
-      tablaProspectos.innerHTML = "";
-
-      totalProspectos.textContent = String(prospectosActuales.length);
-      ultimoRegistro.textContent = prospectosActuales.length
-        ? formatearFecha(prospectosActuales[0].created_at)
-        : "—";
-
-      if (!prospectosActuales.length) {
-        emptyState.style.display = "block";
-        return;
-      }
-
-      emptyState.style.display = "none";
-
-      tablaProspectos.innerHTML = prospectosActuales.map((p) => `
-        <tr>
-          <td><span class="pill">${formatearFecha(p.created_at)}</span></td>
-          <td>${p.nombre || "—"}</td>
-          <td>
-            ${p.telefono ? `<a class="admin-link" href="tel:${p.telefono}">${p.telefono}</a>` : "—"}
-          </td>
-          <td>${p.vehiculo || "—"}</td>
-          <td class="comment-cell">${p.comentario || "—"}</td>
-          <td>${p.ciudad || "—"}</td>
-        </tr>
-      `).join("");
-    }
-
-    async function cargarProspectos() {
-      try {
-        const { data, error } = await window.db
-          .from("prospectos")
-          .select("*")
-          .order("created_at", { ascending: false });
-
-        if (error) throw error;
-        renderTabla(data || []);
-      } catch (error) {
-        console.error(error);
-        tablaProspectos.innerHTML = "";
-        emptyState.style.display = "block";
-        emptyState.textContent = "No se pudieron cargar los prospectos. Revisa Supabase.";
-      }
-    }
-
-    btnDescargarCSV.addEventListener("click", descargarCSV);
-    btnRecargar.addEventListener("click", cargarProspectos);
-
-    cargarProspectos();
-  </script>
 </body>
 </html>
