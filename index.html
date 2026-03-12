@@ -150,11 +150,12 @@
 
               <input type="tel" id="telefono" placeholder="Teléfono" required>
 
-              <select id="vehiculo" class="vehiculo-hidden" aria-hidden="true" tabindex="-1"></select>
-
-              <div class="vehiculo-auto-box">
-                <span class="vehiculo-auto-label">Vehículo seleccionado</span>
-                <strong id="vehiculoSeleccionadoTexto">Se asigna automáticamente desde la versión elegida</strong>
+              <div class="vehiculo-field-wrap">
+                <label for="vehiculo" class="vehiculo-field-label">Vehículo de interés</label>
+                <select id="vehiculo" required></select>
+                <small class="vehiculo-field-help">
+                  Se autocompleta con la versión seleccionada. Puedes cambiarla si lo deseas.
+                </small>
               </div>
 
               <textarea id="comentario" placeholder="Comentario"></textarea>
