@@ -445,6 +445,16 @@ document.addEventListener("DOMContentLoaded", () => {
           mensajeEstado.className = "mensaje success";
         }
 
+        const mensajeWhatsAppFormulario = `Hola Diego, soy ${nombre}.
+Estoy interesado en ${vehiculo}.
+Mi teléfono es ${telefono}.
+${comentario ? `Comentario: ${comentario}` : "Quiero información y disponibilidad."}`;
+
+        window.open(
+          `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(mensajeWhatsAppFormulario)}`,
+          "_blank"
+        );
+
         form.reset();
         renderTodo();
       } catch (error) {
