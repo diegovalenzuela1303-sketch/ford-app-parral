@@ -366,9 +366,9 @@ window.CATALOGO_FORD = [
         nombre: "Edge ST",
         descripcion: "SUV deportiva.",
         colores: [
-          { nombre: "Negro Agata", codigo: "#0c0c0c", imagen: "public/edge-st.jpg" },
-          { nombre: "Azul Velocity", codigo: "#003a8f", imagen: "public/edge-st.jpg" },
-          { nombre: "Rojo Rapid", codigo: "#a11217", imagen: "public/edge-st.jpg" }
+          { nombre: "Negro Agata", codigo: "#0c0c0c", imagen: "public/edge.st.jpg" },
+          { nombre: "Azul Velocity", codigo: "#003a8f", imagen: "public/edge.st.jpg" },
+          { nombre: "Rojo Rapid", codigo: "#a11217", imagen: "public/edge.st.jpg" }
         ],
         ficha: {
           motor: "2.7 V6 EcoBoost",
@@ -404,10 +404,10 @@ window.CATALOGO_FORD = [
         nombre: "Bronco Badlands",
         descripcion: "Capacidad off-road avanzada.",
         colores: [
-          { nombre: "Eruption Green", codigo: "#365314", imagen: "public/bronco-badlands.jpg" },
-          { nombre: "Area 51", codigo: "#475569", imagen: "public/bronco-badlands.jpg" },
-          { nombre: "Cyber Orange", codigo: "#EA580C", imagen: "public/bronco-badlands.jpg" },
-          { nombre: "Agate Black", codigo: "#111827", imagen: "public/bronco-badlands.jpg" }
+          { nombre: "Eruption Green", codigo: "#365314", imagen: "public/bronco-badlans.jpg" },
+          { nombre: "Area 51", codigo: "#475569", imagen: "public/bronco-badlans.jpg" },
+          { nombre: "Cyber Orange", codigo: "#EA580C", imagen: "public/bronco-badlans.jpg" },
+          { nombre: "Agate Black", codigo: "#111827", imagen: "public/bronco-badlans.jpg" }
         ],
         ficha: {
           motor: "Turbo",
@@ -559,3 +559,43 @@ window.CATALOGO_FORD = [
     ]
   }
 ];
+
+// ===============================
+// ADAPTADOR PARA main.js
+// ===============================
+window.vehiculos = window.CATALOGO_FORD.map((modelo) => {
+  const versiones = (modelo.versiones || []).map((version) => {
+    const imagenPrincipal =
+      version.imagen ||
+      (Array.isArray(version.colores) && version.colores[0]?.imagen) ||
+      "public/placeholder.jpg";
+
+    const fichaObj = version.ficha || {};
+    const fichaArray = [
+      `Motor: ${fichaObj.motor || "Por confirmar"}`,
+      `Transmisión: ${fichaObj.transmision || "Por confirmar"}`,
+      `Tracción: ${fichaObj.traccion || "Por confirmar"}`,
+      `Enfoque: ${fichaObj.enfoque || "Por confirmar"}`
+    ];
+
+    return {
+      nombre: version.nombre,
+      descripcion: version.descripcion,
+      imagen: imagenPrincipal,
+      ficha: fichaArray,
+      colores: version.colores || []
+    };
+  });
+
+  const imagenModelo =
+    (versiones[0] && versiones[0].imagen) ||
+    "public/placeholder.jpg";
+
+  return {
+    id: modelo.id,
+    nombre: modelo.nombre,
+    categoria: modelo.categoria,
+    imagen: imagenModelo,
+    versiones
+  };
+});
