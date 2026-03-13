@@ -1,8 +1,3 @@
-// ============================================================
-// FORD PARRAL | DIEGO VALENZUELA
-// main.js CORREGIDO PARA LAYOUT ACTUAL
-// ============================================================
-
 document.addEventListener("DOMContentLoaded", () => {
   inicializarWhatsAppLinks();
   inicializarModalAviso();
@@ -10,10 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
   inicializarFormulario();
   inicializarNavegacionActiva();
 });
-
-// ============================================================
-// CONFIGURACION GLOBAL
-// ============================================================
 
 const TELEFONO_WHATSAPP = "526272850550";
 const MENSAJE_WHATSAPP_GENERAL = "Hola Diego, quiero información sobre un Ford";
@@ -39,22 +30,15 @@ function construirLinkWhatsApp(mensaje) {
 
 function inicializarWhatsAppLinks() {
   document.querySelectorAll(".wa-link").forEach((link) => {
-    if (!link.getAttribute("href") || link.getAttribute("href").includes("wa.me")) {
-      const texto = link.dataset.message || MENSAJE_WHATSAPP_GENERAL;
-      link.href = construirLinkWhatsApp(texto);
-    }
+    const texto = link.dataset.message || MENSAJE_WHATSAPP_GENERAL;
+    link.href = construirLinkWhatsApp(texto);
     link.target = "_blank";
     link.rel = "noopener noreferrer";
   });
 }
 
-// ============================================================
-// CATALOGO
-// ============================================================
-
 function cargarCatalogo() {
   const catalogo = obtenerCatalogo();
-
   const contenedorCatalogo = document.getElementById("catalogo-principal");
   const contenedorResumen = document.getElementById("modelos-resumen");
   const selectorVehiculo = document.getElementById("vehiculo");
@@ -66,11 +50,7 @@ function cargarCatalogo() {
   selectorVehiculo.innerHTML = `<option value="">Selecciona una versión</option>`;
 
   if (!catalogo.length) {
-    contenedorCatalogo.innerHTML = `
-      <div class="mensaje error">
-        No se encontraron vehículos para mostrar en el catálogo.
-      </div>
-    `;
+    contenedorCatalogo.innerHTML = `<div class="mensaje error">No se encontraron vehículos para mostrar.</div>`;
     return;
   }
 
@@ -83,23 +63,16 @@ function cargarCatalogo() {
       modelo.versiones?.[0]?.colores?.[0]?.imagen ||
       "public/logo-ford.png";
 
-    // ========================================================
-    // TARJETA RESUMEN
-    // ========================================================
     const resumen = document.createElement("div");
     resumen.className = "model-summary-card";
-    resumen.dataset.target = `modelo-${modelo.id}`;
-
     resumen.innerHTML = `
       <img src="${escaparHTML(imagenResumen)}" alt="${escaparHTML(modelo.nombre)}">
       <h3>${escaparHTML(modelo.nombre)}</h3>
-      <span>${escaparHTML(modelo.categoria || "Modelo Ford")}</span>
+      <span>${(modelo.versiones || []).length} versiones</span>
     `;
 
     resumen.addEventListener("click", () => {
-      document.querySelectorAll(".model-summary-card").forEach(card => {
-        card.classList.remove("active");
-      });
+      document.querySelectorAll(".model-summary-card").forEach(card => card.classList.remove("active"));
       resumen.classList.add("active");
 
       const destino = document.getElementById(`modelo-${modelo.id}`);
@@ -108,15 +81,9 @@ function cargarCatalogo() {
       }
     });
 
-    if (indexModelo === 0) {
-      resumen.classList.add("active");
-    }
-
+    if (indexModelo === 0) resumen.classList.add("active");
     contenedorResumen.appendChild(resumen);
 
-    // ========================================================
-    // SECCION CONFIGURADOR POR MODELO
-    // ========================================================
     const seccion = document.createElement("section");
     seccion.className = "configurator-shell";
     seccion.id = `modelo-${modelo.id}`;
@@ -151,13 +118,8 @@ function cargarCatalogo() {
       <div class="config-right">
         <div class="config-actions-top">
           <span class="mini-pill">${escaparHTML(modelo.categoria || "Ford")}</span>
-          <button
-            type="button"
-            class="mini-pill btn-scroll-contacto"
-            data-modelo="${escaparHTML(modelo.nombre)}"
-          >
-            Solicitar información
-          </button>
+          <button type="button" class="mini-pill btn-scroll-contacto">Solicitar información</button>
+          <button type="button" class="mini-pill btn-aviso-inline">Aviso legal</button>
         </div>
 
         <div class="version-tabs" id="versionTabs-${escaparHTML(modelo.id)}"></div>
@@ -176,11 +138,7 @@ function cargarCatalogo() {
         <div class="ficha-grid" id="fichaGrid-${escaparHTML(modelo.id)}"></div>
 
         <div class="config-bottom-actions">
-          <button
-            type="button"
-            class="btn btn-primary btn-cotizar-version"
-            id="btnCotizar-${escaparHTML(modelo.id)}"
-          >
+          <button type="button" class="btn btn-primary btn-cotizar-version" id="btnCotizar-${escaparHTML(modelo.id)}">
             Cotizar versión
           </button>
 
@@ -199,21 +157,31 @@ function cargarCatalogo() {
 
     contenedorCatalogo.appendChild(seccion);
 
-    // Agregar opciones al select
     (modelo.versiones || []).forEach((version) => {
-      if (!opcionesAgregadas.has(version.nombre)) {
+      const valorOpcion = `${modelo.nombre} - ${version.nombre}`;
+      if (!opcionesAgregadas.has(valorOpcion)) {
         const option = document.createElement("option");
-        option.value = version.nombre;
-        option.textContent = `${modelo.nombre} - ${version.nombre}`;
+        option.value = valorOpcion;
+        option.textContent = valorOpcion;
         selectorVehiculo.appendChild(option);
-        opcionesAgregadas.add(version.nombre);
+        opcionesAgregadas.add(valorOpcion);
       }
     });
 
     inicializarConfiguradorModelo(modelo);
   });
 
-  inicializarBotonesContactoCatalogo();
+  document.querySelectorAll(".btn-scroll-contacto").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.getElementById("contacto")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+
+  document.querySelectorAll(".btn-aviso-inline").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      abrirAvisoLegal();
+    });
+  });
 }
 
 function inicializarConfiguradorModelo(modelo) {
@@ -232,12 +200,11 @@ function inicializarConfiguradorModelo(modelo) {
     return;
   }
 
+  const versiones = Array.isArray(modelo.versiones) ? modelo.versiones : [];
+  if (!versiones.length) return;
+
   let indiceVersionActual = 0;
   let indiceColorActual = 0;
-
-  const versiones = Array.isArray(modelo.versiones) ? modelo.versiones : [];
-
-  if (!versiones.length) return;
 
   function renderizarVersion(indiceVersion, indiceColor = 0) {
     indiceVersionActual = indiceVersion;
@@ -246,7 +213,6 @@ function inicializarConfiguradorModelo(modelo) {
     const version = versiones[indiceVersionActual];
     if (!version) return;
 
-    // Tabs activas
     tabsContainer.querySelectorAll(".version-tab").forEach((tab, i) => {
       tab.classList.toggle("active", i === indiceVersionActual);
     });
@@ -254,32 +220,28 @@ function inicializarConfiguradorModelo(modelo) {
     nombreEl.textContent = version.nombre || modelo.nombre;
     descripcionEl.textContent = version.descripcion || "Consulta disponibilidad y equipamiento con tu asesor.";
 
-    // Colores
     colorSwatchesEl.innerHTML = "";
     const colores = Array.isArray(version.colores) ? version.colores : [];
 
     if (colores.length) {
-      const colorSeguro = colores[indiceColorActual] || colores[0];
-      colorNombreEl.textContent = colorSeguro.nombre || "Color disponible";
-      imagenEl.src = colorSeguro.imagen || version.imagen || modelo.imagen || "public/logo-ford.png";
-      imagenEl.alt = `${modelo.nombre} ${version.nombre} ${colorSeguro.nombre || ""}`.trim();
+      const colorActivo = colores[indiceColorActual] || colores[0];
+      colorNombreEl.textContent = colorActivo.nombre || "Color disponible";
+      imagenEl.src = colorActivo.imagen || version.imagen || modelo.imagen || "public/logo-ford.png";
+      imagenEl.alt = `${modelo.nombre} ${version.nombre} ${colorActivo.nombre || ""}`.trim();
 
       colores.forEach((color, indexColor) => {
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = "color-swatch";
-        btn.title = color.nombre || `Color ${indexColor + 1}`;
         btn.style.background = color.codigo || "#cccccc";
+        btn.title = color.nombre || `Color ${indexColor + 1}`;
         btn.setAttribute("aria-label", color.nombre || `Color ${indexColor + 1}`);
 
         if (indexColor === indiceColorActual) {
           btn.classList.add("active");
         }
 
-        btn.addEventListener("click", () => {
-          renderizarVersion(indiceVersionActual, indexColor);
-        });
-
+        btn.addEventListener("click", () => renderizarVersion(indiceVersionActual, indexColor));
         colorSwatchesEl.appendChild(btn);
       });
     } else {
@@ -288,7 +250,6 @@ function inicializarConfiguradorModelo(modelo) {
       imagenEl.alt = `${modelo.nombre} ${version.nombre}`.trim();
     }
 
-    // Ficha técnica
     fichaGridEl.innerHTML = "";
     const ficha = version.ficha || {};
 
@@ -315,17 +276,11 @@ function inicializarConfiguradorModelo(modelo) {
     }
 
     const textoVersion = `${modelo.nombre} - ${version.nombre}`;
-    btnCotizar.dataset.vehiculo = textoVersion;
     btnWhatsApp.href = construirLinkWhatsApp(`Hola Diego, quiero cotizar la versión ${textoVersion}`);
 
     btnCotizar.onclick = () => {
       if (selectorVehiculo) {
-        const valorExacto = Array.from(selectorVehiculo.options).find(opt => opt.textContent === textoVersion);
-        if (valorExacto) {
-          selectorVehiculo.value = valorExacto.value;
-        } else {
-          selectorVehiculo.value = version.nombre;
-        }
+        selectorVehiculo.value = textoVersion;
       }
 
       document.getElementById("contacto")?.scrollIntoView({
@@ -335,18 +290,13 @@ function inicializarConfiguradorModelo(modelo) {
     };
   }
 
-  // Crear tabs
   tabsContainer.innerHTML = "";
   versiones.forEach((version, index) => {
     const tab = document.createElement("button");
     tab.type = "button";
     tab.className = "version-tab";
     tab.textContent = version.nombre || `Versión ${index + 1}`;
-
-    tab.addEventListener("click", () => {
-      renderizarVersion(index, 0);
-    });
-
+    tab.addEventListener("click", () => renderizarVersion(index, 0));
     tabsContainer.appendChild(tab);
   });
 
@@ -370,21 +320,6 @@ function formatearEtiquetaFicha(clave) {
 
   return mapa[clave] || clave.charAt(0).toUpperCase() + clave.slice(1);
 }
-
-function inicializarBotonesContactoCatalogo() {
-  document.querySelectorAll(".btn-scroll-contacto").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      document.getElementById("contacto")?.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    });
-  });
-}
-
-// ============================================================
-// FORMULARIO
-// ============================================================
 
 function inicializarFormulario() {
   const form = document.getElementById("formProspecto");
@@ -415,14 +350,7 @@ function inicializarFormulario() {
 
       const { error } = await window.supabase
         .from("prospectos")
-        .insert([
-          {
-            nombre,
-            telefono,
-            vehiculo,
-            comentario
-          }
-        ]);
+        .insert([{ nombre, telefono, vehiculo, comentario }]);
 
       if (error) throw error;
 
@@ -433,50 +361,50 @@ function inicializarFormulario() {
         window.fbq("track", "Lead");
       }
     } catch (err) {
-      console.error("Error al guardar prospecto:", err);
+      console.error(err);
       estado.innerHTML = `<div class="mensaje error">No se pudo enviar. Intenta nuevamente.</div>`;
     }
   });
 }
 
-// ============================================================
-// MODAL AVISO LEGAL
-// ============================================================
+let modalAvisoRef = null;
+
+function abrirAvisoLegal() {
+  if (!modalAvisoRef) modalAvisoRef = document.getElementById("modalAviso");
+  if (!modalAvisoRef) return;
+
+  modalAvisoRef.classList.add("open");
+  modalAvisoRef.setAttribute("aria-hidden", "false");
+}
+
+function cerrarAvisoLegal() {
+  if (!modalAvisoRef) modalAvisoRef = document.getElementById("modalAviso");
+  if (!modalAvisoRef) return;
+
+  modalAvisoRef.classList.remove("open");
+  modalAvisoRef.setAttribute("aria-hidden", "true");
+}
 
 function inicializarModalAviso() {
-  const modal = document.getElementById("modalAviso");
-  if (!modal) return;
+  modalAvisoRef = document.getElementById("modalAviso");
+  if (!modalAvisoRef) return;
 
-  const abrirAviso = () => {
-    modal.classList.add("open");
-    modal.setAttribute("aria-hidden", "false");
-  };
+  document.getElementById("abrirAvisoTop")?.addEventListener("click", abrirAvisoLegal);
+  document.getElementById("abrirAvisoContacto")?.addEventListener("click", abrirAvisoLegal);
+  document.getElementById("cerrarAviso")?.addEventListener("click", cerrarAvisoLegal);
+  document.getElementById("cerrarAvisoSecundario")?.addEventListener("click", cerrarAvisoLegal);
+  document.getElementById("aceptarAviso")?.addEventListener("click", cerrarAvisoLegal);
 
-  const cerrarAviso = () => {
-    modal.classList.remove("open");
-    modal.setAttribute("aria-hidden", "true");
-  };
-
-  document.getElementById("abrirAvisoTop")?.addEventListener("click", abrirAviso);
-  document.getElementById("abrirAvisoContacto")?.addEventListener("click", abrirAviso);
-  document.getElementById("cerrarAviso")?.addEventListener("click", cerrarAviso);
-  document.getElementById("cerrarAvisoSecundario")?.addEventListener("click", cerrarAviso);
-  document.getElementById("aceptarAviso")?.addEventListener("click", cerrarAviso);
-
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) cerrarAviso();
+  modalAvisoRef.addEventListener("click", (e) => {
+    if (e.target === modalAvisoRef) cerrarAvisoLegal();
   });
 
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && modal.classList.contains("open")) {
-      cerrarAviso();
+    if (e.key === "Escape" && modalAvisoRef.classList.contains("open")) {
+      cerrarAvisoLegal();
     }
   });
 }
-
-// ============================================================
-// NAVEGACION ACTIVA
-// ============================================================
 
 function inicializarNavegacionActiva() {
   const links = document.querySelectorAll(".main-nav .nav-link");
@@ -494,8 +422,7 @@ function inicializarNavegacionActiva() {
 
       const id = entry.target.id;
       links.forEach((link) => {
-        const href = link.getAttribute("href");
-        link.classList.toggle("active", href === `#${id}`);
+        link.classList.toggle("active", link.getAttribute("href") === `#${id}`);
       });
     });
   }, {
