@@ -1,434 +1,485 @@
 document.addEventListener("DOMContentLoaded", () => {
-  inicializarWhatsAppLinks();
-  inicializarModalAviso();
-  cargarCatalogo();
-  inicializarFormulario();
-  inicializarNavegacionActiva();
-});
-
-const TELEFONO_WHATSAPP = "526272850550";
-const MENSAJE_WHATSAPP_GENERAL = "Hola Diego, quiero información sobre un Ford";
-
-function obtenerCatalogo() {
-  if (Array.isArray(window.CATALOGO_FORD)) return window.CATALOGO_FORD;
-  if (Array.isArray(window.vehiculos)) return window.vehiculos;
-  return [];
-}
-
-function escaparHTML(valor) {
-  return String(valor ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
-function construirLinkWhatsApp(mensaje) {
-  return `https://wa.me/${TELEFONO_WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
-}
-
-function inicializarWhatsAppLinks() {
-  document.querySelectorAll(".wa-link").forEach((link) => {
-    const texto = link.dataset.message || MENSAJE_WHATSAPP_GENERAL;
-    link.href = construirLinkWhatsApp(texto);
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-  });
-}
-
-function cargarCatalogo() {
-  const catalogo = obtenerCatalogo();
-  const contenedorCatalogo = document.getElementById("catalogo-principal");
-  const contenedorResumen = document.getElementById("modelos-resumen");
-  const selectorVehiculo = document.getElementById("vehiculo");
-
-  if (!contenedorCatalogo || !contenedorResumen || !selectorVehiculo) return;
-
-  contenedorCatalogo.innerHTML = "";
-  contenedorResumen.innerHTML = "";
-  selectorVehiculo.innerHTML = `<option value="">Selecciona una versión</option>`;
-
-  if (!catalogo.length) {
-    contenedorCatalogo.innerHTML = `<div class="mensaje error">No se encontraron vehículos para mostrar.</div>`;
-    return;
-  }
-
-  const opcionesAgregadas = new Set();
-
-  catalogo.forEach((modelo, indexModelo) => {
-    const imagenResumen =
-      modelo.imagen ||
-      modelo.versiones?.[0]?.imagen ||
-      modelo.versiones?.[0]?.colores?.[0]?.imagen ||
-      "public/logo-ford.png";
-
-    const resumen = document.createElement("div");
-    resumen.className = "model-summary-card";
-    resumen.innerHTML = `
-      <img src="${escaparHTML(imagenResumen)}" alt="${escaparHTML(modelo.nombre)}">
-      <h3>${escaparHTML(modelo.nombre)}</h3>
-      <span>${(modelo.versiones || []).length} versiones</span>
-    `;
-
-    resumen.addEventListener("click", () => {
-      document.querySelectorAll(".model-summary-card").forEach(card => card.classList.remove("active"));
-      resumen.classList.add("active");
-
-      const destino = document.getElementById(`modelo-${modelo.id}`);
-      if (destino) {
-        destino.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    });
-
-    if (indexModelo === 0) resumen.classList.add("active");
-    contenedorResumen.appendChild(resumen);
-
-    const seccion = document.createElement("section");
-    seccion.className = "configurator-shell";
-    seccion.id = `modelo-${modelo.id}`;
-
-    const primerVersion = modelo.versiones?.[0] || {};
-    const primerColor = primerVersion.colores?.[0] || {};
-    const imagenInicial =
-      primerColor.imagen ||
-      primerVersion.imagen ||
-      imagenResumen;
-
-    seccion.innerHTML = `
-      <div class="config-left">
-        <div class="config-title-row">
-          <h3>${escaparHTML(modelo.nombre)}</h3>
-          <div class="config-small-line"></div>
-        </div>
-
-        <div class="config-visual">
-          <img
-            id="imagenConfigurador-${escaparHTML(modelo.id)}"
-            src="${escaparHTML(imagenInicial)}"
-            alt="${escaparHTML(modelo.nombre)}"
-          >
-        </div>
-
-        <div class="ia-note-config">
-          Imágenes de referencia generadas con IA o material ilustrativo.
-        </div>
-      </div>
-
-      <div class="config-right">
-        <div class="config-actions-top">
-          <span class="mini-pill">${escaparHTML(modelo.categoria || "Ford")}</span>
-          <button type="button" class="mini-pill btn-scroll-contacto">Solicitar información</button>
-          <button type="button" class="mini-pill btn-aviso-inline">Aviso legal</button>
-        </div>
-
-        <div class="version-tabs" id="versionTabs-${escaparHTML(modelo.id)}"></div>
-
-        <div class="version-header">
-          <h4 id="versionNombre-${escaparHTML(modelo.id)}"></h4>
-          <p id="versionDescripcion-${escaparHTML(modelo.id)}"></p>
-        </div>
-
-        <div class="color-row">
-          <div class="color-label">Colores disponibles</div>
-          <div class="color-swatches" id="colorSwatches-${escaparHTML(modelo.id)}"></div>
-          <div class="color-name" id="colorNombre-${escaparHTML(modelo.id)}"></div>
-        </div>
-
-        <div class="ficha-grid" id="fichaGrid-${escaparHTML(modelo.id)}"></div>
-
-        <div class="config-bottom-actions">
-          <button type="button" class="btn btn-primary btn-cotizar-version" id="btnCotizar-${escaparHTML(modelo.id)}">
-            Cotizar versión
-          </button>
-
-          <a
-            class="btn-whatsapp"
-            id="btnWhatsApp-${escaparHTML(modelo.id)}"
-            href="${construirLinkWhatsApp(`Hola Diego, quiero información sobre ${modelo.nombre}`)}"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            WhatsApp
-          </a>
-        </div>
-      </div>
-    `;
-
-    contenedorCatalogo.appendChild(seccion);
-
-    (modelo.versiones || []).forEach((version) => {
-      const valorOpcion = `${modelo.nombre} - ${version.nombre}`;
-      if (!opcionesAgregadas.has(valorOpcion)) {
-        const option = document.createElement("option");
-        option.value = valorOpcion;
-        option.textContent = valorOpcion;
-        selectorVehiculo.appendChild(option);
-        opcionesAgregadas.add(valorOpcion);
-      }
-    });
-
-    inicializarConfiguradorModelo(modelo);
-  });
-
-  document.querySelectorAll(".btn-scroll-contacto").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      document.getElementById("contacto")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  });
-
-  document.querySelectorAll(".btn-aviso-inline").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      abrirAvisoLegal();
-    });
-  });
-}
-
-function inicializarConfiguradorModelo(modelo) {
-  const tabsContainer = document.getElementById(`versionTabs-${modelo.id}`);
-  const nombreEl = document.getElementById(`versionNombre-${modelo.id}`);
-  const descripcionEl = document.getElementById(`versionDescripcion-${modelo.id}`);
-  const colorSwatchesEl = document.getElementById(`colorSwatches-${modelo.id}`);
-  const colorNombreEl = document.getElementById(`colorNombre-${modelo.id}`);
-  const fichaGridEl = document.getElementById(`fichaGrid-${modelo.id}`);
-  const imagenEl = document.getElementById(`imagenConfigurador-${modelo.id}`);
-  const btnCotizar = document.getElementById(`btnCotizar-${modelo.id}`);
-  const btnWhatsApp = document.getElementById(`btnWhatsApp-${modelo.id}`);
-  const selectorVehiculo = document.getElementById("vehiculo");
-
-  if (!tabsContainer || !nombreEl || !descripcionEl || !colorSwatchesEl || !colorNombreEl || !fichaGridEl || !imagenEl || !btnCotizar || !btnWhatsApp) {
-    return;
-  }
-
-  const versiones = Array.isArray(modelo.versiones) ? modelo.versiones : [];
-  if (!versiones.length) return;
-
-  let indiceVersionActual = 0;
-  let indiceColorActual = 0;
-
-  function renderizarVersion(indiceVersion, indiceColor = 0) {
-    indiceVersionActual = indiceVersion;
-    indiceColorActual = indiceColor;
-
-    const version = versiones[indiceVersionActual];
-    if (!version) return;
-
-    tabsContainer.querySelectorAll(".version-tab").forEach((tab, i) => {
-      tab.classList.toggle("active", i === indiceVersionActual);
-    });
-
-    nombreEl.textContent = version.nombre || modelo.nombre;
-    descripcionEl.textContent = version.descripcion || "Consulta disponibilidad y equipamiento con tu asesor.";
-
-    colorSwatchesEl.innerHTML = "";
-    const colores = Array.isArray(version.colores) ? version.colores : [];
-
-    if (colores.length) {
-      const colorActivo = colores[indiceColorActual] || colores[0];
-      colorNombreEl.textContent = colorActivo.nombre || "Color disponible";
-      imagenEl.src = colorActivo.imagen || version.imagen || modelo.imagen || "public/logo-ford.png";
-      imagenEl.alt = `${modelo.nombre} ${version.nombre} ${colorActivo.nombre || ""}`.trim();
-
-      colores.forEach((color, indexColor) => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "color-swatch";
-        btn.style.background = color.codigo || "#cccccc";
-        btn.title = color.nombre || `Color ${indexColor + 1}`;
-        btn.setAttribute("aria-label", color.nombre || `Color ${indexColor + 1}`);
-
-        if (indexColor === indiceColorActual) {
-          btn.classList.add("active");
-        }
-
-        btn.addEventListener("click", () => renderizarVersion(indiceVersionActual, indexColor));
-        colorSwatchesEl.appendChild(btn);
-      });
-    } else {
-      colorNombreEl.textContent = "Consulta colores disponibles";
-      imagenEl.src = version.imagen || modelo.imagen || "public/logo-ford.png";
-      imagenEl.alt = `${modelo.nombre} ${version.nombre}`.trim();
-    }
-
-    fichaGridEl.innerHTML = "";
-    const ficha = version.ficha || {};
-
-    if (Array.isArray(ficha)) {
-      ficha.forEach((item, index) => {
-        const card = document.createElement("div");
-        card.className = "ficha-item";
-        card.innerHTML = `
-          <div class="ficha-label">Especificación ${index + 1}</div>
-          <div class="ficha-value">${escaparHTML(item)}</div>
-        `;
-        fichaGridEl.appendChild(card);
-      });
-    } else {
-      Object.entries(ficha).forEach(([clave, valor]) => {
-        const card = document.createElement("div");
-        card.className = "ficha-item";
-        card.innerHTML = `
-          <div class="ficha-label">${escaparHTML(formatearEtiquetaFicha(clave))}</div>
-          <div class="ficha-value">${escaparHTML(valor)}</div>
-        `;
-        fichaGridEl.appendChild(card);
-      });
-    }
-
-    const textoVersion = `${modelo.nombre} - ${version.nombre}`;
-    btnWhatsApp.href = construirLinkWhatsApp(`Hola Diego, quiero cotizar la versión ${textoVersion}`);
-
-    btnCotizar.onclick = () => {
-      if (selectorVehiculo) {
-        selectorVehiculo.value = textoVersion;
-      }
-
-      document.getElementById("contacto")?.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    };
-  }
-
-  tabsContainer.innerHTML = "";
-  versiones.forEach((version, index) => {
-    const tab = document.createElement("button");
-    tab.type = "button";
-    tab.className = "version-tab";
-    tab.textContent = version.nombre || `Versión ${index + 1}`;
-    tab.addEventListener("click", () => renderizarVersion(index, 0));
-    tabsContainer.appendChild(tab);
-  });
-
-  renderizarVersion(0, 0);
-}
-
-function formatearEtiquetaFicha(clave) {
-  const mapa = {
-    motor: "Motor",
-    transmision: "Transmisión",
-    traccion: "Tracción",
-    enfoque: "Enfoque",
-    potencia: "Potencia",
-    torque: "Torque",
-    capacidad: "Capacidad",
-    combustible: "Combustible",
-    seguridad: "Seguridad",
-    interior: "Interior",
-    tecnologia: "Tecnología"
-  };
-
-  return mapa[clave] || clave.charAt(0).toUpperCase() + clave.slice(1);
-}
-
-function inicializarFormulario() {
+  const modelosResumen = document.getElementById("modelos-resumen");
+  const catalogoPrincipal = document.getElementById("catalogo-principal");
+  const buscadorModelos = document.getElementById("buscadorModelos");
   const form = document.getElementById("formProspecto");
-  if (!form) return;
+  const mensajeEstado = document.getElementById("mensajeEstado");
+  const vehiculoSelect = document.getElementById("vehiculo");
+  const telefonoAsesorEls = document.querySelectorAll(".asesor-telefono");
+  const whatsappLinks = document.querySelectorAll(".wa-link");
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+  const modalAviso = document.getElementById("modalAviso");
+  const abrirAvisoTop = document.getElementById("abrirAvisoTop");
+  const abrirAvisoContacto = document.getElementById("abrirAvisoContacto");
+  const cerrarAviso = document.getElementById("cerrarAviso");
+  const cerrarAvisoSecundario = document.getElementById("cerrarAvisoSecundario");
+  const aceptarAviso = document.getElementById("aceptarAviso");
 
-    const nombre = document.getElementById("nombre")?.value.trim() || "";
-    const telefono = document.getElementById("telefono")?.value.trim() || "";
-    const vehiculo = document.getElementById("vehiculo")?.value || "";
-    const comentario = document.getElementById("comentario")?.value.trim() || "";
-    const estado = document.getElementById("mensajeEstado");
+  const whatsappNumber = window.APP_CONFIG?.WHATSAPP_NUMBER || "526272850550";
+  const asesorTelefono = window.APP_CONFIG?.ASESOR_TELEFONO || "627 285 0550";
+  const catalogo = window.CATALOGO_FORD || [];
 
-    if (!estado) return;
+  let waFloat = null;
 
-    if (!nombre || !telefono || !vehiculo) {
-      estado.innerHTML = `<div class="mensaje error">Completa nombre, teléfono y vehículo de interés.</div>`;
-      return;
-    }
-
-    estado.innerHTML = `<div class="mensaje">Enviando...</div>`;
-
-    try {
-      if (!window.supabase) {
-        throw new Error("Supabase no está disponible.");
-      }
-
-      const { error } = await window.supabase
-        .from("prospectos")
-        .insert([{ nombre, telefono, vehiculo, comentario }]);
-
-      if (error) throw error;
-
-      estado.innerHTML = `<div class="mensaje success">Gracias, te contactaremos pronto.</div>`;
-      form.reset();
-
-      if (typeof window.fbq !== "undefined") {
-        window.fbq("track", "Lead");
-      }
-    } catch (err) {
-      console.error(err);
-      estado.innerHTML = `<div class="mensaje error">No se pudo enviar. Intenta nuevamente.</div>`;
-    }
+  telefonoAsesorEls.forEach((el) => {
+    el.textContent = asesorTelefono;
   });
-}
 
-let modalAvisoRef = null;
+  whatsappLinks.forEach((link) => {
+    link.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+      "Hola Diego, quiero información de un vehículo Ford."
+    )}`;
+  });
 
-function abrirAvisoLegal() {
-  if (!modalAvisoRef) modalAvisoRef = document.getElementById("modalAviso");
-  if (!modalAvisoRef) return;
+  function abrirModalAviso() {
+    if (!modalAviso) return;
+    modalAviso.classList.add("open");
+    modalAviso.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
 
-  modalAvisoRef.classList.add("open");
-  modalAvisoRef.setAttribute("aria-hidden", "false");
-}
+  function cerrarModalAviso() {
+    if (!modalAviso) return;
+    modalAviso.classList.remove("open");
+    modalAviso.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
 
-function cerrarAvisoLegal() {
-  if (!modalAvisoRef) modalAvisoRef = document.getElementById("modalAviso");
-  if (!modalAvisoRef) return;
+  abrirAvisoTop?.addEventListener("click", abrirModalAviso);
+  abrirAvisoContacto?.addEventListener("click", abrirModalAviso);
+  cerrarAviso?.addEventListener("click", cerrarModalAviso);
+  cerrarAvisoSecundario?.addEventListener("click", cerrarModalAviso);
+  aceptarAviso?.addEventListener("click", cerrarModalAviso);
 
-  modalAvisoRef.classList.remove("open");
-  modalAvisoRef.setAttribute("aria-hidden", "true");
-}
-
-function inicializarModalAviso() {
-  modalAvisoRef = document.getElementById("modalAviso");
-  if (!modalAvisoRef) return;
-
-  document.getElementById("abrirAvisoTop")?.addEventListener("click", abrirAvisoLegal);
-  document.getElementById("abrirAvisoContacto")?.addEventListener("click", abrirAvisoLegal);
-  document.getElementById("cerrarAviso")?.addEventListener("click", cerrarAvisoLegal);
-  document.getElementById("cerrarAvisoSecundario")?.addEventListener("click", cerrarAvisoLegal);
-  document.getElementById("aceptarAviso")?.addEventListener("click", cerrarAvisoLegal);
-
-  modalAvisoRef.addEventListener("click", (e) => {
-    if (e.target === modalAvisoRef) cerrarAvisoLegal();
+  modalAviso?.addEventListener("click", (e) => {
+    if (e.target === modalAviso) cerrarModalAviso();
   });
 
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && modalAvisoRef.classList.contains("open")) {
-      cerrarAvisoLegal();
-    }
+    if (e.key === "Escape") cerrarModalAviso();
   });
-}
 
-function inicializarNavegacionActiva() {
-  const links = document.querySelectorAll(".main-nav .nav-link");
-  const secciones = [
-    document.getElementById("catalogo-seccion"),
-    document.getElementById("contacto"),
-    document.getElementById("quien-soy")
-  ].filter(Boolean);
+  if (!catalogo.length) return;
 
-  if (!links.length || !secciones.length) return;
+  function poblarSelectVehiculos() {
+    if (!vehiculoSelect) return;
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
+    const opciones = catalogo
+      .flatMap((modelo) => modelo.versiones.map((v) => v.nombre))
+      .map((nombre) => `<option value="${nombre}">${nombre}</option>`)
+      .join("");
 
-      const id = entry.target.id;
-      links.forEach((link) => {
-        link.classList.toggle("active", link.getAttribute("href") === `#${id}`);
+    vehiculoSelect.innerHTML = `<option value="">Selecciona una versión</option>${opciones}`;
+  }
+
+  function placeholder(texto, color = "Color") {
+    const svg = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+        <defs>
+          <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#0b3a75"/>
+            <stop offset="100%" stop-color="#091728"/>
+          </linearGradient>
+        </defs>
+        <rect width="1200" height="700" fill="url(#bg)"/>
+        <rect x="35" y="35" width="1130" height="630" rx="24" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.16)" />
+        <text x="600" y="280" text-anchor="middle" fill="#ffffff" font-size="52" font-family="Arial, sans-serif" font-weight="700">
+          ${texto}
+        </text>
+        <text x="600" y="350" text-anchor="middle" fill="#dbe7f5" font-size="28" font-family="Arial, sans-serif">
+          ${color}
+        </text>
+        <text x="600" y="405" text-anchor="middle" fill="#9eb4d3" font-size="18" font-family="Arial, sans-serif">
+          Imagen de referencia
+        </text>
+        <text x="600" y="450" text-anchor="middle" fill="#8fa7c7" font-size="16" font-family="Arial, sans-serif">
+          Generada con IA · Ford Parral · Diego Valenzuela
+        </text>
+      </svg>
+    `;
+    return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+  }
+
+  function imagenDeVersion(version, colorObj) {
+    if (colorObj?.imagen && colorObj.imagen.trim() !== "") return colorObj.imagen;
+    return placeholder(version.nombre, colorObj?.nombre || "Color");
+  }
+
+  function mensajeWhatsAppVersion(versionNombre) {
+    return `Hola Diego, me interesa ${versionNombre}. Quiero información, disponibilidad y cotización.`;
+  }
+
+  function crearBotonFlotante() {
+    let boton = document.querySelector(".wa-float");
+
+    if (!boton) {
+      boton = document.createElement("a");
+      boton.className = "wa-float";
+      boton.target = "_blank";
+      boton.rel = "noopener noreferrer";
+      document.body.appendChild(boton);
+    }
+
+    waFloat = boton;
+    return boton;
+  }
+
+  function actualizarBotonFlotante(versionNombre) {
+    const boton = waFloat || crearBotonFlotante();
+
+    boton.textContent = "Cotizar versión";
+    boton.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+      mensajeWhatsAppVersion(versionNombre)
+    )}`;
+    boton.setAttribute("aria-label", `Cotizar ${versionNombre} por WhatsApp`);
+    boton.setAttribute("title", `Cotizar ${versionNombre}`);
+  }
+
+  function actualizarVehiculoSelect(versionNombre) {
+    if (!vehiculoSelect) return;
+    vehiculoSelect.value = versionNombre;
+  }
+
+  let modeloActivo = 0;
+  let versionActiva = 0;
+  let textoBusqueda = "";
+
+  function crearResumenModelos(lista) {
+    if (!modelosResumen) return;
+
+    modelosResumen.innerHTML = lista
+      .map((modelo, index) => {
+        const primeraVersion = modelo.versiones[0];
+        const primeraImagen = imagenDeVersion(primeraVersion, primeraVersion.colores[0]);
+
+        return `
+          <article class="model-summary-card ${index === modeloActivo ? "active" : ""}" data-modelo-index="${index}">
+            <h3>${modelo.nombre}</h3>
+            <img src="${primeraImagen}" alt="${modelo.nombre}" onerror="this.onerror=null;this.src='${placeholder(modelo.nombre)}'">
+            <span>• ${modelo.versiones.length} versiones</span>
+          </article>
+        `;
+      })
+      .join("");
+
+    document.querySelectorAll(".model-summary-card").forEach((card) => {
+      card.addEventListener("click", () => {
+        modeloActivo = Number(card.getAttribute("data-modelo-index"));
+        versionActiva = 0;
+        renderTodo();
+        document.getElementById("catalogo-seccion")?.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
       });
     });
-  }, {
-    rootMargin: "-35% 0px -45% 0px",
-    threshold: 0.01
-  });
+  }
 
-  secciones.forEach((seccion) => observer.observe(seccion));
-}
+  function crearVersionTabs(modelo) {
+    return modelo.versiones
+      .map(
+        (version, index) => `
+          <button class="version-tab ${index === versionActiva ? "active" : ""}" data-version-index="${index}">
+            ${version.nombre.replace(modelo.nombre + " ", "")}
+          </button>
+        `
+      )
+      .join("");
+  }
+
+  function crearColores(version) {
+    return `
+      <div class="color-row">
+        <span class="color-label">Colores de referencia</span>
+        <div class="color-swatches">
+          ${version.colores
+            .map(
+              (color, index) => `
+                <button
+                  class="color-swatch ${index === 0 ? "active" : ""}"
+                  style="background:${color.codigo}"
+                  data-color-index="${index}"
+                  title="${color.nombre}"
+                  aria-label="${color.nombre}"
+                  type="button"
+                ></button>
+              `
+            )
+            .join("")}
+        </div>
+        <div class="color-name" id="color-name">${version.colores[0]?.nombre || ""}</div>
+      </div>
+    `;
+  }
+
+  function crearFicha(version) {
+    return `
+      <div class="ficha-grid">
+        <div class="ficha-item">
+          <span class="ficha-label">Motor</span>
+          <span class="ficha-value">${version.ficha.motor}</span>
+        </div>
+
+        <div class="ficha-item">
+          <span class="ficha-label">Transmisión</span>
+          <span class="ficha-value">${version.ficha.transmision}</span>
+        </div>
+
+        <div class="ficha-item">
+          <span class="ficha-label">Tracción</span>
+          <span class="ficha-value">${version.ficha.traccion}</span>
+        </div>
+
+        <div class="ficha-item">
+          <span class="ficha-label">Enfoque</span>
+          <span class="ficha-value">${version.ficha.enfoque}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderConfigurador(lista) {
+    if (!catalogoPrincipal || !lista.length) {
+      if (catalogoPrincipal) {
+        catalogoPrincipal.innerHTML = `
+          <div class="admin-panel-card">
+            <p class="mensaje error">No encontramos modelos con esa búsqueda.</p>
+          </div>
+        `;
+      }
+      return;
+    }
+
+    if (modeloActivo >= lista.length) modeloActivo = 0;
+
+    const modelo = lista[modeloActivo] || lista[0];
+    if (!modelo) return;
+
+    const version = modelo.versiones[versionActiva] || modelo.versiones[0];
+    const colorInicial = version.colores[0];
+    const imagen = imagenDeVersion(version, colorInicial);
+
+    catalogoPrincipal.innerHTML = `
+      <section class="configurator-shell">
+        <div class="config-left">
+          <div class="config-title-row">
+            <h3>${modelo.nombre}</h3>
+            <div class="config-small-line"></div>
+          </div>
+
+          <div class="config-visual">
+            <img
+              id="imagenConfigurador"
+              src="${imagen}"
+              alt="${version.nombre}"
+              onerror="this.onerror=null;this.src='${placeholder(version.nombre, colorInicial?.nombre || "Color")}'"
+            />
+          </div>
+
+          <div class="ia-note ia-note-config">
+            Imágenes de referencia generadas con IA
+          </div>
+        </div>
+
+        <div class="config-right">
+          <div class="config-actions-top">
+            <div class="mini-pill">Ficha técnica</div>
+            <div class="mini-pill">Configurar</div>
+            <button type="button" class="mini-pill" id="abrirAvisoConfigurador">Aviso legal</button>
+          </div>
+
+          <div class="version-tabs" id="versionTabs">
+            ${crearVersionTabs(modelo)}
+          </div>
+
+          <div class="version-header">
+            <h4>${version.nombre}</h4>
+            <p>${version.descripcion}</p>
+          </div>
+
+          ${crearColores(version)}
+          ${crearFicha(version)}
+
+          <div class="config-bottom-actions">
+            <a
+              href="#contacto"
+              class="btn btn-primary btn-cotizar-version"
+              data-version-nombre="${version.nombre}"
+            >
+              Cotizar esta versión
+            </a>
+
+            <a
+              class="btn btn-whatsapp"
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+                mensajeWhatsAppVersion(version.nombre)
+              )}"
+            >
+              WhatsApp directo
+            </a>
+          </div>
+        </div>
+      </section>
+    `;
+
+    actualizarBotonFlotante(version.nombre);
+    actualizarVehiculoSelect(version.nombre);
+
+    document.getElementById("abrirAvisoConfigurador")?.addEventListener("click", abrirModalAviso);
+
+    document.querySelectorAll(".version-tab").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        versionActiva = Number(tab.getAttribute("data-version-index"));
+        renderConfigurador(lista);
+      });
+    });
+
+    document.querySelectorAll(".color-swatch").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const colorIndex = Number(btn.getAttribute("data-color-index"));
+        const color = version.colores[colorIndex];
+        const img = document.getElementById("imagenConfigurador");
+        const colorName = document.getElementById("color-name");
+
+        document.querySelectorAll(".color-swatch").forEach((el) => {
+          el.classList.remove("active");
+        });
+        btn.classList.add("active");
+
+        if (img) img.src = imagenDeVersion(version, color);
+        if (colorName) colorName.textContent = color.nombre;
+
+        actualizarBotonFlotante(version.nombre);
+        actualizarVehiculoSelect(version.nombre);
+      });
+    });
+
+    document.querySelectorAll(".btn-cotizar-version").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const versionNombre = btn.getAttribute("data-version-nombre");
+        actualizarVehiculoSelect(versionNombre);
+
+        const comentario = document.getElementById("comentario");
+        if (comentario && !comentario.value.trim()) {
+          comentario.value = `Me interesa ${versionNombre}. Quiero información y disponibilidad.`;
+        }
+      });
+    });
+  }
+
+  function filtrarModelos() {
+    if (!textoBusqueda.trim()) return catalogo;
+
+    return catalogo.filter((modelo) => {
+      const base = [
+        modelo.nombre,
+        modelo.categoria,
+        ...modelo.versiones.map((v) => v.nombre)
+      ]
+        .join(" ")
+        .toLowerCase();
+
+      return base.includes(textoBusqueda.toLowerCase());
+    });
+  }
+
+  function renderTodo() {
+    const lista = filtrarModelos();
+
+    if (modeloActivo >= lista.length) modeloActivo = 0;
+
+    crearResumenModelos(lista);
+    renderConfigurador(lista);
+  }
+
+  if (buscadorModelos) {
+    buscadorModelos.addEventListener("input", (e) => {
+      textoBusqueda = e.target.value || "";
+      modeloActivo = 0;
+      versionActiva = 0;
+      renderTodo();
+    });
+  }
+
+  crearBotonFlotante();
+
+  async function guardarProspecto(payload) {
+    if (!window.db) throw new Error("Supabase no está inicializado.");
+    const { error } = await window.db.from("prospectos").insert([payload]);
+    if (error) throw error;
+  }
+
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const nombre = document.getElementById("nombre")?.value.trim() || "";
+      const telefono = document.getElementById("telefono")?.value.trim() || "";
+      const vehiculo = document.getElementById("vehiculo")?.value.trim() || "";
+      const comentario = document.getElementById("comentario")?.value.trim() || "";
+
+      if (!nombre || !telefono || !vehiculo) {
+        if (mensajeEstado) {
+          mensajeEstado.textContent = "Completa los campos obligatorios.";
+          mensajeEstado.className = "mensaje error";
+        }
+        return;
+      }
+
+      try {
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Enviando...";
+        }
+
+        await guardarProspecto({
+          nombre,
+          telefono,
+          vehiculo,
+          comentario,
+          ciudad: window.APP_CONFIG?.CIUDAD_OBJETIVO || "Parral, Chihuahua"
+        });
+
+        if (typeof fbq !== "undefined") {
+          fbq("track", "Lead");
+        }
+
+        if (mensajeEstado) {
+          mensajeEstado.textContent = "Gracias. Tu solicitud fue enviada correctamente.";
+          mensajeEstado.className = "mensaje success";
+        }
+
+        const mensajeWhatsAppFormulario = `Hola Diego, soy ${nombre}.
+Estoy interesado en ${vehiculo}.
+Mi teléfono es ${telefono}.
+${comentario ? `Comentario: ${comentario}` : "Quiero información y disponibilidad."}`;
+
+        window.open(
+          `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(mensajeWhatsAppFormulario)}`,
+          "_blank"
+        );
+
+        form.reset();
+        renderTodo();
+      } catch (error) {
+        console.error(error);
+        if (mensajeEstado) {
+          mensajeEstado.textContent =
+            "No se pudo guardar el prospecto. Revisa config.js, supabase-client.js y la tabla de Supabase.";
+          mensajeEstado.className = "mensaje error";
+        }
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Solicitar información";
+        }
+      }
+    });
+  }
+
+  poblarSelectVehiculos();
+  renderTodo();
+});
