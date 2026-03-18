@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const vehiculoSelect = document.getElementById("vehiculo");
   const telefonoAsesorEls = document.querySelectorAll(".asesor-telefono");
   const whatsappLinks = document.querySelectorAll(".wa-link");
+  const navLinks = document.querySelectorAll(".nav-link");
 
   const modalAviso = document.getElementById("modalAviso");
   const abrirAvisoTop = document.getElementById("abrirAvisoTop");
@@ -20,6 +21,45 @@ document.addEventListener("DOMContentLoaded", () => {
   const catalogo = window.CATALOGO_FORD || [];
 
   let waFloat = null;
+  let ultimoElementoActivoAntesModal = null;
+
+  function escapeHtml(value = "") {
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;");
+  }
+
+  function scrollSuaveA(selector) {
+    const destino = document.querySelector(selector);
+    if (!destino) return;
+    destino.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function actualizarNavActiva() {
+    const secciones = [
+      { id: "#catalogo-seccion", link: '#catalogo-seccion' },
+      { id: "#contacto", link: '#contacto' }
+    ];
+
+    const punto = window.scrollY + 180;
+
+    secciones.forEach((item) => {
+      const seccion = document.querySelector(item.id);
+      const link = document.querySelector(`.nav-link[href="${item.link}"]`);
+      if (!seccion || !link) return;
+
+      const top = seccion.offsetTop;
+      const bottom = top + seccion.offsetHeight;
+
+      if (punto >= top && punto < bottom) {
+        navLinks.forEach((nav) => nav.classList.remove("active"));
+        link.classList.add("active");
+      }
+    });
+  }
 
   telefonoAsesorEls.forEach((el) => {
     el.textContent = asesorTelefono;
@@ -29,13 +69,29 @@ document.addEventListener("DOMContentLoaded", () => {
     link.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
       "Hola Diego, quiero información de un vehículo Ford."
     )}`;
+    link.setAttribute("target", "_blank");
+    link.setAttribute("rel", "noopener noreferrer");
+  });
+
+  navLinks.forEach((link) => {
+    const href = link.getAttribute("href");
+    if (!href || !href.startsWith("#")) return;
+
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      scrollSuaveA(href);
+    });
   });
 
   function abrirModalAviso() {
     if (!modalAviso) return;
+    ultimoElementoActivoAntesModal = document.activeElement;
     modalAviso.classList.add("open");
     modalAviso.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
+
+    const primerBoton = modalAviso.querySelector("button");
+    if (primerBoton) primerBoton.focus();
   }
 
   function cerrarModalAviso() {
@@ -43,6 +99,10 @@ document.addEventListener("DOMContentLoaded", () => {
     modalAviso.classList.remove("open");
     modalAviso.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
+
+    if (ultimoElementoActivoAntesModal && typeof ultimoElementoActivoAntesModal.focus === "function") {
+      ultimoElementoActivoAntesModal.focus();
+    }
   }
 
   abrirAvisoTop?.addEventListener("click", abrirModalAviso);
@@ -59,14 +119,23 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.key === "Escape") cerrarModalAviso();
   });
 
-  if (!catalogo.length) return;
+  if (!catalogo.length) {
+    if (catalogoPrincipal) {
+      catalogoPrincipal.innerHTML = `
+        <div class="admin-panel-card">
+          <p class="mensaje error">No se encontró el catálogo. Revisa js/vehiculos.js</p>
+        </div>
+      `;
+    }
+    return;
+  }
 
   function poblarSelectVehiculos() {
     if (!vehiculoSelect) return;
 
     const opciones = catalogo
-      .flatMap((modelo) => modelo.versiones.map((v) => v.nombre))
-      .map((nombre) => `<option value="${nombre}">${nombre}</option>`)
+      .flatMap((modelo) => (modelo.versiones || []).map((v) => v.nombre))
+      .map((nombre) => `<option value="${escapeHtml(nombre)}">${escapeHtml(nombre)}</option>`)
       .join("");
 
     vehiculoSelect.innerHTML = `<option value="">Selecciona una versión</option>${opciones}`;
@@ -84,10 +153,10 @@ document.addEventListener("DOMContentLoaded", () => {
         <rect width="1200" height="700" fill="url(#bg)"/>
         <rect x="35" y="35" width="1130" height="630" rx="24" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.16)" />
         <text x="600" y="280" text-anchor="middle" fill="#ffffff" font-size="52" font-family="Arial, sans-serif" font-weight="700">
-          ${texto}
+          ${escapeHtml(texto)}
         </text>
         <text x="600" y="350" text-anchor="middle" fill="#dbe7f5" font-size="28" font-family="Arial, sans-serif">
-          ${color}
+          ${escapeHtml(color)}
         </text>
         <text x="600" y="405" text-anchor="middle" fill="#9eb4d3" font-size="18" font-family="Arial, sans-serif">
           Imagen de referencia
@@ -101,7 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function imagenDeVersion(version, colorObj) {
-    if (colorObj?.imagen && colorObj.imagen.trim() !== "") return colorObj.imagen;
+    if (colorObj?.imagen && String(colorObj.imagen).trim() !== "") return colorObj.imagen;
     return placeholder(version.nombre, colorObj?.nombre || "Color");
   }
 
@@ -149,14 +218,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     modelosResumen.innerHTML = lista
       .map((modelo, index) => {
-        const primeraVersion = modelo.versiones[0];
-        const primeraImagen = imagenDeVersion(primeraVersion, primeraVersion.colores[0]);
+        const primeraVersion = modelo.versiones?.[0];
+        const primerColor = primeraVersion?.colores?.[0];
+        const primeraImagen = primeraVersion
+          ? imagenDeVersion(primeraVersion, primerColor)
+          : placeholder(modelo.nombre);
 
         return `
           <article class="model-summary-card ${index === modeloActivo ? "active" : ""}" data-modelo-index="${index}">
-            <h3>${modelo.nombre}</h3>
-            <img src="${primeraImagen}" alt="${modelo.nombre}" onerror="this.onerror=null;this.src='${placeholder(modelo.nombre)}'">
-            <span>• ${modelo.versiones.length} versiones</span>
+            <h3>${escapeHtml(modelo.nombre)}</h3>
+            <img
+              src="${primeraImagen}"
+              alt="${escapeHtml(modelo.nombre)}"
+              loading="lazy"
+              onerror="this.onerror=null;this.src='${placeholder(modelo.nombre)}'"
+            >
+            <span>• ${(modelo.versiones || []).length} versiones</span>
           </article>
         `;
       })
@@ -167,72 +244,87 @@ document.addEventListener("DOMContentLoaded", () => {
         modeloActivo = Number(card.getAttribute("data-modelo-index"));
         versionActiva = 0;
         renderTodo();
-        document.getElementById("catalogo-seccion")?.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
+        scrollSuaveA("#catalogo-seccion");
       });
     });
   }
 
   function crearVersionTabs(modelo) {
-    return modelo.versiones
-      .map(
-        (version, index) => `
-          <button class="version-tab ${index === versionActiva ? "active" : ""}" data-version-index="${index}">
-            ${version.nombre.replace(modelo.nombre + " ", "")}
+    return (modelo.versiones || [])
+      .map((version, index) => {
+        const nombreLimpio = version.nombre.replace(`${modelo.nombre} `, "");
+        return `
+          <button
+            class="version-tab ${index === versionActiva ? "active" : ""}"
+            data-version-index="${index}"
+            type="button"
+          >
+            ${escapeHtml(nombreLimpio)}
           </button>
-        `
-      )
+        `;
+      })
       .join("");
   }
 
   function crearColores(version) {
+    const colores = version.colores || [];
+
+    if (!colores.length) {
+      return `
+        <div class="color-row">
+          <span class="color-label">Colores de referencia</span>
+          <div class="color-name">Por confirmar</div>
+        </div>
+      `;
+    }
+
     return `
       <div class="color-row">
         <span class="color-label">Colores de referencia</span>
         <div class="color-swatches">
-          ${version.colores
+          ${colores
             .map(
               (color, index) => `
                 <button
                   class="color-swatch ${index === 0 ? "active" : ""}"
-                  style="background:${color.codigo}"
+                  style="background:${escapeHtml(color.codigo || "#cccccc")}"
                   data-color-index="${index}"
-                  title="${color.nombre}"
-                  aria-label="${color.nombre}"
+                  title="${escapeHtml(color.nombre || "Color")}"
+                  aria-label="${escapeHtml(color.nombre || "Color")}"
                   type="button"
                 ></button>
               `
             )
             .join("")}
         </div>
-        <div class="color-name" id="color-name">${version.colores[0]?.nombre || ""}</div>
+        <div class="color-name" id="color-name">${escapeHtml(colores[0]?.nombre || "")}</div>
       </div>
     `;
   }
 
   function crearFicha(version) {
+    const ficha = version.ficha || {};
+
     return `
       <div class="ficha-grid">
         <div class="ficha-item">
           <span class="ficha-label">Motor</span>
-          <span class="ficha-value">${version.ficha.motor}</span>
+          <span class="ficha-value">${escapeHtml(ficha.motor || "Por confirmar")}</span>
         </div>
 
         <div class="ficha-item">
           <span class="ficha-label">Transmisión</span>
-          <span class="ficha-value">${version.ficha.transmision}</span>
+          <span class="ficha-value">${escapeHtml(ficha.transmision || "Por confirmar")}</span>
         </div>
 
         <div class="ficha-item">
           <span class="ficha-label">Tracción</span>
-          <span class="ficha-value">${version.ficha.traccion}</span>
+          <span class="ficha-value">${escapeHtml(ficha.traccion || "Por confirmar")}</span>
         </div>
 
         <div class="ficha-item">
           <span class="ficha-label">Enfoque</span>
-          <span class="ficha-value">${version.ficha.enfoque}</span>
+          <span class="ficha-value">${escapeHtml(ficha.enfoque || "Por confirmar")}</span>
         </div>
       </div>
     `;
@@ -255,15 +347,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const modelo = lista[modeloActivo] || lista[0];
     if (!modelo) return;
 
+    if (versionActiva >= (modelo.versiones || []).length) versionActiva = 0;
+
     const version = modelo.versiones[versionActiva] || modelo.versiones[0];
-    const colorInicial = version.colores[0];
+    if (!version) return;
+
+    const colorInicial = version.colores?.[0];
     const imagen = imagenDeVersion(version, colorInicial);
 
     catalogoPrincipal.innerHTML = `
       <section class="configurator-shell">
         <div class="config-left">
           <div class="config-title-row">
-            <h3>${modelo.nombre}</h3>
+            <h3>${escapeHtml(modelo.nombre)}</h3>
             <div class="config-small-line"></div>
           </div>
 
@@ -271,7 +367,8 @@ document.addEventListener("DOMContentLoaded", () => {
             <img
               id="imagenConfigurador"
               src="${imagen}"
-              alt="${version.nombre}"
+              alt="${escapeHtml(version.nombre)}"
+              loading="eager"
               onerror="this.onerror=null;this.src='${placeholder(version.nombre, colorInicial?.nombre || "Color")}'"
             />
           </div>
@@ -293,8 +390,8 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
 
           <div class="version-header">
-            <h4>${version.nombre}</h4>
-            <p>${version.descripcion}</p>
+            <h4>${escapeHtml(version.nombre)}</h4>
+            <p>${escapeHtml(version.descripcion || "Consulta disponibilidad, equipamiento y condiciones vigentes.")}</p>
           </div>
 
           ${crearColores(version)}
@@ -304,7 +401,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <a
               href="#contacto"
               class="btn btn-primary btn-cotizar-version"
-              data-version-nombre="${version.nombre}"
+              data-version-nombre="${escapeHtml(version.nombre)}"
             >
               Cotizar esta versión
             </a>
@@ -339,7 +436,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".color-swatch").forEach((btn) => {
       btn.addEventListener("click", () => {
         const colorIndex = Number(btn.getAttribute("data-color-index"));
-        const color = version.colores[colorIndex];
+        const color = version.colores?.[colorIndex];
         const img = document.getElementById("imagenConfigurador");
         const colorName = document.getElementById("color-name");
 
@@ -348,8 +445,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         btn.classList.add("active");
 
-        if (img) img.src = imagenDeVersion(version, color);
-        if (colorName) colorName.textContent = color.nombre;
+        if (img) {
+          img.src = imagenDeVersion(version, color);
+          img.alt = `${version.nombre} - ${color?.nombre || "Color"}`;
+        }
+
+        if (colorName) colorName.textContent = color?.nombre || "Color";
 
         actualizarBotonFlotante(version.nombre);
         actualizarVehiculoSelect(version.nombre);
@@ -370,18 +471,19 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function filtrarModelos() {
-    if (!textoBusqueda.trim()) return catalogo;
+    const termino = textoBusqueda.trim().toLowerCase();
+    if (!termino) return catalogo;
 
     return catalogo.filter((modelo) => {
       const base = [
         modelo.nombre,
         modelo.categoria,
-        ...modelo.versiones.map((v) => v.nombre)
+        ...(modelo.versiones || []).map((v) => v.nombre)
       ]
         .join(" ")
         .toLowerCase();
 
-      return base.includes(textoBusqueda.toLowerCase());
+      return base.includes(termino);
     });
   }
 
@@ -480,6 +582,9 @@ ${comentario ? `Comentario: ${comentario}` : "Quiero información y disponibilid
     });
   }
 
+  window.addEventListener("scroll", actualizarNavActiva, { passive: true });
+
   poblarSelectVehiculos();
   renderTodo();
+  actualizarNavActiva();
 });
